@@ -1,0 +1,135 @@
+.desktop-menu {
+  z-index: 10;
+  top: 0;
+  width: 100%;
+  height: 164px;
+  position: absolute;
+  display: flex;
+  flex: row;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  padding: var(--padding);
+  transition: background linear 0.1s;
+  transition: background-color linear 0.1s;
+}
+
+.desktop-menu:hover {
+  background: transparent;
+  background-color: var(--bg-color-dark);
+  box-shadow: 0px 15px 10px -15px #111;
+}
+
+.desktop-menu__logo {
+  width: 164px;
+  position: relative;
+  top: -25px;
+}
+
+.desktop-menu__nav {
+  width: 100%;
+}
+
+.desktop-menu__list {
+  max-width: 1920px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+  padding: 10px;
+  margin: 12px auto 40px;
+}
+
+.desktop-menu__list li {
+  width: 100%;
+  min-width: 120px;
+  max-width: 200px;
+}
+
+.desktop-menu__list li a {
+  color: aliceblue;
+  font-size: 1.2rem;
+  font-family: var(--font-luciole);
+  font-weight: bold;
+}
+
+.desktop-menu__list li a:link,
+.desktop-menu__list li a:visited {
+  display: block;
+  color: #fff;
+  padding: 6px 10px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.desktop-menu__submenu {
+  overflow: scroll;
+  max-height: 400px;
+}
+.desktop-menu__list .desktop-menu__submenu {
+  list-style-type: none;
+  display: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.desktop-menu__list .desktop-menu__submenu li {
+  float: none;
+  margin: 0;
+  padding: 0;
+}
+
+.desktop-menu__list li a:hover {
+  color: var(--btn-color);
+}
+
+.desktop-menu__list .desktop-menu__submenu li a {
+  display: block;
+  font-size: 1rem;
+  color: #fff;
+  text-decoration: none;
+  background-color: var(--bg-color-dark);
+  padding: 16px;
+  box-shadow: 0px 15px 10px -15px #111;
+}
+
+.desktop-menu__list .desktop-menu__submenu li a:hover {
+  color: var(--btn-color);
+}
+
+.desktop-menu__list li:hover .desktop-menu__submenu {
+  width: 200px;
+  display: block;
+  position: absolute;
+}
+
+.desktop-menu--fixed {
+  z-index: 10;
+  top: 0;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  flex: row;
+  background: var(--bg-color-dark);
+  box-shadow: 0px 15px 10px -15px #111;
+}
+
+.desktop-menu--fixed .desktop-menu__logo {
+  width: 68px;
+  top: 0;
+}
+
+.desktop-menu--fixed .desktop-menu__list {
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 762px) {
+  .desktop-menu,
+  .desktop-menu--fixed {
+    display: none;
+  }
+}
