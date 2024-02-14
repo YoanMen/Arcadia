@@ -50,7 +50,6 @@
 }
 
 .desktop-menu__list li a {
-  color: aliceblue;
   font-size: 1.2rem;
   font-family: var(--font-luciole);
   font-weight: bold;
@@ -59,7 +58,7 @@
 .desktop-menu__list li a:link,
 .desktop-menu__list li a:visited {
   display: block;
-  color: #fff;
+  color: var(--bg-color-light);
   padding: 6px 10px;
   text-align: center;
   text-decoration: none;
@@ -90,7 +89,6 @@
 .desktop-menu__list .desktop-menu__submenu li a {
   display: block;
   font-size: 1rem;
-  color: #fff;
   text-decoration: none;
   background-color: var(--bg-color-dark);
   padding: 16px;

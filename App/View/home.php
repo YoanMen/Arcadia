@@ -16,7 +16,7 @@
   </head>
   <body>
 
-    <?= require_once '../App/View/partials/_menu.php' ?>
+    <?php require_once '../App/View/partials/_menu.php' ?>
 
     <script src="<?= ROOT ?>/assets/js/menu.js"></script>
 

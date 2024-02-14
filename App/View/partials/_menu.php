@@ -1,8 +1,3 @@
-<?php
-
-use App\Core\Router;
-
-?>
 <header
   class="menus">
   <!-- MOBILE MENU -->
@@ -29,21 +24,15 @@ use App\Core\Router;
               Nos Service
             </a>
             <ul class="mobile-menu__submenu">
-              <li>
-                <a href="">
-                  restauration
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  visite des habitats avec un guide (gratuit)
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  visite du zoo en petit train
-                </a>
-              </li>
+              <?php if (isset($data['services'])) {
+                foreach ($data['services'] as $service) { ?>
+                    <li>
+                      <a href="service/<?= $service->getId() ?>">
+                        <?= $service->getName(); ?>
+                      </a>
+                    </li>
+                <?php }
+              } ?>
             </ul>
           </li>
           <li class="mobile-menu__item">
@@ -51,21 +40,15 @@ use App\Core\Router;
               Nos habitats
             </a>
             <ul class="mobile-menu__submenu">
-              <li>
-                <a href="">
-                  Jungle
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  Marais
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  Savane
-                </a>
-              </li>
+              <?php if (isset($data['habitats'])) {
+                foreach ($data['habitats'] as $habitat) { ?>
+                    <li>
+                      <a href="habitat/<?= $habitat->getId() ?>">
+                        <?= $habitat->getName(); ?>
+                      </a>
+                    </li>
+                <?php }
+              } ?>
             </ul>
           </li>
           <li class="mobile-menu__item">
@@ -73,7 +56,6 @@ use App\Core\Router;
               Contact
             </a>
           </li>
-
           <li class="mobile-menu__item">
             <a href="">
               Connexion
@@ -99,21 +81,15 @@ use App\Core\Router;
             Nos services
           </a>
           <ul class="desktop-menu__submenu">
-            <li>
-              <a href="#">
-                Restauration
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Visite des habitats avec un guide (gratuit)
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Visite du zoo en petit train
-              </a>
-            </li>
+            <?php if (isset($data['services'])) {
+              foreach ($data['services'] as $service) { ?>
+                  <li>
+                    <a href="service/<?= $service->getId() ?>">
+                      <?= $service->getName(); ?>
+                    </a>
+                  </li>
+              <?php }
+            } ?>
           </ul>
         </li>
         <li>
@@ -121,21 +97,15 @@ use App\Core\Router;
             Nos habitats
           </a>
           <ul class="desktop-menu__submenu">
-            <li>
-              <a href="#">
-                Jungle
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Marais
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Savane
-              </a>
-            </li>
+            <?php if (isset($data['habitats'])) {
+              foreach ($data['habitats'] as $habitat) { ?>
+                  <li>
+                    <a href="habitat/<?= $habitat->getId() ?>">
+                      <?= $habitat->getName(); ?>
+                    </a>
+                  </li>
+              <?php }
+            } ?>
           </ul>
         </li>
         <li>
