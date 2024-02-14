@@ -2,7 +2,7 @@
 
 if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	/** database config LOCAL **/
-	define('DB_NAME', 'my_db');
+	define('DB_NAME', 'arcadia');
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASSWORD', '');

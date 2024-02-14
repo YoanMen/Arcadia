@@ -16,39 +16,84 @@ class Model extends Database
   protected string $orderBy = "desc";
   protected string $orderColumn = "id";
 
-  public function setOrderColumn(string $column)
-  {
-    $this->orderColumn = $column;
-  }
-
-  public function getOrderColumn()
-  {
-    return $this->orderColumn;
-  }
-  public function getLimit()
+  /**
+   * Get the value of limit
+   */
+  public function getLimit(): int
   {
     return $this->limit;
   }
 
-  public function setLimit(int $limit)
+  /**
+   * Set the value of limit
+   */
+  public function setLimit(int $limit): self
   {
     $this->limit = $limit;
+
+    return $this;
   }
 
-  public function getOffset()
+  /**
+   * Get the value of offset
+   */
+  public function getOffset(): int
   {
     return $this->offset;
   }
 
-  public function setOffset(int $offset)
+  /**
+   * Set the value of offset
+   */
+  public function setOffset(int $offset): self
   {
     $this->offset = $offset;
+
+    return $this;
   }
 
-  public function setOrderBy(string $nouvelOrdre)
+  /**
+   * Get the value of orderBy
+   */
+  public function getOrderBy(): string
   {
-    $this->orderBy = $nouvelOrdre;
+    return $this->orderBy;
   }
+
+  /**
+   * Set the value of orderBy
+   */
+  public function setOrderBy(string $orderBy): self
+  {
+    $this->orderBy = $orderBy;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of orderColumn
+   */
+  public function getOrderColumn(): string
+  {
+    return $this->orderColumn;
+  }
+
+  /**
+   * Set the value of orderColumn
+   */
+  public function setOrderColumn(string $orderColumn): self
+  {
+    $this->orderColumn = $orderColumn;
+
+    return $this;
+  }
+
+
+
+  /**
+   * Fetch all
+   * @return array|null depending result
+   */
   public function fetchAll(): array|null
   {
 
@@ -72,7 +117,11 @@ class Model extends Database
       throw new DatabaseException("Error fetchAll data: " . $e->getMessage(), $e->getCode(), $e);
     }
   }
-
+  /**
+   * Count
+   * @param array $where
+   * @return int|null depending result
+   */
   public function count(array $where = []): int|null
   {
     $result = null;
@@ -97,7 +146,12 @@ class Model extends Database
 
     return $result[0] != 0 ? $result[0] : null;
   }
-
+  /**
+   * Find
+   * @param array $where
+   * @param array|null $where_not
+   * @return $this|null depending result
+   */
   public function find($where, $where_not = []): array|null
   {
     try {
@@ -125,7 +179,12 @@ class Model extends Database
       throw new DatabaseException("Error find data: " . $e->getMessage(), $e->getCode(), $e);
     }
   }
-
+  /**
+   * Find One
+   * @param array $where
+   * @param array|null $where_not
+   * @return $this|null depending result
+   */
   public function findOneBy($where, $where_not = []): object|null
   {
     try {
@@ -150,7 +209,10 @@ class Model extends Database
       throw new DatabaseException("Error findOneBy data: " . $e->getMessage(), $e->getCode(), $e);
     }
   }
-
+  /**
+   * Insert
+   * @param array $data
+   */
   public function insert($data)
   {
     try {
@@ -165,6 +227,11 @@ class Model extends Database
       throw new DatabaseException("Error inserting data: " . $e->getMessage(), $e->getCode(), $e);
     }
   }
+  /**
+   * Update
+   * @param array $data to be updated
+   * @param int $id of element to be updated
+   */
   public function update(array $data, int $id)
   {
     try {
@@ -182,7 +249,10 @@ class Model extends Database
       throw new DatabaseException("Error Updating data: " . $e->getMessage(), $e->getCode(), $e);
     }
   }
-
+  /**
+   * Delete
+   * @param array $where
+   */
   public function delete(array $where)
   {
     try {
@@ -199,7 +269,11 @@ class Model extends Database
     }
 
   }
-
+  /**
+   * Set param of PDO depending of $input type
+   * @param  $input
+   * @return int of PDO::PARAM
+   */
   private function setParamTypeForPDO($input)
   {
     if (is_bool($input)) {
@@ -212,9 +286,16 @@ class Model extends Database
       return PDO::PARAM_STR;
     }
 
+    return PDO::PARAM_NULL;
   }
-
-  private function bindParams($stm, $where, $where_not = []): PDOStatement
+  /**
+   * Set param of PDO depending of $input type
+   * @param  $stm need a PDOStatement
+   * @param  $where array of WHERE
+   * @param  $where_not array of WHERE NOT
+   * @return PDOStatement
+   */
+  protected function bindParams($stm, $where, $where_not = []): PDOStatement
   {
     foreach (array_keys($where) as $key) {
       $stm->bindParam($key, $where[$key], $this->setParamTypeForPDO($where[$key]) ?? PDo::PARAM_NULL);
@@ -225,7 +306,12 @@ class Model extends Database
 
     return $stm;
   }
-
+  /**
+   * Set key for WHERE/NOT WHERE
+   * @param  $where  WHERE
+   * @param  $whereNot WHERE NOT
+   * @return string
+   */
   private function setWhere($where, $whereNot = []): string
   {
     $keysValue = '';
@@ -239,7 +325,11 @@ class Model extends Database
     $keysValue = rtrim($keysValue, ' AND ');
     return $keysValue;
   }
-
+  /**
+   * Set key for Insert
+   * @param  $data of keys
+   * @return string
+   */
   private function setInsert($data): string
   {
     $insertKeys = '(';
@@ -259,7 +349,11 @@ class Model extends Database
 
     return $insertKeys;
   }
-
+  /**
+   * Set key for Update
+   * @param  $data of keys
+   * @return string
+   */
   private function setUpdate($data)
   {
     $keysValue = '';
@@ -272,4 +366,5 @@ class Model extends Database
 
     return $keysValue;
   }
+
 }

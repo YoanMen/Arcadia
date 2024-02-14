@@ -6,9 +6,10 @@ use Exception;
 
 class UploadFile
 {
-
-
-  // @return name of file when uploaded
+  /**
+   * Upload a file
+   * @return string|null return path of file or null if cant upload
+   */
   public static function upload(): string|null
   {
     $fileName = $_FILES['file']['name'];
@@ -73,7 +74,10 @@ class UploadFile
 
     return null;
   }
-
+  /**
+   * Remove a file
+   * @param $filename path of file
+   */
   public static function remove(string $fileName)
   {
     try {

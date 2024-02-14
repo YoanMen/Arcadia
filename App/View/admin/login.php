@@ -74,12 +74,12 @@
 
     <form action="login" method="post">
       <div>
-        <label for="username">Nom d'utilisateur:</label>
-        <input type="text" id="username" name="username">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
       </div>
 
       <div>
-        <label for="password">Mot de passe:</label>
+        <label for="password">Password :</label>
         <input type="password" id="password" name="password">
 
       </div>

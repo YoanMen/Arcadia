@@ -38,34 +38,34 @@ class AuthController extends Controller
     $error = null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $username = htmlspecialchars($_POST['username']);
+      $email = htmlspecialchars($_POST['email']);
       $password = htmlspecialchars($_POST['password']);
 
       if (Security::verifyCsrf()) {
-
         $userRepository = new User();
-        $user = $userRepository->findOneBy(['username' => $username]);
+        $user = $userRepository->findOneBy(['email' => $email]);
 
         if ($user && Security::verifyPassword($password, $user->getPassword())) {
 
           session_regenerate_id(true);
           $_SESSION['user'] = [
             'id' => $user->getId(),
-            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
             'role' => $user->getRole(),
           ];
 
           Router::redirect('dashboard');
         } else {
-          $error = "username or password is wrong";
+          $error = "email or password is wrong";
         }
 
       } else {
         $error = "csrf token is invalid";
 
       }
-
     }
+
+
     $this->show('admin/login', ['error' => $error]);
 
   }
@@ -95,9 +95,5 @@ class AuthController extends Controller
     exit;
   }
 
-  public function withParams($data)
-  {
-    $this->show('homeWithParams', $data);
-  }
 
 }

@@ -3,7 +3,11 @@ namespace App\Controller;
 
 class Controller
 {
-
+	/**
+	 * Function to Show View
+	 * @param $name of Route ex('home')
+	 * @param $data passing data to View
+	 */
 	public function show($name, $data = [])
 	{
 		$filename = "../App/View/" . $name . ".php";

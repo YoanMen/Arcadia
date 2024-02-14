@@ -9,11 +9,14 @@ class Security
     return isset($_SESSION['user']);
   }
 
-  public static function isUser(): bool
+  public static function isEmployee(): bool
   {
-    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'user';
+    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'employee';
   }
-
+  public static function isVeterinary(): bool
+  {
+    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'veterinary';
+  }
   public static function isAdmin(): bool
   {
     return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin';

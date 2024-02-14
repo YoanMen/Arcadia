@@ -9,14 +9,11 @@ class Router
     $this->routes = [];
 
   }
-
   public static function redirect($path = '')
   {
     header("Location: " . ROOT . "/" . $path);
     die;
   }
-
-
   public function goRoute($router)
   {
     $method = $_SERVER['REQUEST_METHOD'];

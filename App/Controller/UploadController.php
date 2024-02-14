@@ -18,7 +18,7 @@ class UploadController extends Controller
   {
 
     try {
-      $file = UploadFile::upload();
+      UploadFile::upload();
 
     } catch (Exception $e) {
       throw new FileException("Error with file Upload : " . $e->getMessage(), $e->getCode(), $e);
