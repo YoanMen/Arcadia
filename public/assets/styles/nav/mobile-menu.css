@@ -82,8 +82,14 @@
   font-size: 1rem;
 }
 
-@media screen and (max-width: 762px) {
+@media screen and (max-width: 992px) {
   .mobile-menu {
     display: block;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .mobile-menu__tab--open {
+    width: 100%;
   }
 }
