@@ -1,13 +1,17 @@
 <?php
+
 namespace App\Model;
+
+use DateTime;
 
 class Schedule extends Model
 {
   protected string $table = 'schedule';
+  protected string $orderBy = "asc";
   private int $id;
   private string $day;
-  private string $open;
-  private string $close;
+  private ?string $open;
+  private ?string $close;
 
   /**
    * Get the value of id
@@ -32,7 +36,7 @@ class Schedule extends Model
    */
   public function getDay(): string
   {
-    return $this->day;
+    return ucfirst($this->day);
   }
 
   /**
@@ -48,7 +52,7 @@ class Schedule extends Model
   /**
    * Get the value of open
    */
-  public function getOpen(): string
+  public function getOpen(): ?string
   {
     return $this->open;
   }
@@ -56,17 +60,15 @@ class Schedule extends Model
   /**
    * Set the value of open
    */
-  public function setOpen(string $open): self
+  public function setOpen(string $open)
   {
     $this->open = $open;
-
-    return $this;
   }
 
   /**
    * Get the value of close
    */
-  public function getClose(): string
+  public function getClose(): ?string
   {
     return $this->close;
   }
@@ -74,10 +76,21 @@ class Schedule extends Model
   /**
    * Set the value of close
    */
-  public function setClose(string $close): self
+  public function setClose(string $close)
   {
     $this->close = $close;
+  }
 
-    return $this;
+
+  public function getSchedules()
+  {
+    if (is_null($this->close) && is_null($this->open)) {
+      return null;
+    } else {
+      $openTime = date_create($this->open);
+      $closeTime = date_create($this->close);
+
+      return date_format($openTime, "H\hi") . ' - ' . date_format($closeTime, "H\hi");
+    }
   }
 }

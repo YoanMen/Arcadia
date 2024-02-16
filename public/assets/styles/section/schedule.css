@@ -1,0 +1,26 @@
+.section__schedule {
+  padding-top: 32px;
+  list-style: none;
+}
+
+.schedule__item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 6px;
+}
+
+.schedule__item:nth-child(odd) {
+  background-color: white;
+}
+
+.schedule__item p {
+  font-family: var(--font-luciole);
+  font-weight: 200;
+}
+
+@media screen and (max-width: 1180px) {
+  .section__schedule {
+    padding: 32px 16px 0 16px;
+  }
+}

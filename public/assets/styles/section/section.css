@@ -1,0 +1,25 @@
+.section {
+  padding: 48px 0;
+}
+
+.section__text {
+  margin-bottom: 48px;
+}
+
+@media screen and (max-width: 1180px) {
+  .section__text,
+  .section__title {
+    padding: 32px;
+  }
+
+  .section__img {
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 762px) {
+  .section__text,
+  .section__title {
+    padding: 16px;
+  }
+}

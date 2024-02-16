@@ -1,0 +1,33 @@
+.btn-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-color-dark);
+  border-radius: 5px;
+  padding: 16px 32px;
+}
+
+.btn-card__title {
+  width: 320px;
+}
+
+@media screen and (max-width: 1180px) {
+  .btn-card {
+    border-radius: 0px;
+  }
+}
+
+@media screen and (max-width: 762px) {
+  .btn-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .btn-card__btn {
+    width: 100%;
+  }
+  .btn-card__title {
+    width: 100%;
+    text-align: center;
+  }
+}
