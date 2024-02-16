@@ -1,0 +1,108 @@
+.interactive-card {
+  padding-bottom: 32px;
+}
+
+.interactive-card__item:first-child,
+.interactive-card__content:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.interactive-card__item:last-child,
+.interactive-card__content:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.interactive-card__item {
+  cursor: default;
+  list-style: none;
+  background-position: 50% 50%;
+  height: 120px;
+  width: 100%;
+  background-size: cover;
+  transition: all ease-in-out 0.2s;
+}
+
+.interactive-card__content {
+  padding: var(--padding);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  color: white;
+  height: 100%;
+}
+.interactive-card__title {
+  text-transform: uppercase;
+}
+
+.interactive-card__container {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 150px;
+}
+.interactive-card__container a {
+  cursor: pointer;
+}
+
+.interactive-card__text {
+  width: 70%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6; /* number of lines to show */
+  line-clamp: 6;
+  -webkit-box-orient: vertical;
+}
+
+@media screen and (min-width: 1180px) {
+  .interactive-card__item:hover {
+    height: 260px;
+    background-position: 50% 40%;
+  }
+
+  .interactive-card__item:hover .interactive-card__container {
+    display: flex;
+    flex-direction: row;
+    animation: showContent linear 0.5s;
+  }
+}
+
+@media screen and (max-width: 1180px) {
+  .interactive-card__item {
+    height: 400px;
+  }
+
+  .interactive-card__item:first-child,
+  .interactive-card__item:last-child,
+  .interactive-card__content:first-child,
+  .interactive-card__content:last-child {
+    border-radius: 0;
+  }
+
+  .interactive-card__text {
+    width: 100%;
+  }
+
+  .interactive-card__container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media screen and (max-width: 762px) {
+  .interactive-card__container a {
+    width: 100%;
+  }
+}
+
+@keyframes showContent {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

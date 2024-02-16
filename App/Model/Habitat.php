@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model;
 
 use App\Core\Database;
@@ -13,6 +14,7 @@ class Habitat extends Model
   private string $name;
   private string $description;
 
+  private array $images;
   /**
    * Get the value of id
    */
@@ -67,9 +69,27 @@ class Habitat extends Model
     return $this;
   }
 
+  /**
+   * Get image
+   * @param $number to select image in array
+   * @return Image or null if dont have image
+   */
+  public function getImage(int $number): Image|null
+  {
+    return $this->images[$number] ?? null;
+  }
 
   /**
-   * Find images for Habitat
+   * Set Image to class
+   */
+  public function setImage(Image $image)
+  {
+    $this->images[] = $image;
+  }
+
+
+  /**
+   * Find images for one Habitat
    */
   public function findImages(): array|null
   {
@@ -86,6 +106,8 @@ class Habitat extends Model
       $stm = $this->bindParams($stm, [':habitatID' => $this->getId()]);
       if ($stm->execute()) {
         while ($result = $stm->fetchObject(Image::class)) {
+
+          $this->setImage($result);
           $results[] = $result;
         }
       }
@@ -95,10 +117,8 @@ class Habitat extends Model
       throw new DatabaseException("Error findImages habitat : " . $e->getMessage(), $e->getCode(), $e);
     }
   }
-
-
   /**
-   * Find all animals
+   * Find all animals on habitat
    */
   public function findAllAnimals(): array|null
   {
@@ -125,6 +145,4 @@ class Habitat extends Model
       throw new DatabaseException("Error findAllAnimals : " . $e->getMessage(), $e->getCode(), $e);
     }
   }
-
-
 }

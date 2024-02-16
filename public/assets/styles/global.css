@@ -1,6 +1,7 @@
 :root {
-  --bg-color-dark: #203c25;
+  --ROOT: "http://localhost/Arcadia/public";
 
+  --bg-color-dark: #203c25;
   --bg-color-light: #fcf9f6;
   --btn-color: #ee9326ff;
 
@@ -120,7 +121,7 @@ textarea {
   align-items: center;
   justify-content: center;
   width: 260px;
-  height: 60px;
+  min-height: 60px;
   border-radius: 5px;
   background-color: var(--btn-color);
   color: white;

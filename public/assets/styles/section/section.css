@@ -9,17 +9,10 @@
 @media screen and (max-width: 1180px) {
   .section__text,
   .section__title {
-    padding: 32px;
+    padding: var(--padding);
   }
 
   .section__img {
     border-radius: 0;
-  }
-}
-
-@media screen and (max-width: 762px) {
-  .section__text,
-  .section__title {
-    padding: 16px;
   }
 }

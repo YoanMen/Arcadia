@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/schedule.css">
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/btn-card.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
@@ -77,6 +78,24 @@
         dans la vie de nos pensionnaires, tout en soutenant notre engagement envers le bien-être animal
         et la conservation de la biodiversité.
       </p>
+
+
+      <ul class='interactive-card'>
+        <?php
+        if (isset($data['habitats'])) {
+          foreach ($data['habitats'] as $habitat) {
+            $haveImage = $habitat->getImage(0);
+
+            $redirection = '/habitats';
+            $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
+            $title = $habitat->getName();
+            $text = $habitat->getDescription();
+
+            require '../App/View/partials/_interactiveCard.php' ?>
+        <?php     }
+        } ?>
+      </ul>
+
       <?php
       $title = "D'autres habitats à découvrir";
       $path = '/habitats';
@@ -101,15 +120,14 @@
 
     <section class="section" id="schedule">
       <h2 class="section__title">
-        Horaires d'ouverture
-      </h2>
+        Horaires d' ouverture </h2>
 
       <?php require_once '../App/View/partials/_schedule.php' ?>
 
     </section>
   </main>
 
-  <script src="<?= ROOT ?>/assets/js/menu.js"></script>
+  <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
 </body>
 
 </html>

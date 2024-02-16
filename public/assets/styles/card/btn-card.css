@@ -5,7 +5,7 @@
   justify-content: space-between;
   background-color: var(--bg-color-dark);
   border-radius: 5px;
-  padding: 16px 32px;
+  padding: 16px var(--padding);
 }
 
 .btn-card__title {

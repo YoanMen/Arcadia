@@ -10,7 +10,6 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 
 	define('BASE_URL', 'http://localhost');
 	define('ROOT', 'http://localhost/Arcadia/public');
-
 } else {
 	/** database config**/
 	define('DB_NAME', 'my_db');
@@ -32,10 +31,11 @@ define('DEBUG', true);
 /** Upload files config**/
 define('DESTINATION_IMAGE_FOLDER', 'uploads/');
 define('MAX_FILE_SIZE', 1048576);
-define('ALLOWED_EXTENSIONS_FILE', ['png', 'jpeg', 'jpg']);
+define('ALLOWED_EXTENSIONS_FILE', ['png', 'jpeg', 'jpg', 'webp']);
 define('ALLOWED_MIME_TYPES', [
 	'image/jpeg',
 	'image/png',
 	'image/gif',
-	'image/bmp'
+	'image/bmp',
+	'image/webp'
 ]);

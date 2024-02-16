@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Core;
 
 use App\Core\Exception\FileException;
@@ -12,18 +13,22 @@ class UploadFile
    */
   public static function upload(): string|null
   {
-    $fileName = $_FILES['file']['name'];
-    $file_tmp_name = $_FILES['file']['tmp_name'];
-    $fileMimeType = mime_content_type($file_tmp_name);
-    $fileSize = $_FILES['file']['size'];
-    $extension = explode('.', $fileName);
-    $extension = end($extension);
-    $extension = strtolower($extension);
-
-    $fileName = rtrim($fileName, ". .$extension");
     $image_error = $_FILES['file']['error'];
-    debugPrint($_FILES['file']);
+
     if ($image_error === 0) {
+      $fileName =  $_FILES['file']['name'];
+
+      $file_tmp_name = $_FILES['file']['tmp_name'];
+      debugPrint($_FILES['file']);
+      $fileMimeType = mime_content_type($file_tmp_name);
+      $fileSize = $_FILES['file']['size'];
+      $extension = explode('.', $fileName);
+      $extension = end($extension);
+      $extension = strtolower($extension);
+
+      $fileName = rtrim($fileName, ". .$extension");
+      debugPrint($_FILES['file']);
+
       // Enregistrer l'image dans notre dossier uploads
       if ($fileSize > MAX_FILE_SIZE) {
         throw new FileException("File exceeds upload_max_filesize");
@@ -41,12 +46,9 @@ class UploadFile
         echo " L'image a bien été enregistrée";
 
         return $fileName;
-
       } else {
         throw new FileException("File already exist");
       }
-
-
     } else {
       if ($_FILES["file"]["error"] !== UPLOAD_ERR_OK) {
         switch ($_FILES["file"]["error"]) {
@@ -67,7 +69,6 @@ class UploadFile
             throw new FileException("Failed to write file");
           default:
             throw new FileException('Unknown upload error');
-
         }
       }
     }
@@ -84,7 +85,6 @@ class UploadFile
       unlink("uploads/" . $fileName);
     } catch (Exception $e) {
       throw new FileException("Unable to delete image : " . $e->getMessage());
-
     }
   }
 }
