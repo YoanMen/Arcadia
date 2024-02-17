@@ -6,6 +6,8 @@
   background-color: var(--bg-color-dark);
   border-radius: 5px;
   padding: 16px var(--padding);
+
+  margin: 32px 0;
 }
 
 .btn-card__title {

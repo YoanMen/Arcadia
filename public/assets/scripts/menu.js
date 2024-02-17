@@ -7,7 +7,7 @@ const tab = document.querySelector(".mobile-menu__tab");
 // get scroll position for switching between fixed/ not fixed menu
 window.addEventListener("scroll", () => {
   const scrollPosition = window.scrollY;
-  console.log(window.location);
+
   if (scrollPosition >= 0 && scrollPosition != 0 && window.location != "/") {
     desktopMenu.classList.remove("desktop-menu");
     desktopMenu.classList.add("desktop-menu--fixed");

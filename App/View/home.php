@@ -18,7 +18,7 @@
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/btn-card.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
-
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/testimonial.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
 </head>
@@ -56,13 +56,14 @@
         énergétique, témoignant de notre engagement envers l'écologie.
       </p>
       <img class="section__img image" src="<?= ROOT ?>/assets/images/1548643.webp" alt="">
+      <?php
+      $title = 'Découvrez nos Services';
+      $path = '/service';
+      $textBtn = 'Voir les services';
+      require '../App/View/partials/_buttonCard.php' ?>
+
     </section>
 
-    <?php
-    $title = 'Découvrez nos Services';
-    $path = '/service';
-    $textBtn = 'Voir les services';
-    require '../App/View/partials/_buttonCard.php' ?>
 
     <section class="section" id="habitat">
       <h2 class="section__title">
@@ -80,12 +81,12 @@
       </p>
 
 
-      <ul class='interactive-card'>
+      <ul>
         <?php
         if (isset($data['habitats'])) {
           foreach ($data['habitats'] as $habitat) {
             $haveImage = $habitat->getImage(0);
-
+            $textBtn = "Découvrir cette habitat";
             $redirection = '/habitats';
             $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
             $title = $habitat->getName();
@@ -101,15 +102,41 @@
       $path = '/habitats';
       $textBtn = 'Voir les habitats';
       require '../App/View/partials/_buttonCard.php' ?>
+
+
+      <img class="section__img image image--bottom" src="<?= ROOT ?>/assets/images/88484611.webp" alt="">
+
     </section>
 
-    <img class="section__img image image--bottom" src="<?= ROOT ?>/assets/images/88484611.webp" alt="">
+
 
     <section class="section" id="testimonial">
       <h2 class="section__title">
         Les Avis
       </h2>
 
+
+
+      <div class="testimonial__container">
+        <?php if (isset($data['advice'])) { ?>
+          <div class="testimonial__hidden">
+
+            <button id="left-btn" disabled class="button button--cube" type="button">
+              <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
+            </button>
+          </div>
+          <div id="testimonial-card" class="testimonial__card">
+            <p id="testimonial-text" class="testimonial__text"><?= $data['advice'][0]->getAdvice() ?></p>
+            <hr>
+            <p id="testimonial-pseudo" class="testimonial__pseudo"><?= $data['advice'][0]->getPseudo() ?></p>
+          </div>
+          <div class="testimonial__hidden ">
+            <button disabled id="right-btn" class="button  button--cube" type="button">
+              <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
+            </button>
+          </div>
+        <?php  } ?>
+      </div>
 
       <?php
       $title = "Laissez-nous votre avis";
@@ -120,13 +147,12 @@
 
     <section class="section" id="schedule">
       <h2 class="section__title">
-        Horaires d' ouverture </h2>
+        Horaires d'ouverture </h2>
 
       <?php require_once '../App/View/partials/_schedule.php' ?>
-
     </section>
   </main>
-
+  <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonialShow.js"></script>
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
 </body>
 

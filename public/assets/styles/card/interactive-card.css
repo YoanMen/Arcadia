@@ -1,7 +1,3 @@
-.interactive-card {
-  padding-bottom: 32px;
-}
-
 .interactive-card__item:first-child,
 .interactive-card__content:first-child {
   border-top-left-radius: 5px;
@@ -73,7 +69,9 @@
   .interactive-card__item {
     height: 400px;
   }
-
+  .interactive-card__container {
+    height: 80%;
+  }
   .interactive-card__item:first-child,
   .interactive-card__item:last-child,
   .interactive-card__content:first-child,

@@ -33,5 +33,10 @@ $router->addRoute('GET', ROOT . '/logout', 'AuthController', 'logout');
 $router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 
 
-$router->goRoute($router);
+$router->addRoute('GET', ROOT . '/api/advice/count', 'AdviceController', 'getAdviceCount');
+$router->addRoute('POST', ROOT . '/api/advice', 'AdviceController', 'postAdvice');
+$router->addRoute('DELETE', ROOT . '/api/advice', 'AdviceController', 'deleteAdvice');
+$router->addRoute('PUT', ROOT . '/api/advice', 'AdviceController', 'updateAdvice');
+$router->addRoute('GET', ROOT . '/api/advice/{id}', 'AdviceController', 'getAdvice');
 
+$router->goRoute($router);
