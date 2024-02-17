@@ -7,17 +7,17 @@ use App\Model\Advice;
 
 class AdviceController extends Controller
 {
-  public function index()
-  {
-  }
-
 
   public function getAdvice($request)
   {
-    $id = $request['id'];
+    $id  = filter_var($request['id'], FILTER_VALIDATE_INT);
+
+    if (!is_int($id)) {
+      http_response_code(400);
+      return;
+    }
 
     $adviceRepository = new Advice();
-
     $advice =  $adviceRepository->findOneBy(['id' => $id]);
 
     if (isset($advice)) {
@@ -27,7 +27,7 @@ class AdviceController extends Controller
         'advice' => $advice->getAdvice()
       ]);
     } else {
-      throw new \Exception('No advice found ');
+      http_response_code(404);
     }
   }
 
@@ -35,11 +35,14 @@ class AdviceController extends Controller
   {
 
     $adviceRepository = new Advice();
-
     $count =  $adviceRepository->count(['approved' => true]);
 
-    header('Content-Type: application/json');
-    echo json_encode(['count' => $count]);
+    if (isset($count)) {
+      header('Content-Type: application/json');
+      echo json_encode(['count' => $count]);
+    } else {
+      http_response_code(204);
+    }
   }
 
 

@@ -22,14 +22,12 @@ class HomeController extends Controller
 
 		$adviceRepository->setOrderBy('asc');
 		$adviceRepository->setLimit(1);
-		$advice = $adviceRepository->fetchAll();
+		$advice = $adviceRepository->find(['approved' => true]);
 
 		// add image to some Habitats
 		for ($i = 0; $i < 2; $i++) {
 			$habitats[$i]->findImages();
 		}
-
-
 		$schedulesRepository = new Schedule();
 		$schedules = $schedulesRepository->fetchAll();
 

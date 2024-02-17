@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/testimonial.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
+
 </head>
 
 <body>
@@ -135,7 +137,9 @@
               <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
             </button>
           </div>
-        <?php  } ?>
+        <?php  } else { ?>
+          <p class="testimonial__not">Aucun avis pour le moment</p>
+        <?php } ?>
       </div>
 
       <?php
@@ -152,7 +156,10 @@
       <?php require_once '../App/View/partials/_schedule.php' ?>
     </section>
   </main>
-  <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonialShow.js"></script>
+
+  <?php require '../App/View/partials/_footer.php' ?>
+
+  <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonial-slider.js"></script>
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
 </body>
 
