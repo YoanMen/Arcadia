@@ -33,23 +33,27 @@
 
 
   <div class="hero">
-    <div class="carousel">
-      <div class="carousel__select">
-        <button id="1" type="button" class="carousel__element carousel__element--active  "></button>
-        <button id="2" type="button" class="carousel__element"></button>
-        <button id="3" type="button" class="carousel__element"></button>
-
+    <div id="carousel" class="carousel">
+      <div id="carousel-select" class="carousel__select">
       </div>
-      <article class="carousel-item">
-        <img src="<?= ROOT ?>/assets/images/hero.webp" alt="" srcset="">
-      </article>
-      <article class="carousel-item">
-        <img src="<?= ROOT ?>/assets/images/1548643.webp" alt="" srcset="">
-      </article>
+      <div class="carousel__container">
+        <article class="carousel__item">
+          <img src="<?= ROOT ?>/assets/images/hero.webp" alt="" srcset="">
+        </article>
+        <article class="carousel__item">
+          <img src="<?= ROOT ?>/assets/images/1548643.webp" alt="" srcset="">
+        </article>
+        <article class="carousel__item">
+          <img src="<?= ROOT ?>/assets/images/1548643.webp" alt="" srcset="">
+        </article>
+      </div>
     </div>
   </div>
 
+
+
   <main>
+
     <section class="section" id="about">
       <h1 class="section__title">
         Le Zoo Arcadia
@@ -174,6 +178,7 @@
 
   <?php require '../App/View/partials/_footer.php' ?>
 
+  <script src="<?= ROOT ?>/assets/scripts/carousel/carousel.js"></script>
   <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonial-slider.js"></script>
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
 </body>
