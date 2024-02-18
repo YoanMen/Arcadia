@@ -52,10 +52,10 @@
 @media screen and (max-width: 960px) {
   .testimonial__container {
     flex-direction: column;
-    gap: 32px;
+    margin: 0 16px;
   }
 
-  .testimonial__notice {
+  .testimonial__card {
     width: 100%;
   }
 }

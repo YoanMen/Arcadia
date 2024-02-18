@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/btn-card.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/testimonial.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/carousel.css">
+
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
@@ -31,7 +33,20 @@
 
 
   <div class="hero">
-    <img src="<?= ROOT ?>/assets/images/hero.webp" alt="" srcset="">
+    <div class="carousel">
+      <div class="carousel__select">
+        <button id="1" type="button" class="carousel__element carousel__element--active  "></button>
+        <button id="2" type="button" class="carousel__element"></button>
+        <button id="3" type="button" class="carousel__element"></button>
+
+      </div>
+      <article class="carousel-item">
+        <img src="<?= ROOT ?>/assets/images/hero.webp" alt="" srcset="">
+      </article>
+      <article class="carousel-item">
+        <img src="<?= ROOT ?>/assets/images/1548643.webp" alt="" srcset="">
+      </article>
+    </div>
   </div>
 
   <main>
