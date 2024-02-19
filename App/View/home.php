@@ -33,7 +33,7 @@
 
 
   <div class="hero">
-    <div id="carousel" class="carousel">
+    <div autoplay id="carousel" class="carousel ">
       <div id="carousel-select" class="carousel__select">
       </div>
       <div class="carousel__container">
@@ -44,7 +44,7 @@
           <img src="<?= ROOT ?>/assets/images/1548643.webp" alt="" srcset="">
         </article>
         <article class="carousel__item">
-          <img src="<?= ROOT ?>/assets/images/1548643.webp" alt="" srcset="">
+          <img src="<?= ROOT ?>/assets/images/88484611.webp" alt="" srcset="">
         </article>
       </div>
     </div>

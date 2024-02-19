@@ -1,11 +1,47 @@
 const carousels = document.querySelectorAll(".carousel");
 const button = `<button id="" type="button" class="carousel__element"></button>`;
 const offset = 50;
+const delay = 6;
 
 carousels.forEach((carousel) => {
   const select = carousel.getElementsByClassName("carousel__select");
   const container = carousel.getElementsByClassName("carousel__container");
   const img = container[0].getElementsByTagName("img");
+
+  let autoplay = carousel.hasAttribute("autoplay");
+  let animationAutoplay;
+  let pause = false;
+  let currentImage;
+  console.log(autoplay);
+
+  if (autoplay) {
+    startAutoplay();
+    carousel.addEventListener("touchstart", () => {
+      stopAutoplay();
+      console.log("stop animation");
+    });
+    carousel.addEventListener("touchend", () => {
+      startAutoplay();
+      console.log("play animation");
+    });
+  }
+
+  function startAutoplay() {
+    animationAutoplay = setTimeout(() => {
+      if (pause) return;
+      currentImage++;
+      if (currentImage >= img.length) currentImage = 0;
+      container[0].scrollTo({
+        behavior: "smooth",
+        left: img[currentImage].offsetLeft,
+      });
+      startAutoplay();
+    }, delay * 1000);
+  }
+
+  function stopAutoplay() {
+    clearTimeout(animationAutoplay);
+  }
 
   createSelectButton();
 
@@ -21,13 +57,12 @@ carousels.forEach((carousel) => {
     }
 
     const buttons = select[0].querySelectorAll(".carousel__element");
-
+    currentImage = 0;
     detectScrollPosition(buttons[0], buttons);
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
-        console.log("click " + button.id);
-
+        currentImage = button.id;
         container[0].scrollTo({
           behavior: "smooth",
           left: img[button.id].offsetLeft,
@@ -53,6 +88,7 @@ carousels.forEach((carousel) => {
       container[0].scrollLeft <= img[button.id].offsetLeft + offset
     ) {
       setActiveButton(buttons, button.id);
+      currentImage = button.id;
     }
   }
 });

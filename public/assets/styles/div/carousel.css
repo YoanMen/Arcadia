@@ -54,3 +54,7 @@
 .carousel__element--active {
   background-color: var(--btn-color);
 }
+
+.carousel__element--active:valid {
+  opacity: 0.2;
+}
