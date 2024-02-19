@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Core;
 
 class Security
@@ -34,17 +35,15 @@ class Security
   public static function verifyPassword(string $password, string $ddbServer): bool
   {
     return password_verify($password, $ddbServer);
-
   }
 
-  public static function verifyCsrf(): bool
+  public static function verifyCsrf(string $token): bool
   {
-    $token = htmlspecialchars($_POST['token']);
+    $token = htmlspecialchars($token);
     if ($_SESSION['csrf_token'] === $token) {
       return true;
     }
 
     return false;
   }
-
 }

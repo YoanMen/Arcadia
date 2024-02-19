@@ -83,7 +83,7 @@
         <input type="password" id="password" name="password">
 
       </div>
-      <input type="hidden" name="token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
+      <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
       <div>
         <input type="submit" value="Se connecter">
       </div>

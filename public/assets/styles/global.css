@@ -104,7 +104,9 @@ textarea {
 hr {
   opacity: 0.2;
 }
-
+.no-scroll {
+  overflow: hidden;
+}
 .image {
   width: 100%;
   height: 360px;
@@ -139,6 +141,9 @@ hr {
   transition: background-color linear 0.2s;
 }
 
+.button:active {
+  opacity: 0.9;
+}
 .button--cube {
   cursor: pointer;
   width: 60px;

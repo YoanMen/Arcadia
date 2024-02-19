@@ -24,12 +24,10 @@
 }
 
 .interactive-card__content {
+  transition: background ease-in-out 0.3s;
   padding: var(--padding);
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: rgba(0, 0, 0, 0.2);
+
   color: white;
   height: 100%;
 }
@@ -62,6 +60,10 @@
     background-position: 50% 40%;
   }
 
+  .interactive-card__item:hover .interactive-card__content {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
   .interactive-card__item:hover .interactive-card__container {
     display: flex;
     flex-direction: row;
@@ -73,9 +75,7 @@
   .interactive-card__item {
     height: 400px;
   }
-  .interactive-card__container {
-    height: 80%;
-  }
+
   .interactive-card__item:first-child,
   .interactive-card__item:last-child,
   .interactive-card__content:first-child,
@@ -88,9 +88,13 @@
   }
 
   .interactive-card__container {
+    height: 80%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+  .interactive-card__content {
+    background: rgba(0, 0, 0, 0.3);
   }
 }
 

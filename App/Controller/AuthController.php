@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Core\Router;
@@ -41,7 +42,7 @@ class AuthController extends Controller
       $email = htmlspecialchars($_POST['email']);
       $password = htmlspecialchars($_POST['password']);
 
-      if (Security::verifyCsrf()) {
+      if (Security::verifyCsrf($_POST['csrf_token'])) {
         $userRepository = new User();
         $user = $userRepository->findOneBy(['email' => $email]);
 
@@ -58,16 +59,13 @@ class AuthController extends Controller
         } else {
           $error = "email or password is wrong";
         }
-
       } else {
         $error = "csrf token is invalid";
-
       }
     }
 
 
     $this->show('admin/login', ['error' => $error]);
-
   }
 
   public function logout()
@@ -94,6 +92,4 @@ class AuthController extends Controller
     Router::redirect();
     exit;
   }
-
-
 }

@@ -7,7 +7,7 @@
 .carousel__container {
   display: flex;
   overflow-y: hidden;
-  overflow-x: auto;
+  overflow-x: hidden;
   height: 100%;
   width: 100%;
   scroll-snap-type: x mandatory;
@@ -57,4 +57,10 @@
 
 .carousel__element--active:valid {
   opacity: 0.2;
+}
+
+@media screen and (max-width: 762px) {
+  .carousel__container {
+    overflow-x: scroll;
+  }
 }

@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
   <title>
     <?= APP_NAME ?>
     | Accueil
@@ -33,27 +34,15 @@
 
 
   <div class="hero">
-    <div autoplay id="carousel" class="carousel ">
-      <div id="carousel-select" class="carousel__select">
-      </div>
-      <div class="carousel__container">
-        <article class="carousel__item">
-          <img src="<?= ROOT ?>/assets/images/hero.webp" alt="" srcset="">
-        </article>
-        <article class="carousel__item">
-          <img src="<?= ROOT ?>/assets/images/1548643.webp" alt="" srcset="">
-        </article>
-        <article class="carousel__item">
-          <img src="<?= ROOT ?>/assets/images/88484611.webp" alt="" srcset="">
-        </article>
-      </div>
-    </div>
+    <?php
+    $images = ['hero.webp', '1548643.webp',  '88484611.webp'];
+    $autoplay = true;
+    require '../App/View/partials/_carousel.php' ?>
   </div>
 
 
 
   <main>
-
     <section class="section" id="about">
       <h1 class="section__title">
         Le Zoo Arcadia
@@ -82,9 +71,7 @@
       $path = '/service';
       $textBtn = 'Voir les services';
       require '../App/View/partials/_buttonCard.php' ?>
-
     </section>
-
 
     <section class="section" id="habitat">
       <h2 class="section__title">
@@ -100,8 +87,6 @@
         dans la vie de nos pensionnaires, tout en soutenant notre engagement envers le bien-être animal
         et la conservation de la biodiversité.
       </p>
-
-
       <ul>
         <?php
         if (isset($data['habitats'])) {
@@ -124,24 +109,16 @@
       $textBtn = 'Voir les habitats';
       require '../App/View/partials/_buttonCard.php' ?>
 
-
       <img class="section__img image image--bottom" src="<?= ROOT ?>/assets/images/88484611.webp" alt="">
-
     </section>
-
-
 
     <section class="section" id="testimonial">
       <h2 class="section__title">
         Les Avis
       </h2>
-
-
-
       <div class="testimonial__container">
         <?php if (isset($data['advice'])) { ?>
           <div class="testimonial__hidden">
-
             <button id="left-btn" disabled class="button button--cube" type="button">
               <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
             </button>
@@ -171,15 +148,13 @@
     <section class="section" id="schedule">
       <h2 class="section__title">
         Horaires d'ouverture </h2>
-
       <?php require_once '../App/View/partials/_schedule.php' ?>
     </section>
   </main>
 
   <?php require '../App/View/partials/_footer.php' ?>
-
   <script src="<?= ROOT ?>/assets/scripts/carousel/carousel.js"></script>
-  <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonial-slider.js"></script>
+  <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonial-slider.js"> </script>
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
 </body>
 

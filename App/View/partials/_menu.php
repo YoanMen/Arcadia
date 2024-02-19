@@ -1,5 +1,4 @@
-<header
-  class="menus">
+<header class="menus">
   <!-- MOBILE MENU -->
   <div class="mobile-menu">
     <a href="/">
@@ -26,12 +25,12 @@
             <ul class="mobile-menu__submenu">
               <?php if (isset($data['services'])) {
                 foreach ($data['services'] as $service) { ?>
-                    <li>
-                      <a href="service/<?= $service->getId() ?>">
-                        <?= $service->getName(); ?>
-                      </a>
-                    </li>
-                <?php }
+                  <li>
+                    <a href="service/<?= $service->getId() ?>">
+                      <?= $service->getName(); ?>
+                    </a>
+                  </li>
+              <?php }
               } ?>
             </ul>
           </li>
@@ -42,12 +41,12 @@
             <ul class="mobile-menu__submenu">
               <?php if (isset($data['habitats'])) {
                 foreach ($data['habitats'] as $habitat) { ?>
-                    <li>
-                      <a href="habitat/<?= $habitat->getId() ?>">
-                        <?= $habitat->getName(); ?>
-                      </a>
-                    </li>
-                <?php }
+                  <li>
+                    <a href="habitat/<?= $habitat->getId() ?>">
+                      <?= $habitat->getName(); ?>
+                    </a>
+                  </li>
+              <?php }
               } ?>
             </ul>
           </li>
@@ -83,12 +82,12 @@
           <ul class="desktop-menu__submenu">
             <?php if (isset($data['services'])) {
               foreach ($data['services'] as $service) { ?>
-                  <li>
-                    <a href="service/<?= $service->getId() ?>">
-                      <?= $service->getName(); ?>
-                    </a>
-                  </li>
-              <?php }
+                <li>
+                  <a href="service/<?= $service->getId() ?>">
+                    <?= $service->getName(); ?>
+                  </a>
+                </li>
+            <?php }
             } ?>
           </ul>
         </li>
@@ -99,12 +98,12 @@
           <ul class="desktop-menu__submenu">
             <?php if (isset($data['habitats'])) {
               foreach ($data['habitats'] as $habitat) { ?>
-                  <li>
-                    <a href="habitat/<?= $habitat->getId() ?>">
-                      <?= $habitat->getName(); ?>
-                    </a>
-                  </li>
-              <?php }
+                <li>
+                  <a href="habitat/<?= $habitat->getId() ?>">
+                    <?= $habitat->getName(); ?>
+                  </a>
+                </li>
+            <?php }
             } ?>
           </ul>
         </li>
@@ -124,4 +123,3 @@
   </div>
   <!-- END DESKTOP MENU-->
 </header>
-

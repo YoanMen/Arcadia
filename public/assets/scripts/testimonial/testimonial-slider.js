@@ -4,6 +4,9 @@ function initializeTestimonialSlider() {
   const adviceCard = document.getElementById("testimonial-card");
   const text = document.getElementById("testimonial-text");
   const pseudo = document.getElementById("testimonial-pseudo");
+  const csrf_token = document.head.querySelector(
+    'meta[name="csrf-token"]'
+  ).content;
 
   let currentAdvice = 1;
   let disable = false;
@@ -81,6 +84,7 @@ function initializeTestimonialSlider() {
     const r = await fetch("api/advice/count", {
       method: "GET",
       headers: {
+        "X-CSRF-TOKEN": csrf_token,
         Accept: "application/json",
       },
     });
@@ -96,6 +100,7 @@ function initializeTestimonialSlider() {
     const r = await fetch("api/advice/" + (currentAdvice + 1), {
       method: "GET",
       headers: {
+        "X-CSRF-TOKEN": csrf_token,
         Accept: "application/json",
       },
     });
@@ -110,6 +115,7 @@ function initializeTestimonialSlider() {
     const r = await fetch("api/advice/" + (currentAdvice - 1), {
       method: "GET",
       headers: {
+        "X-CSRF-TOKEN": csrf_token,
         Accept: "application/json",
       },
     });
