@@ -89,7 +89,6 @@ function initializeTestimonialSlider() {
       },
     });
     if (r.status === 200) {
-      console.log(r.status);
       return r.json();
     } else {
       return { count: 0 };

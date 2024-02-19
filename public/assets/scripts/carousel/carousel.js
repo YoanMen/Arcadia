@@ -12,17 +12,13 @@ carousels.forEach((carousel) => {
   let animationAutoplay;
   let pause = false;
   let currentImage;
-  console.log(autoplay);
-
   if (autoplay) {
     startAutoplay();
     carousel.addEventListener("touchstart", () => {
       stopAutoplay();
-      console.log("stop animation");
     });
     carousel.addEventListener("touchend", () => {
       startAutoplay();
-      console.log("play animation");
     });
   }
 
