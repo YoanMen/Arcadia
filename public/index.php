@@ -1,7 +1,6 @@
 <?php
 
 use App\Core\Router as Router;
-use App\Core\Autoloader as Autoloader;
 
 require_once "../App/Core/Autoloader.php";
 
@@ -20,7 +19,12 @@ DEBUG ? ini_set('display_errors', 1) : ini_set('display_errors', 0);
 // ROUTING
 $router = new Router;
 $router->addRoute('GET', ROOT . '/error', 'PageNotFoundController', 'index');
+
 $router->addRoute('GET', ROOT . '/', 'HomeController', 'index');
+$router->addRoute('GET', ROOT . '/services', 'ServiceController', 'index');
+$router->addRoute('GET', ROOT . '/services/{name}', 'ServiceController', 'showService');
+
+
 $router->addRoute('GET', ROOT . '/upload', 'UploadController', 'index');
 $router->addRoute('POST', ROOT . '/upload', 'UploadController', 'uploadFile');
 

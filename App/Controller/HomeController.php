@@ -14,12 +14,10 @@ class HomeController extends Controller
 
 		$servicesRepository = new Service;
 		$services = $servicesRepository->fetchAll();
-
 		$habitatRepository = new Habitat;
-
 		$habitats = $habitatRepository->fetchAll();
-		$adviceRepository = new Advice();
 
+		$adviceRepository = new Advice();
 		$adviceRepository->setOrderBy('asc');
 		$adviceRepository->setLimit(1);
 		$advice = $adviceRepository->find(['approved' => true]);

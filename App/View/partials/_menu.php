@@ -19,14 +19,14 @@
             </a>
           </li>
           <li class="mobile-menu__item">
-            <a href="">
+            <a href="/services">
               Nos Service
             </a>
             <ul class="mobile-menu__submenu">
               <?php if (isset($data['services'])) {
                 foreach ($data['services'] as $service) { ?>
                   <li>
-                    <a href="service/<?= $service->getId() ?>">
+                    <a href="<?= ROOT ?>/services/<?= setURLWithName($service->getName()); ?>">
                       <?= $service->getName(); ?>
                     </a>
                   </li>
@@ -67,23 +67,23 @@
   <!--END MOBILE MENU -->
 
   <!-- DESKTOP MENU -->
-  <div class="desktop-menu ">
+  <div class="desktop-menu--fixed ">
     <nav class="desktop-menu__nav" aria-label="desktop menu">
       <ul class="desktop-menu__list">
         <li>
-          <a href="">
+          <a href="<?= ROOT ?>">
             <img class="desktop-menu__logo" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt="arcadia logo">
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="<?= ROOT ?>/services">
             Nos services
           </a>
           <ul class="desktop-menu__submenu">
             <?php if (isset($data['services'])) {
               foreach ($data['services'] as $service) { ?>
                 <li>
-                  <a href="service/<?= $service->getId() ?>">
+                  <a href="<?= ROOT ?>/services/<?= setURLWithName($service->getName()); ?>">
                     <?= $service->getName(); ?>
                   </a>
                 </li>

@@ -68,7 +68,7 @@
       <img class="section__img image" src="<?= ROOT ?>/assets/images/1548643.webp" alt="">
       <?php
       $title = 'Découvrez nos Services';
-      $path = '/service';
+      $path = ROOT . '/services';
       $textBtn = 'Voir les services';
       require '../App/View/partials/_buttonCard.php' ?>
     </section>

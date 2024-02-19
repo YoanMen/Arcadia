@@ -41,6 +41,15 @@
   box-sizing: border-box;
 }
 
+ul,
+ol {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: var(--bg-color-light);
+  font-family: var(--font-luciole);
+}
 body {
   background-color: var(--bg-color-light);
   display: flex;
@@ -52,6 +61,7 @@ main {
   flex-grow: 1;
   max-width: 1180px;
   margin: 0 auto;
+  width: 100%;
 }
 
 h1 {
@@ -104,6 +114,7 @@ textarea {
 hr {
   opacity: 0.2;
 }
+
 .no-scroll {
   overflow: hidden;
 }

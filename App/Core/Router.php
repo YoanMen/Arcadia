@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Core;
 
 class Router
@@ -7,7 +8,6 @@ class Router
   public function __construct()
   {
     $this->routes = [];
-
   }
   public static function redirect($path = '')
   {
@@ -26,7 +26,6 @@ class Router
     $controller = new $getRoute['controller']();
     $action = $getRoute['action'];
     $controller->$action($getRoute['params']);
-
   }
   public function addRoute(string $method, string $path, string $controller, string $action)
   {
@@ -36,7 +35,6 @@ class Router
       'controller' => 'App\Controller\\' . $controller,
       'action' => $action,
     ];
-
   }
   private function getRoute(string $method, string $uri): ?array
   {
@@ -60,7 +58,6 @@ class Router
             if (str_contains($params[$paramName], '?')) {
               $params[$paramName] = strstr($params[$paramName], '?', true);
             }
-
           } elseif ($part !== $uriParts[$index]) {
             $match = false;
             break;
