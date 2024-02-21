@@ -4,10 +4,10 @@
   <nav class="footer__nav">
     <ul class="footer__list">
       <li class="footer__item">
-        <a href="/">Accueil</a>
+        <a href="<?= ROOT ?>/">Accueil</a>
       </li>
       <li class="footer__item">
-        <a href="">Nos services</a>
+        <a href="<?= ROOT ?>/services">Nos services</a>
       </li>
       <li class="footer__item">
         <a href="">Nos habitats</a>

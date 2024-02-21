@@ -7,16 +7,12 @@
 .breadcrumbs__list {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: start;
   padding: 16px;
   gap: 6px;
   min-height: 40px;
   background: var(--bg-color-dark);
   border-radius: 5px;
-}
-
-.breadcrumbs__item {
-  font-size: 1.2rem;
 }
 
 .breadcrumbs__item a {

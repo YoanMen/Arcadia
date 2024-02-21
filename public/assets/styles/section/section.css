@@ -13,6 +13,10 @@
   padding: 6px 0;
 }
 
+.section__background p {
+  padding: 0;
+}
+
 .section__title--secondary {
   font-size: 2.6rem;
   margin-bottom: 16px;
@@ -21,6 +25,11 @@
   color: var(--btn-color);
 }
 @media screen and (max-width: 1180px) {
+  .section__text,
+  .section__title {
+    padding: var(--padding);
+  }
+
   .section__img,
   .section__background {
     border-radius: 0;

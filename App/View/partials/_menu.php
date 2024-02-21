@@ -5,7 +5,7 @@
 <header class="menus">
   <!-- MOBILE MENU -->
   <div class="mobile-menu">
-    <a href="/">
+    <a href="<?= ROOT ?>/">
       <img class='mobile-menu__logo' src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt="">
     </a>
     <div class='mobile-menu__btn'>
@@ -18,16 +18,15 @@
       <nav class="mobile-menu__nav" aria-label="mobile menu">
         <ul class="mobile-menu__list">
           <li class="mobile-menu__item">
-            <a href="">
+            <a href="<?= ROOT ?>/">
               Accueil
             </a>
           </li>
           <li class="mobile-menu__item">
-            <a href="/services">
+            <a href="<?= ROOT ?>/services">
               Nos Service
             </a>
             <ul class="mobile-menu__submenu" name='menu-services'>
-
             </ul>
           </li>
           <li class="mobile-menu__item">
