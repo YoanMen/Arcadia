@@ -28,15 +28,12 @@ class ServiceController extends Controller
     $serviceRepository->setOffset($first);
     $services  = $serviceRepository->fetchAll();
 
-    if (isset($services)) {
-      $this->show('service', [
-        'services' => $services,
-        'currentPage' => $currentPage + 1,
-        'totalPages' => $totalPages
-      ]);
-    } else {
-      Router::redirect('/error');
-    }
+
+    $this->show('service', [
+      'services' => $services,
+      'currentPage' => $currentPage + 1,
+      'totalPages' => $totalPages
+    ]);
   }
 
 

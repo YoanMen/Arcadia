@@ -26,7 +26,8 @@
 }
 @media screen and (max-width: 1180px) {
   .section__text,
-  .section__title {
+  .section__title,
+  .section__title--secondary {
     padding: var(--padding);
   }
 

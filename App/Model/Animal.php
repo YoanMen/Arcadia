@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
@@ -14,6 +15,7 @@ class Animal extends Model
   private string $race;
   private int $habitatID;
 
+  private array $images;
 
   /**
    * Get the value of id
@@ -86,7 +88,18 @@ class Animal extends Model
 
     return $this;
   }
+  public function getImage(int $number): Image|null
+  {
+    return $this->images[$number] ?? null;
+  }
 
+  /**
+   * Set Image to class
+   */
+  public function setImage(Image $image)
+  {
+    $this->images[] = $image;
+  }
   public function findImages(): array|null
   {
     try {
@@ -102,6 +115,7 @@ class Animal extends Model
       $stm = $this->bindParams($stm, [':animalID' => $this->getId()]);
       if ($stm->execute()) {
         while ($result = $stm->fetchObject(Image::class)) {
+          $this->setImage($result);
           $results[] = $result;
         }
       }

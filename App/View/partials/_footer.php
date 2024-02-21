@@ -1,5 +1,5 @@
 <footer class="footer">
-  <a href=""><img class="footer__logo" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt=""></a>
+  <a href="<?= ROOT ?>/"><img class="footer__logo" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt=""></a>
   <hr class="footer__bar">
   <nav class="footer__nav">
     <ul class="footer__list">
@@ -10,7 +10,8 @@
         <a href="<?= ROOT ?>/services">Nos services</a>
       </li>
       <li class="footer__item">
-        <a href="">Nos habitats</a>
+        <a href="<?= ROOT ?>/habitats">
+          Nos habitats</a>
       </li>
       <li class="footer__item">
         <a href="">Contact</a>

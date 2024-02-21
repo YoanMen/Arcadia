@@ -30,7 +30,7 @@
             </ul>
           </li>
           <li class="mobile-menu__item">
-            <a href="">
+            <a href="<?= ROOT ?>/habitats">
               Nos habitats
             </a>
             <ul class="mobile-menu__submenu" name='menu-habitats'>
@@ -70,7 +70,7 @@
           </ul>
         </li>
         <li>
-          <a href="#">
+          <a href="<?= ROOT ?>/habitats">
             Nos habitats
           </a>
           <ul class="desktop-menu__submenu" name='menu-habitats'>

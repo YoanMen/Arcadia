@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
     <?= APP_NAME ?>
-    | Services
+    | Habitats
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
 
@@ -18,7 +18,10 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/breadcrumbs.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
+
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+
 
 </head>
 
@@ -27,41 +30,41 @@
   <?php require_once '../App/View/partials/_menu.php' ?>
 
   <main>
-    <section class="section" name="services">
+    <section class="section" name="habitats">
       <?php
       $elements = [
-        ['name' => "Services", 'path' => ROOT . '/services'],
+        ['name' => "Habitats", 'path' => ROOT . '/habitats'],
       ];
       require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-      <p class="section__text">Explorez les divers services offerts au sein du Zoo Arcadia.
-        N'hésitez pas à découvrir l'ensemble de nos prestations.
+      <p class="section__text">
+        Explorez les différents habitats du Zoo Arcadia.
       </p>
 
-      <div class="section__background">
-        <h1 class="section__title--secondary">Tout nos services</h1>
+      <ul>
+        <?php
+        if (isset($data['habitats'])) {
+          foreach ($data['habitats'] as $habitat) {
+            $haveImage = $habitat->getImage(0);
+            $textBtn = "Découvrir cette habitat";
+            $redirection = ROOT . '/habitats/' . setURLWithName($habitat->getName());
+            $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
+            $title = $habitat->getName();
+            $text = $habitat->getDescription();
 
-        <ul>
-          <?php
-          if ($data["services"]) {
-            foreach ($data["services"] as $service) { ?>
-              <li><a href="<?= ROOT ?>/services/<?= setURLWithName($service->getName()); ?>">
-                  <?= $service->getName() ?>
-                </a></li>
-          <?php }
-          }
-          ?>
-        </ul>
-      </div>
+            require '../App/View/partials/_interactiveCard.php' ?>
+        <?php     }
+        } ?>
+      </ul>
     </section>
 
     <?php
-    $baseUrl = ROOT .  '/services';
-    require_once '../App/View/partials/_pagination.php' ?>
+    $baseUrl = ROOT .  '/habitats';
+    require '../App/View/partials/_pagination.php' ?>
 
   </main>
 
-  <?php require_once '../App/View/partials/_footer.php' ?>
+  <?php require '../App/View/partials/_footer.php' ?>
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
 
 </body>

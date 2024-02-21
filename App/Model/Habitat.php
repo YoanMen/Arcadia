@@ -79,6 +79,16 @@ class Habitat extends Model
     return $this->images[$number] ?? null;
   }
 
+  public function getAllImagePath(): array|null
+  {
+    $imagesPath = [];
+
+    foreach ($this->images as $image) {
+      $imagesPath[] = $image->getPath();
+    }
+    return $imagesPath ?? null;
+  }
+
   /**
    * Set Image to class
    */

@@ -23,7 +23,8 @@ $router->addRoute('GET', ROOT . '/error', 'PageNotFoundController', 'index');
 $router->addRoute('GET', ROOT . '/', 'HomeController', 'index');
 $router->addRoute('GET', ROOT . '/services', 'ServiceController', 'index');
 $router->addRoute('GET', ROOT . '/services/{name}', 'ServiceController', 'showService');
-
+$router->addRoute('GET', ROOT . '/habitats', 'HabitatController', 'index');
+$router->addRoute('GET', ROOT . '/habitats/{name}', 'HabitatController', 'showHabitat');
 
 $router->addRoute('GET', ROOT . '/upload', 'UploadController', 'index');
 $router->addRoute('POST', ROOT . '/upload', 'UploadController', 'uploadFile');

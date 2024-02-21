@@ -10,8 +10,8 @@ carousels.forEach((carousel) => {
 
   let autoplay = carousel.hasAttribute("autoplay");
   let animationAutoplay;
-  let pause = false;
   let currentImage;
+  console.log(autoplay);
   if (autoplay) {
     startAutoplay();
     carousel.addEventListener("touchstart", () => {
@@ -24,7 +24,6 @@ carousels.forEach((carousel) => {
 
   function startAutoplay() {
     animationAutoplay = setTimeout(() => {
-      if (pause) return;
       currentImage++;
       if (currentImage >= img.length) currentImage = 0;
       container[0].scrollTo({

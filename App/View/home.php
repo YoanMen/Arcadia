@@ -35,7 +35,7 @@
 
   <div class="hero">
     <?php
-    $images = ['hero.webp', '1548643.webp',  '88484611.webp'];
+    $images = ['792358.webp', '248314-5fdccad0f507.webp',  '1548643.webp'];
     $autoplay = true;
     require '../App/View/partials/_carousel.php' ?>
   </div>
@@ -65,7 +65,7 @@
         Arcadia est bien plus qu'un zoo ; c'est un refuge écologique. Nous sommes fiers de notre indépendance
         énergétique, témoignant de notre engagement envers l'écologie.
       </p>
-      <img class="section__img image" src="<?= ROOT ?>/assets/images/1548643.webp" alt="">
+      <img class="image" src="<?= ROOT ?>/assets/images/1548643.webp" alt="">
       <?php
       $title = 'Découvrez nos Services';
       $path = ROOT . '/services';
@@ -93,7 +93,7 @@
           foreach ($data['habitats'] as $habitat) {
             $haveImage = $habitat->getImage(0);
             $textBtn = "Découvrir cette habitat";
-            $redirection = '/habitats';
+            $redirection =  ROOT . '/habitats/' . setURLWithName($habitat->getName());
             $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
             $title = $habitat->getName();
             $text = $habitat->getDescription();
@@ -105,11 +105,11 @@
 
       <?php
       $title = "D'autres habitats à découvrir";
-      $path = '/habitats';
+      $path = ROOT . '/habitats';
       $textBtn = 'Voir les habitats';
       require '../App/View/partials/_buttonCard.php' ?>
 
-      <img class="section__img image image--bottom" src="<?= ROOT ?>/assets/images/88484611.webp" alt="">
+      <img class="image image--bottom" src="<?= ROOT ?>/assets/images/88484611.webp" alt="">
     </section>
 
     <section class="section" id="testimonial">

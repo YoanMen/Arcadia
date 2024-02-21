@@ -24,7 +24,7 @@ initDataMenu().then(async (data) => {
   data.habitats.forEach((habitat) => {
     const urlName = habitat.name.replaceAll(" ", "-").toLowerCase();
     habitatList += `  <li>
-    <a href="${window.location.origin}/Arcadia/public/services/${urlName} ">
+    <a href="${window.location.origin}/Arcadia/public/habitats/${urlName} ">
       ${habitat.name} 
     </a>
   </li>`;
