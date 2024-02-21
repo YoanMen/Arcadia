@@ -1,3 +1,7 @@
+<?php
+// need script menu.js
+?>
+
 <header class="menus">
   <!-- MOBILE MENU -->
   <div class="mobile-menu">
@@ -22,32 +26,16 @@
             <a href="/services">
               Nos Service
             </a>
-            <ul class="mobile-menu__submenu">
-              <?php if (isset($data['services'])) {
-                foreach ($data['services'] as $service) { ?>
-                  <li>
-                    <a href="<?= ROOT ?>/services/<?= setURLWithName($service->getName()); ?>">
-                      <?= $service->getName(); ?>
-                    </a>
-                  </li>
-              <?php }
-              } ?>
+            <ul class="mobile-menu__submenu" name='menu-services'>
+
             </ul>
           </li>
           <li class="mobile-menu__item">
             <a href="">
               Nos habitats
             </a>
-            <ul class="mobile-menu__submenu">
-              <?php if (isset($data['habitats'])) {
-                foreach ($data['habitats'] as $habitat) { ?>
-                  <li>
-                    <a href="habitat/<?= $habitat->getId() ?>">
-                      <?= $habitat->getName(); ?>
-                    </a>
-                  </li>
-              <?php }
-              } ?>
+            <ul class="mobile-menu__submenu" name='menu-habitats'>
+
             </ul>
           </li>
           <li class="mobile-menu__item">
@@ -79,32 +67,14 @@
           <a href="<?= ROOT ?>/services">
             Nos services
           </a>
-          <ul class="desktop-menu__submenu">
-            <?php if (isset($data['services'])) {
-              foreach ($data['services'] as $service) { ?>
-                <li>
-                  <a href="<?= ROOT ?>/services/<?= setURLWithName($service->getName()); ?>">
-                    <?= $service->getName(); ?>
-                  </a>
-                </li>
-            <?php }
-            } ?>
+          <ul class="desktop-menu__submenu" name='menu-services'>
           </ul>
         </li>
         <li>
           <a href="#">
             Nos habitats
           </a>
-          <ul class="desktop-menu__submenu">
-            <?php if (isset($data['habitats'])) {
-              foreach ($data['habitats'] as $habitat) { ?>
-                <li>
-                  <a href="habitat/<?= $habitat->getId() ?>">
-                    <?= $habitat->getName(); ?>
-                  </a>
-                </li>
-            <?php }
-            } ?>
+          <ul class="desktop-menu__submenu" name='menu-habitats'>
           </ul>
         </li>
         <li>
@@ -112,7 +82,6 @@
             Contact
           </a>
         </li>
-
         <li>
           <a href="#">
             Connexion

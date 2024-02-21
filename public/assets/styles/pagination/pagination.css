@@ -1,0 +1,44 @@
+.pagination {
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: var(--bg-color-dark);
+  border-radius: 5px;
+}
+
+.pagination__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pagination__dot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--bg-color-light);
+}
+
+.pagination__btn--disabled {
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+.pagination__container li:last-child {
+  transform: rotate(180deg);
+}
+
+.pagination__btn--current a {
+  background-color: var(--bg-color-dark);
+  border: 1px solid var(--btn-color);
+}
+
+@media screen and (max-width: 1180px) {
+  .pagination {
+    border-radius: 0;
+  }
+}

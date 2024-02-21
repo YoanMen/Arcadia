@@ -26,7 +26,7 @@
 <body>
   <?php require_once '../App/View/partials/_menu.php' ?>
   <main>
-    <section class="section" name="services">
+    <section class="section" name="service-details">
       <?php
       if (isset($data['service'])) {
         $elements = [

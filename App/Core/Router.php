@@ -41,6 +41,13 @@ class Router
     foreach ($this->routes as $route) {
       $routeParts = explode('/', $route['path']);
       $uriParts = explode('/', $uri);
+      $count = count($uriParts) - 1;
+
+
+      if (str_contains($uriParts[$count], '?')) {
+        $clean = strstr($uriParts[$count], '?', true);
+        $uriParts[$count] = $clean;
+      }
 
       if (
         $route['method'] === $method && count($routeParts) === count($uriParts)

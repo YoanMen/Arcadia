@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Core\Exception\DatabaseException;
 use App\Model\Advice;
 use App\Model\Habitat;
 use App\Model\Schedule;
@@ -35,5 +36,21 @@ class HomeController extends Controller
 			'schedules' => $schedules,
 			'advice' => $advice
 		]);
+	}
+
+
+	public function initMenu()
+	{
+		try {
+			$servicesRepository = new Service;
+			$services = $servicesRepository->fetchAll(associative: true);
+			$habitatRepository = new Habitat;
+			$habitats = $habitatRepository->fetchAll(associative : true);
+			header('Content-Type: application/json');
+			echo json_encode(['services' => $services, 'habitats' => $habitats]);
+		} catch (DatabaseException $e) {
+			http_response_code(500);
+			echo json_encode(['error' => $e]);
+		}
 	}
 }

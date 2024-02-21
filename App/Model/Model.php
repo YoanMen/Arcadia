@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
@@ -92,9 +93,10 @@ class Model extends Database
 
   /**
    * Fetch all
+   * @param  $associative set to true for return a Associative Tab
    * @return array|null depending result
    */
-  public function fetchAll(): array|null
+  public function fetchAll(bool $associative = false): array|null
   {
 
     try {
@@ -107,7 +109,7 @@ class Model extends Database
       $stm = $pdo->prepare($query);
 
       if ($stm->execute()) {
-        while ($result = $stm->fetchObject($this::class)) {
+        while ($result =  $associative ? $stm->fetch(PDO::FETCH_ASSOC)  : $stm->fetchObject($this::class)) {
           $results[] = $result;
         }
       }
@@ -244,7 +246,6 @@ class Model extends Database
       $stm = $this->bindParams($stm, $data);
       $stm = $this->bindParams($stm, ['id' => $id]);
       $stm->execute();
-
     } catch (PDOException $e) {
       throw new DatabaseException("Error Updating data: " . $e->getMessage(), $e->getCode(), $e);
     }
@@ -263,11 +264,9 @@ class Model extends Database
       $stm = $pdo->prepare($query);
       $stm = $this->bindParams($stm, $where);
       $stm->execute();
-
     } catch (PDOException $e) {
       throw new DatabaseException("Error delete data: " . $e->getMessage(), $e->getCode(), $e);
     }
-
   }
   /**
    * Set param of PDO depending of $input type
@@ -278,10 +277,8 @@ class Model extends Database
   {
     if (is_bool($input)) {
       return PDO::PARAM_BOOL;
-
     } elseif (is_int($input)) {
       return PDO::PARAM_INT;
-
     } elseif (is_string($input)) {
       return PDO::PARAM_STR;
     }
@@ -366,5 +363,4 @@ class Model extends Database
 
     return $keysValue;
   }
-
 }

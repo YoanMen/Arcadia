@@ -15,17 +15,12 @@
 
 .section__title--secondary {
   font-size: 2.6rem;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 .section__background a:hover {
   color: var(--btn-color);
 }
 @media screen and (max-width: 1180px) {
-  .section__text,
-  .section__title {
-    padding: var(--padding);
-  }
-
   .section__img,
   .section__background {
     border-radius: 0;

@@ -1,3 +1,7 @@
+<?php
+// @param elements contains an array  ['path'=> '/path',
+//                                     'name' => 'name']
+?>
 <nav class="breadcrumbs">
   <ol class="breadcrumbs__list">
     <?php foreach ($elements as $element) { ?>

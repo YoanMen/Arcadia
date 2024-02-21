@@ -2,24 +2,44 @@
 
 namespace App\Controller;
 
+use App\Core\Exception\DatabaseException;
 use App\Core\Router;
-use App\Model\Habitat;
 use App\Model\Service;
+use Exception;
 
 class ServiceController extends Controller
 {
   public function index()
   {
-    $habitatRepository = new Habitat();
-    $habitats = $habitatRepository->fetchAll();
-    $serviceRepository = new Service();
-    $services = $serviceRepository->fetchAll();
+    $currentPage = 0;
 
-    $this->show('service', [
-      'habitats' => $habitats,
-      'services' => $services
-    ]);
+    if (isset($_GET['page'])) {
+      $getPage = filter_var($_GET['page'], FILTER_VALIDATE_INT);
+      if (is_int($getPage) && $getPage > 1) {
+        $currentPage = $getPage - 1;
+      }
+    }
+
+    $serviceRepository = new Service();
+    $nbServices = $serviceRepository->count();
+    $serviceRepository->setLimit(10);
+    $totalPages = ceil($nbServices / $serviceRepository->getLimit());
+    $first = $currentPage * $serviceRepository->getLimit();
+    $serviceRepository->setOffset($first);
+    $services  = $serviceRepository->fetchAll();
+
+    if (isset($services)) {
+      $this->show('service', [
+        'services' => $services,
+        'currentPage' => $currentPage + 1,
+        'totalPages' => $totalPages
+      ]);
+    } else {
+      Router::redirect('/error');
+    }
   }
+
+
 
 
   public function showService($request)
@@ -29,26 +49,17 @@ class ServiceController extends Controller
       $name = str_replace('-', ' ', $name);
 
       $serviceRepository = new Service();
-      $habitatRepository = new Habitat();
-      $habitats = $habitatRepository->fetchAll();
-      $services = $serviceRepository->fetchAll();
       $service = $serviceRepository->findOneBy(['name' => $name]);
 
       if (isset($service)) {
         $this->show('serviceDetails', [
-
-          'services' => $services,
-          'habitats' => $habitats,
           'service' => $service
         ]);
       } else {
-        throw new \Exception('Service not exist');
+        throw new DatabaseException('Service not exist');
       }
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
       Router::redirect('/error');
     }
   }
 }
-
-$habitatRepository = new Habitat;
-$habitats = $habitatRepository->fetchAll();
