@@ -49,7 +49,7 @@
         <?php if (isset($data['report'])) { ?>
 
           <div class="section__background">
-            <h3 class="section__text">État de l'animal : <?= strtoupper($data['report']->getStatut()) ?> </h3>
+            <h3>État de l'animal : <?= strtoupper($data['report']->getStatut()) ?> </h3>
             <?php
             $details = $data['report']->getDetails();
             if (!empty($details)) { ?>
