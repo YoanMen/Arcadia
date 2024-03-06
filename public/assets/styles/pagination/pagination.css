@@ -1,5 +1,6 @@
 .pagination {
   display: flex;
+  justify-content: center;
   padding: 16px;
   margin-bottom: 16px;
   background-color: var(--bg-color-dark);

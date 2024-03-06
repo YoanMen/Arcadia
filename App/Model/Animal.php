@@ -100,6 +100,16 @@ class Animal extends Model
   {
     $this->images[] = $image;
   }
+
+  public function getAllImagePath(): array|null
+  {
+    $imagesPath = [];
+
+    foreach ($this->images as $image) {
+      $imagesPath[] = $image->getPath();
+    }
+    return $imagesPath ?? null;
+  }
   public function findImages(): array|null
   {
     try {
@@ -125,4 +135,6 @@ class Animal extends Model
       throw new DatabaseException("Error findImages habitat : " . $e->getMessage(), $e->getCode(), $e);
     }
   }
+
+
 }

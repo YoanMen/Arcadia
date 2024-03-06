@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use DateTime;
-
 class Schedule extends Model
 {
   protected string $table = 'schedule';

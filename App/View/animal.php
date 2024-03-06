@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
     <?= APP_NAME ?>
-    | Habitat - <?= (isset($data['habitat'])) ? $data['habitat']->getName() : null  ?>
+    | <?= (isset($data['animal'])) ? $data['habitat'] .  ' ' .  $data['animal']->getName() : null  ?>
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
 
@@ -27,47 +27,42 @@
 <body>
   <?php require_once '../App/View/partials/_menu.php' ?>
   <main>
-    <section class="section" name="habitat-details">
+    <section class="section" name="animal">
       <?php
-      if (isset($data['habitat'])) {
+      if (isset($data['animal']) && isset($data['habitat'])) {
         $elements = [
           ['name' => "Habitats", 'path' =>  ROOT . '/habitats'],
-          ['name' => $data['habitat']->getName(), 'path' => '']
+          ['name' => ucfirst($data['habitat']), 'path' =>  ROOT . '/habitats/' . $data['habitat']],
+          ['name' => $data['animal']->getName(), 'path' => '']
         ];
         require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-        <h1 class="section__title--secondary"><?= $data['habitat']->getName() ?></h1>
-
+        <h1 class="section__title--secondary"><?= $data['animal']->getName() ?>
+          (<?= $data['animal']->getRace() ?>) </h1>
         <div class='image'>
           <?php
-          $images = $data['habitat']->getAllImagePath();
+          $images = $data['animal']->getAllImagePath();
           $autoplay = false;
           require_once '../App/View/partials/_carousel.php'
           ?>
         </div>
-        <p class="section__text"><?= $data['habitat']->getDescription() ?> </p>
-        <ul>
-          <?php
-          if (isset($data['animals'])) {
-            foreach ($data['animals'] as $animal) {
-              $haveImage = $animal->getImage(0);
-              $textBtn = "En savoir plus";
-              $redirection =  ROOT . '/habitats/' . setURLWithName($data['habitat']->getName())  . '/'
-                . setURLWithName($animal->getName());
+        <?php if (isset($data['report'])) { ?>
 
-              $pathImg = isset($haveImage) ?  $animal->getImage(0)->getPath() : '';
-              $title = $animal->getRace() . " " . $animal->getName();
-              $text = '';
-
-              require '../App/View/partials/_interactiveCard.php' ?>
-          <?php     }
-          } ?>
-        </ul>
-
-        </div>
+          <div class="section__background">
+            <h3 class="section__text">État de l'animal : <?= strtoupper($data['report']->getStatut()) ?> </h3>
+            <?php
+            $details = $data['report']->getDetails();
+            if (!empty($details)) { ?>
+              <p class="section__text mt"> <?= $details ?> </p>
+            <?php  }  ?>
+          </div>
+        <?php  } else { ?>
+          <div class="section__background">
+            <h3 class="section__text"> Aucune données</h3>
+          </div>
       <?php
-      }
-      ?>
+        }
+      } ?>
     </section>
   </main>
   <?php require_once '../App/View/partials/_footer.php' ?>

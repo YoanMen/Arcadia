@@ -1,8 +1,6 @@
 <?php
+
 namespace App\Model;
-
-use Time;
-
 
 class FoodAnimal extends Model
 {
@@ -122,4 +120,3 @@ class FoodAnimal extends Model
     return $this;
   }
 }
-

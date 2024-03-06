@@ -6,6 +6,7 @@ use App\Core\Exception\DatabaseException;
 use App\Core\Router;
 use App\Model\Animal;
 use App\Model\Habitat;
+use App\Model\ReportAnimal;
 use Exception;
 
 class HabitatController extends Controller
@@ -67,7 +68,46 @@ class HabitatController extends Controller
         throw new DatabaseException('Habitat not exist');
       }
     } catch (Exception $e) {
-      Router::redirect('/error');
+      Router::redirect('error');
+    }
+  }
+
+  public function showAnimal($request)
+  {
+
+
+    try {
+      $name = htmlspecialchars($request['animalName']);
+      $name = str_replace('-', ' ', $name);
+      $habitatName = htmlspecialchars($request['name']);
+      $habitatName = str_replace('-', ' ', $habitatName);
+
+      $habitatRepository = new Habitat();
+      $animalRepository = new Animal();
+
+      $habitat = $habitatRepository->findOneBy(['name' => $habitatName]);
+
+      if (isset($habitat)) {
+        $animal = $animalRepository->findOneBy(['name' => $name, 'habitatId' => $habitat->getId()]);
+
+        if (isset($animal)) {
+          $animal->findImages();
+          $reportRepository = new ReportAnimal();
+          $report =  $reportRepository->findOneBy(['animalId' => $animal->getId()]);
+
+          $this->show('animal', [
+            'animal' => $animal,
+            'habitat' => $habitatName,
+            'report' => $report
+          ]);
+        }
+
+        throw new DatabaseException('Animal not exist');
+      } else {
+        throw new DatabaseException('Habitat for animal not exist');
+      }
+    } catch (Exception $e) {
+      Router::redirect('error');
     }
   }
 }

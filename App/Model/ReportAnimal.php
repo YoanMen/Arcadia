@@ -1,17 +1,20 @@
 <?php
-namespace App\Model;
 
-use DateTime;
+namespace App\Model;
 
 class ReportAnimal extends Model
 {
   protected string $table = 'reportAnimal';
   private int $id;
-  private int $userID;
+
+  private string $statut;
+  private int $animalID;
   private string $food;
   private float $weight;
   private string $date;
   private string $details;
+
+
 
   /**
    * Get the value of id
@@ -32,19 +35,37 @@ class ReportAnimal extends Model
   }
 
   /**
-   * Get the value of userID
+   * Get the value of statut
    */
-  public function getUserID(): int
+  public function getStatut(): string
   {
-    return $this->userID;
+    return $this->statut;
   }
 
   /**
-   * Set the value of userID
+   * Set the value of statut
    */
-  public function setUserID(int $userID): self
+  public function setStatut(string $statut): self
   {
-    $this->userID = $userID;
+    $this->statut = $statut;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of animalID
+   */
+  public function getAnimalID(): int
+  {
+    return $this->animalID;
+  }
+
+  /**
+   * Set the value of animalID
+   */
+  public function setAnimalID(int $animalID): self
+  {
+    $this->animalID = $animalID;
 
     return $this;
   }
