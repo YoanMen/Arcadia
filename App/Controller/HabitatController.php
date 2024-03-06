@@ -100,9 +100,9 @@ class HabitatController extends Controller
             'habitat' => $habitatName,
             'report' => $report
           ]);
+        } else {
+          throw new DatabaseException('Animal not exist');
         }
-
-        throw new DatabaseException('Animal not exist');
       } else {
         throw new DatabaseException('Habitat for animal not exist');
       }

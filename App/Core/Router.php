@@ -21,7 +21,7 @@ class Router
 
     $getRoute = $router->getRoute($method, $uri);
     if ($getRoute == null) {
-      // $this->redirect('error');
+      $this->redirect('error');
     }
     $controller = new $getRoute['controller']();
     $action = $getRoute['action'];
