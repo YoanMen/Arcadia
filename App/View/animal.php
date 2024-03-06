@@ -6,15 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
     <?= APP_NAME ?>
-    | <?= (isset($data['animal'])) ? $data['habitat'] .  ' ' .  $data['animal']->getName() : null  ?>
+    | <?= ucfirst($data['habitat'])  . ' - ' .  $data['animal']->getName()   ?>
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
-
-
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
-
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
