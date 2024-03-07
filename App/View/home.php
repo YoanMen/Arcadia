@@ -35,16 +35,18 @@
   <?php require_once '../App/View/partials/_menu.php' ?>
 
   <dialog class='dialog'>
-    <button class='dialog__close button button--cube'><svg fill='white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <button class='dialog__close button button--cube'>
+      <svg fill='white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-      </svg></button>
+      </svg>
+    </button>
     <h4>Ajouter un Avis</h4>
     <form method="dialog" class="dialog__form">
       <label for="pseudo">Pseudo </label>
       <input required type="text" name="pseudo" id="pseudo">
       <label for="message">Message</label>
       <textarea required name="message" id="message" cols="30" rows="10"></textarea>
-      <button class="button">Envoyer mon avis</button>
+      <button disabled id="send-button" class="button">Envoyer mon avis</button>
     </form>
   </dialog>
 
@@ -106,7 +108,7 @@
           foreach ($data['habitats'] as $habitat) {
             $haveImage = $habitat->getImage(0);
             $textBtn = "Découvrir cette habitat";
-            $redirection =  ROOT . '/habitats/' . setURLWithName($habitat->getName());
+            $redirection =   'habitats/' . setURLWithName($habitat->getName());
             $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
             $title = $habitat->getName();
             $text = $habitat->getDescription();

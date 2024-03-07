@@ -68,7 +68,6 @@ function setMenuType() {
   }
 }
 
-console.log(location.hostname);
 // fetch data
 async function initDataMenu() {
   const r = await fetch("/public/api/initmenu", {

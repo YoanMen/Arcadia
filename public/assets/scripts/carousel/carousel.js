@@ -11,7 +11,6 @@ carousels.forEach((carousel) => {
   let autoplay = carousel.hasAttribute("autoplay");
   let animationAutoplay;
   let currentImage;
-  console.log(autoplay);
   if (autoplay) {
     startAutoplay();
     carousel.addEventListener("touchstart", () => {

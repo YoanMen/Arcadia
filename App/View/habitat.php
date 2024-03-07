@@ -47,7 +47,7 @@
           foreach ($data['habitats'] as $habitat) {
             $haveImage = $habitat->getImage(0);
             $textBtn = "Découvrir cette habitat";
-            $redirection = ROOT . '/habitats/' . setURLWithName($habitat->getName());
+            $redirection =  'habitats/' . setURLWithName($habitat->getName());
             $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
             $title = $habitat->getName();
             $text = $habitat->getDescription();

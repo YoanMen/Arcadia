@@ -98,6 +98,7 @@ input {
   background-color: var(--bg-color-light);
   border-style: none;
   border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 input[type="button"] {
@@ -113,10 +114,10 @@ textarea {
   border-radius: 5px;
   font-family: var(--font-luciole);
   background-color: var(--bg-color-light);
-
   padding: 6px;
   font-size: 1.1rem;
   resize: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 hr {

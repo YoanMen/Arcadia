@@ -2,6 +2,7 @@ const dialog = document.querySelector("dialog");
 const form = document.querySelector(".dialog__form");
 const closeButton = document.querySelector(".dialog__close");
 const addBtn = document.getElementById("add-testimonial");
+const sendBtn = document.getElementById("send-button");
 const csrf_token = document.head.querySelector(
   'meta[name="csrf-token"]'
 ).content;
