@@ -197,6 +197,12 @@ input[type="button"]:hover {
   color: var(--bg-color-light);
 }
 
+.error {
+  color: red;
+  font-family: var(--font-luciole);
+  font-size: 0.95rem;
+}
+
 .menus {
   display: flex;
   width: 100%;
