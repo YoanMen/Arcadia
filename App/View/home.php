@@ -24,6 +24,8 @@
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
+
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
 
 </head>
@@ -32,6 +34,19 @@
 
   <?php require_once '../App/View/partials/_menu.php' ?>
 
+  <dialog class='dialog'>
+    <button class='dialog__close button button--cube'><svg fill='white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+      </svg></button>
+    <h4>Ajouter un Avis</h4>
+    <form method="dialog" class="dialog__form">
+      <label for="pseudo">Pseudo </label>
+      <input required type="text" name="pseudo" id="pseudo">
+      <label for="message">Message</label>
+      <textarea required name="message" id="message" cols="30" rows="10"></textarea>
+      <button class="button">Envoyer mon avis</button>
+    </form>
+  </dialog>
 
   <div class="hero">
     <?php
@@ -39,8 +54,6 @@
     $autoplay = true;
     require '../App/View/partials/_carousel.php' ?>
   </div>
-
-
 
   <main>
     <section class="section" id="about">
@@ -140,10 +153,12 @@
 
       <?php
       $title = "Laissez-nous votre avis";
-      $path = '#';
-      $textBtn = 'Laisser un commentaire';
+      $path = null;
+      $textBtn = 'Laisser un avis';
+      $idName = 'add-testimonial';
       require '../App/View/partials/_buttonCard.php' ?>
     </section>
+
 
     <section class="section" id="schedule">
       <h2 class="section__title">
@@ -156,6 +171,8 @@
   <script src="<?= ROOT ?>/assets/scripts/carousel/carousel.js"></script>
   <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonial-slider.js"> </script>
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
+  <script src="<?= ROOT ?>/assets/scripts/dialogTestimonial.js"></script>
+
 </body>
 
 </html>

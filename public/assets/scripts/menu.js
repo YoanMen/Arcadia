@@ -15,7 +15,7 @@ initDataMenu().then(async (data) => {
   data.services.forEach((service) => {
     const urlName = service.name.replaceAll(" ", "-").toLowerCase();
     serviceList += `  <li>
-    <a href="${window.location.origin}/Arcadia/public/services/${urlName} ">
+    <a href="/public/services/${urlName} ">
       ${service.name} 
     </a>
   </li>`;
@@ -24,7 +24,7 @@ initDataMenu().then(async (data) => {
   data.habitats.forEach((habitat) => {
     const urlName = habitat.name.replaceAll(" ", "-").toLowerCase();
     habitatList += `  <li>
-    <a href="${window.location.origin}/Arcadia/public/habitats/${urlName} ">
+    <a href="/public/habitats/${urlName} ">
       ${habitat.name} 
     </a>
   </li>`;
@@ -58,7 +58,7 @@ function setMenuType() {
   const scrollPosition = window.scrollY;
   if (
     (scrollPosition >= 0 && scrollPosition != 0) ||
-    window.location != window.location.origin + "/Arcadia/public/"
+    window.location.pathname != "/public/"
   ) {
     desktopMenu.classList.remove("desktop-menu");
     desktopMenu.classList.add("desktop-menu--fixed");
@@ -68,17 +68,15 @@ function setMenuType() {
   }
 }
 
+console.log(location.hostname);
 // fetch data
 async function initDataMenu() {
-  const r = await fetch(
-    window.location.origin + "/Arcadia/public/api/initmenu",
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    }
-  );
+  const r = await fetch("/public/api/initmenu", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  });
   if (r.ok) {
     return r.json();
   }

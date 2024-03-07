@@ -45,7 +45,7 @@ class HomeController extends Controller
 			$servicesRepository = new Service;
 			$services = $servicesRepository->fetchAll(associative: true);
 			$habitatRepository = new Habitat;
-			$habitats = $habitatRepository->fetchAll(associative : true);
+			$habitats = $habitatRepository->fetchAll(associative: true);
 			header('Content-Type: application/json');
 			echo json_encode(['services' => $services, 'habitats' => $habitats]);
 		} catch (DatabaseException $e) {

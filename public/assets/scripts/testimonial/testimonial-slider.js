@@ -81,7 +81,7 @@ function initializeTestimonialSlider() {
   }
 
   async function getAdviceCount() {
-    const r = await fetch("api/advice/count", {
+    const r = await fetch("/public/api/advice/count", {
       method: "GET",
       headers: {
         "X-CSRF-TOKEN": csrf_token,
@@ -96,7 +96,7 @@ function initializeTestimonialSlider() {
   }
 
   async function getNextAdvice() {
-    const r = await fetch("api/advice/" + (currentAdvice + 1), {
+    const r = await fetch("/public/api/advice/" + (currentAdvice + 1), {
       method: "GET",
       headers: {
         "X-CSRF-TOKEN": csrf_token,
@@ -111,7 +111,7 @@ function initializeTestimonialSlider() {
   }
 
   async function getPreviousAdvice() {
-    const r = await fetch("api/advice/" + (currentAdvice - 1), {
+    const r = await fetch("/public/api/advice/" + (currentAdvice - 1), {
       method: "GET",
       headers: {
         "X-CSRF-TOKEN": csrf_token,

@@ -79,7 +79,13 @@ h3 {
   font-weight: 400;
   font-size: 2.2rem;
 }
-p {
+
+h4 {
+  font-family: var(--font-kodchasan);
+  font-size: 2rem;
+}
+p,
+label {
   font-family: var(--font-kodchasan);
   font-size: 1.2rem;
 }
@@ -106,6 +112,8 @@ textarea {
   border-style: none;
   border-radius: 5px;
   font-family: var(--font-luciole);
+  background-color: var(--bg-color-light);
+
   padding: 6px;
   font-size: 1.1rem;
   resize: none;
@@ -140,6 +148,7 @@ hr {
 
 .button {
   display: flex;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -150,8 +159,10 @@ hr {
   background-color: var(--btn-color);
   color: white;
   text-decoration: none;
+  border: none;
   font-weight: 400;
   font-family: var(--font-luciole);
+  font-size: 1rem;
 }
 
 .button:not(:disabled) {

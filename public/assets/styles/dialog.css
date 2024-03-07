@@ -1,0 +1,38 @@
+dialog {
+  z-index: 100;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border: none;
+  padding: 16px;
+  border-radius: 5px;
+}
+
+::backdrop {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.dialog__form {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dialog__form label {
+  display: block;
+}
+.dialog__form input,
+.dialog__form button,
+.dialog__form textarea {
+  width: 100%;
+}
+
+.dialog__close {
+  float: right;
+}
+@media screen and (max-width: 762px) {
+  dialog {
+    width: 100%;
+  }
+}

@@ -9,7 +9,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('DB_DRIVER', '');
 
 	define('BASE_URL', 'http://localhost');
-	define('ROOT', 'http://localhost/Arcadia/public');
+	define('ROOT', 'http://localhost/public');
 } else {
 	/** database config**/
 	define('DB_NAME', 'my_db');

@@ -9,6 +9,25 @@ use App\Model\Advice;
 class AdviceController extends Controller
 {
 
+  public function sendAdvice()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (
+      Security::verifyCsrf($csrf)
+      && $_SERVER['REQUEST_METHOD'] ===  'POST'
+    ) {
+
+      $content = trim(file_get_contents("php://input"));
+
+      $data = json_decode($content, true);
+
+      echo json_encode($data);
+    } else {
+      http_response_code(401);
+      echo json_encode(['error' => 'CSRF token is not valid']);
+    }
+  }
+
   public function getAdvice($request)
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
