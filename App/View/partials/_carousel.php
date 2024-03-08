@@ -11,7 +11,7 @@
     <?php
     foreach ($images as $image) { ?>
       <div class="carousel__item">
-        <img src="<?= ROOT ?>/uploads/<?= $image ?>" alt="">
+        <img src="<?= ROOT ?>/uploads/<?= $image ?>" alt="image of carousel" loading="eager">
       </div>
     <?php } ?>
   </div>

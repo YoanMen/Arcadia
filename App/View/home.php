@@ -16,18 +16,14 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/hero/hero.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/schedule.css">
-
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/btn-card.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/testimonial.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/carousel.css">
-
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
-
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
-
 </head>
 
 <body>
