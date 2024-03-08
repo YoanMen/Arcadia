@@ -11,35 +11,21 @@ class AuthController extends Controller
 
   public function index()
   {
+
     if (!Security::isLogged()) {
-      Router::redirect('login');
-    }
-
-    if (Security::isAdmin()) {
-
-      $this->show('admin/dashboard');
+      $this->show('admin/login');
     } else {
-      Router::redirect();
+      Router::redirect('dashboard');
     }
   }
 
   public function login()
   {
 
-    if (Security::isLogged()) {
-
-      if (Security::isAdmin()) {
-
-        Router::redirect('dashboard');
-      } else {
-        Router::redirect();
-      }
-    }
-
     $error = null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $email = htmlspecialchars($_POST['email']);
+      $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
       $password = htmlspecialchars($_POST['password']);
 
       if (Security::verifyCsrf($_POST['csrf_token'])) {
@@ -57,14 +43,14 @@ class AuthController extends Controller
 
           Router::redirect('dashboard');
         } else {
-          $error = "email or password is wrong";
+          $error = "adresse email ou mot de passe incorrecte";
         }
       } else {
         $error = "csrf token is invalid";
       }
     }
 
-
+    sleep(1);
     $this->show('admin/login', ['error' => $error]);
   }
 

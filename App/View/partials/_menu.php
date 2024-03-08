@@ -1,5 +1,8 @@
 <?php
 // need script menu.js
+
+use App\Core\Security;
+
 ?>
 
 <header class="menus">
@@ -42,10 +45,16 @@
               Contact
             </a>
           </li>
-          <li class="mobile-menu__item">
-            <a href="">
-              Connexion
-            </a>
+          <li>
+            <?php if (Security::isLogged()) { ?>
+              <a href="<?= ROOT ?>/dashboard">
+                Dashboard
+              </a>
+            <?php } else { ?>
+              <a href="<?= ROOT ?>/login">
+                Connexion
+              </a>
+            <?php  } ?>
           </li>
         </ul>
       </nav>
@@ -82,9 +91,15 @@
           </a>
         </li>
         <li>
-          <a href="#">
-            Connexion
-          </a>
+          <?php if (Security::isLogged()) { ?>
+            <a href="<?= ROOT ?>/dashboard">
+              Dashboard
+            </a>
+          <?php } else { ?>
+            <a href="<?= ROOT ?>/login">
+              Connexion
+            </a>
+          <?php  } ?>
         </li>
       </ul>
     </nav>

@@ -34,11 +34,11 @@ $router->addRoute('POST', ROOT . '/upload', 'UploadController', 'uploadFile');
 
 $router->addRoute('GET', ROOT . '/test/{paramName}', 'HomeController', 'withParams');
 
-$router->addRoute('GET', ROOT . '/login', 'AuthController', 'login');
+$router->addRoute('GET', ROOT . '/login', 'AuthController', 'index');
 $router->addRoute('POST', ROOT . '/login', 'AuthController', 'login');
 $router->addRoute('GET', ROOT . '/logout', 'AuthController', 'logout');
 
-$router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
+$router->addRoute('GET', ROOT . '/dashboard', 'AdminController', 'index');
 
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
 $router->addRoute('GET', ROOT . '/api/advice/count', 'AdviceController', 'getAdviceCount');
