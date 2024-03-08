@@ -3,7 +3,6 @@ const form = document.querySelector(".dialog__form");
 const closeButton = document.querySelector(".dialog__close");
 const addBtn = document.getElementById("add-testimonial");
 const sendBtn = document.getElementById("send-button");
-
 const pseudoInput = document.getElementById("pseudo");
 const messageInput = document.getElementById("message");
 
@@ -16,15 +15,12 @@ messageInput.addEventListener("input", CanSend);
 
 addBtn.addEventListener("click", () => {
   dialog.showModal();
+  pseudoInput.focus();
   document.body.classList.add("no-scroll");
 });
 
 closeButton.addEventListener("click", () => {
   dialog.close();
-});
-
-dialog.addEventListener("open", () => {
-  document.body.classList.add("no-scroll");
 });
 
 dialog.addEventListener("close", () => {

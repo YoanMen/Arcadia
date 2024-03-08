@@ -54,7 +54,7 @@
     <?php
     $images = ['792358.webp', '248314-5fdccad0f507.webp',  '1548643.webp'];
     $autoplay = true;
-    require '../App/View/partials/_carousel.php' ?>
+    require_once '../App/View/partials/_carousel.php' ?>
   </div>
 
   <main>
@@ -171,7 +171,7 @@
     </section>
   </main>
 
-  <?php require '../App/View/partials/_footer.php' ?>
+  <?php require_once '../App/View/partials/_footer.php' ?>
   <script src="<?= ROOT ?>/assets/scripts/carousel/carousel.js"></script>
   <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonial-slider.js"> </script>
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
