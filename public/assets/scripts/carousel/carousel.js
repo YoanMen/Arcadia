@@ -1,6 +1,6 @@
 const carousels = document.querySelectorAll(".carousel");
 const button = `<button id="" type="button" class="carousel__element"></button>`;
-const offset = 50;
+const offset = 150;
 const delay = 6;
 
 carousels.forEach((carousel) => {
@@ -52,15 +52,18 @@ carousels.forEach((carousel) => {
 
     const buttons = select[0].querySelectorAll(".carousel__element");
     currentImage = 0;
+
     detectScrollPosition(buttons[0], buttons);
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
+        stopAutoplay();
         currentImage = button.id;
         container[0].scrollTo({
           behavior: "smooth",
           left: img[button.id].offsetLeft,
         });
+        startAutoplay();
       });
 
       container[0].addEventListener("scroll", () =>

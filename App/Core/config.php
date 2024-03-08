@@ -22,7 +22,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('ROOT', 'https://www.yourwebsite.com');
 }
 
-define('APP_NAME', "Arcadia");
+define('APP_NAME', "Zoo Arcadia");
 define('APP_DESC', "Arcadia Zoo official website");
 
 /** true means show errors **/
