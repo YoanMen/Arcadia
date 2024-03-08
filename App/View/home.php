@@ -43,9 +43,9 @@
     <h4>Ajouter un Avis</h4>
     <form method="dialog" class="dialog__form">
       <label for="pseudo">Pseudo </label>
-      <input required type="text" name="pseudo" id="pseudo">
+      <input required type="text" name="pseudo" id="pseudo" minlength="3" maxlength="20">
       <label for="message">Message</label>
-      <textarea required name="message" id="message" cols="30" rows="10"></textarea>
+      <textarea required name="message" id="message" cols="30" rows="10" minlength="3" maxlength="200"></textarea>
       <button disabled id="send-button" class="button">Envoyer mon avis</button>
     </form>
   </dialog>
@@ -58,6 +58,8 @@
   </div>
 
   <main>
+
+
     <section class="section" id="about">
       <h1 class="section__title">
         Le Zoo Arcadia

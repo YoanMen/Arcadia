@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model;
 
 class Advice extends Model
@@ -69,7 +70,7 @@ class Advice extends Model
   /**
    * Get the value of approved
    */
-  public function isApproved(): bool
+  public function getApproved(): bool
   {
     return $this->approved;
   }

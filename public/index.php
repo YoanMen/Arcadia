@@ -43,9 +43,6 @@ $router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
 $router->addRoute('GET', ROOT . '/api/advice/count', 'AdviceController', 'getAdviceCount');
 $router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAdvice');
-$router->addRoute('POST', ROOT . '/api/advice/post', 'AdviceController', 'postAdvice');
-$router->addRoute('POST', ROOT . '/api/advice/delete', 'AdviceController', 'deleteAdvice');
-$router->addRoute('POST', ROOT . '/api/advice/update', 'AdviceController', 'updateAdvice');
 $router->addRoute('GET', ROOT . '/api/advice/{id}', 'AdviceController', 'getAdvice');
 
 $router->goRoute($router);

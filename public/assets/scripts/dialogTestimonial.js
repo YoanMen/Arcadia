@@ -26,18 +26,17 @@ closeButton.addEventListener("click", () => {
 dialog.addEventListener("open", () => {
   document.body.classList.add("no-scroll");
 });
+
 dialog.addEventListener("close", () => {
   document.body.classList.remove("no-scroll");
 });
 
 dialog.addEventListener("submit", (e) => {
   e.preventDefault();
-
   sendAdvice();
 });
 
 function CanSend() {
-  console.log(messageInput.value.length);
   if (messageInput.value.length != 0 && pseudoInput.value.length != 0) {
     sendBtn.disabled = false;
   } else {
@@ -59,13 +58,18 @@ async function sendAdvice() {
     }),
   });
 
-  if (r.ok) {
-    form.innerHTML = `<p>Votre avis à été envoyé, il sera visible après validation</p>`;
-    // advice send
+  if (r.status == 201) {
+    form.innerHTML = `<div class="success">
+                        <p>Votre avis à été envoyé, il sera visible après validation</p>
+                     </div>`;
+  } else {
+    r.json().then((data) => {
+      let div = document.createElement("div");
+      div.innerHTML = ` <div class="error">
+                          <p >Erreur : ${data.error} </p>
+                        </div>`;
+
+      form.insertBefore(div, form.firstChild);
+    });
   }
-
-  console.log(r);
-  form.innerHTML = `<p>Erreur :</p>`;
-
-  throw new Error("Cant get advice");
 }

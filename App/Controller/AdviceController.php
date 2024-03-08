@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use App\Core\Router;
+use App\Core\Exception\DatabaseException;
 use App\Core\Security;
+use App\Core\Validator;
 use App\Model\Advice;
+use Exception;
 
 class AdviceController extends Controller
 {
@@ -16,12 +18,23 @@ class AdviceController extends Controller
       Security::verifyCsrf($csrf)
       && $_SERVER['REQUEST_METHOD'] ===  'POST'
     ) {
+      try {
+        $content = trim(file_get_contents("php://input"));
+        $data = json_decode($content, true);
+        $pseudo = htmlspecialchars($data['pseudo']);
+        $message =  htmlspecialchars($data['message']);
 
-      $content = trim(file_get_contents("php://input"));
+        Validator::lengthCorrect($pseudo, 3, 20, 'Le nombres de caractère pour le pseudo dois être entre 3 et 20.');
+        Validator::lengthCorrect($message, 3, 200, 'Le nombres de caractère pour le message dois être entre 3 et 200.');
 
-      $data = json_decode($content, true);
+        $adviceRepository = new Advice();
+        $adviceRepository->insert(['pseudo' => $pseudo, 'advice' => $message]);
 
-      echo json_encode($data);
+        http_response_code(201);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
     } else {
       http_response_code(401);
       echo json_encode(['error' => 'CSRF token is not valid']);
@@ -54,7 +67,7 @@ class AdviceController extends Controller
           http_response_code(404);
           echo json_encode(['error' => 'Advice not found']);
         }
-      } catch (\Exception $e) {
+      } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);
       }
@@ -80,7 +93,7 @@ class AdviceController extends Controller
           http_response_code(204);
           echo json_encode(['error' => 'No advice']);
         }
-      } catch (\Exception $e) {
+      } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);
       }
@@ -89,13 +102,20 @@ class AdviceController extends Controller
       echo json_encode(['error' => 'CSRF token is not valid']);
     }
   }
-
-
-  public function updateAdvice($request)
+  public function approvedAdvice(int $id)
   {
-  }
+    $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+    try {
+      $adviceRepository = new Advice();
+      $advice = $adviceRepository->findOneBy(['id' => $id]);
 
-  public function insertAdvice()
-  {
+      if (isset($advice)) {
+        $advice->setApproved(true);
+
+        $adviceRepository->update(['approved' => $advice->getApproved()], $id);
+      }
+    } catch (Exception $e) {
+      throw new DatabaseException('Impossible d\'approuver l\'avis');
+    }
   }
 }

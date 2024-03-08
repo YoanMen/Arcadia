@@ -198,9 +198,13 @@ input[type="button"]:hover {
 }
 
 .error {
-  color: red;
-  font-family: var(--font-luciole);
-  font-size: 0.95rem;
+  background-color: #f8d7da;
+  padding: 12px;
+}
+
+.success {
+  background-color: #d4edda;
+  padding: 12px;
 }
 
 .menus {
