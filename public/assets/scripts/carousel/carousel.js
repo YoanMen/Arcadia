@@ -53,7 +53,9 @@ carousels.forEach((carousel) => {
     const buttons = select[0].querySelectorAll(".carousel__element");
     currentImage = 0;
 
-    detectScrollPosition(buttons[0], buttons);
+    buttons.forEach((button) => {
+      detectScrollPosition(button, buttons);
+    });
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {

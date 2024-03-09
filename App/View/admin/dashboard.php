@@ -10,11 +10,11 @@
 
 <body>
 
-  <div class="dashboard-container">
-    <h2>Welcome to your dashboard</h2>
-    <p>You can now access all the features reserved for our registered users.</p>
-    <a href="logout">Logout</a>
-  </div>
+  <main>
+    <div class="dashboard-container">
+      <a href="logout">Logout</a>
+    </div>
+  </main>
 
 </body>
 
