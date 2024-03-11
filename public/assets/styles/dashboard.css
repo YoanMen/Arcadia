@@ -1,33 +1,76 @@
-.dashboard {
-  padding-left: 300px;
+.dashboard__logo {
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.dashboard__list {
   width: 100%;
-  max-width: 100%;
 }
 
 .dashboard__top {
   position: fixed;
   width: 100%;
   height: 60px;
-  padding-left: 300px;
+  padding-left: 200px;
   padding-right: 16px;
   background-color: var(--bg-color-light);
   box-shadow: -15px -15px 10px 15px #111;
   display: flex;
-  align-items: center;
   justify-content: end;
 }
 
 .dashboard__top ul {
   display: flex;
   gap: 16px;
+  align-items: center;
+}
+
+.list__item a {
+  font-family: var(--font-kodchasan);
+  font-size: 1.3rem;
+}
+
+.list__item a:hover {
+  color: var(--btn-color);
+}
+
+.list__item:first-child {
+  margin-top: 32px;
+}
+
+.list__item > a {
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard {
+  flex-grow: 0;
+  padding-top: 60px;
+  padding-left: 200px;
+  max-width: 100%;
+}
+
+.dashboard__container {
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
 }
 
 .dashboard__panel {
-  position: absolute;
+  position: fixed;
   z-index: 1;
   height: 100vh;
-  width: 300px;
+  overflow: scroll;
+  width: 200px;
   background-color: var(--bg-color-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
 }
 
 .dashboard__panel svg {
@@ -35,7 +78,71 @@
   width: 100%;
 }
 
-.list__item a {
-  font-family: var(--font-kodchasan);
-  font-size: 1.3rem;
+.dashboard__element {
+  padding: 6px;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  width: calc(40% - 16px);
+}
+
+.element__table > table {
+  padding-top: 16px;
+}
+
+.dashboard__element[name="habitat-detail"] {
+  width: 60%;
+}
+
+.dashboard__element[name="animal-report"] {
+  width: 100%;
+}
+
+.element__chart {
+  padding-bottom: 32px;
+}
+
+td {
+  text-align: center;
+}
+
+.element__title {
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+}
+
+.element__search input {
+  width: 100%;
+}
+
+@media screen and (max-width: 762px) {
+  .list__item span {
+    visibility: hidden;
+  }
+
+  .dashboard__panel {
+    width: 60px;
+    align-items: center;
+  }
+
+  .dashboard {
+    margin: 0;
+    padding-left: 60px;
+  }
+
+  .list__item {
+    width: 100%;
+  }
+
+  .dashboard__logo {
+    visibility: collapse;
+  }
+
+  .dashboard__element {
+    width: 100%;
+    height: fit-content;
+  }
+
+  .dashboard__element[name="habitat-detail"] {
+    width: 100%;
+  }
 }

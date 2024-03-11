@@ -85,9 +85,42 @@ h4 {
   font-size: 2rem;
 }
 p,
-label {
+label,
+td,
+th {
   font-family: var(--font-kodchasan);
   font-size: 1.2rem;
+}
+
+th {
+  font-size: 1.3rem;
+}
+
+tr {
+  height: 40px;
+}
+
+tbody {
+  display: block;
+  height: 160px;
+  overflow: scroll;
+  background-color: var(--bg-color-light);
+}
+
+thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.table__button {
+  cursor: pointer;
+  background-color: var(--btn-color);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-family: var(--font-luciole);
+  border-radius: 5px;
 }
 
 input {
@@ -118,6 +151,10 @@ textarea {
   font-size: 1.1rem;
   resize: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+input::placeholder {
+  opacity: 0.2;
 }
 
 hr {
