@@ -116,7 +116,7 @@ class Model extends Database
 
       return $results;
     } catch (PDOException $e) {
-      throw new DatabaseException("Error fetchAll data: " . $e->getMessage(), $e->getCode(), $e);
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
     }
   }
   /**
@@ -178,7 +178,7 @@ class Model extends Database
 
       return $results;
     } catch (PDOException $e) {
-      throw new DatabaseException("Error find data: " . $e->getMessage(), $e->getCode(), $e);
+      throw new DatabaseException("Error find data: " . $e->getMessage());
     }
   }
   /**
@@ -208,7 +208,7 @@ class Model extends Database
 
       return is_bool($result) ? null : $result;
     } catch (PDOException $e) {
-      throw new DatabaseException("Error findOneBy data: " . $e->getMessage(), $e->getCode(), $e);
+      throw new DatabaseException("Error findOneBy data: " . $e->getMessage());
     }
   }
   /**
@@ -226,7 +226,7 @@ class Model extends Database
       $stm = $this->bindParams($stm, $data);
       $stm->execute();
     } catch (PDOException $e) {
-      throw new DatabaseException("Error inserting data: " . $e->getMessage(), $e->getCode(), $e);
+      throw new DatabaseException("Error inserting data: " . $e->getMessage());
     }
   }
   /**
@@ -247,7 +247,7 @@ class Model extends Database
       $stm = $this->bindParams($stm, ['id' => $id]);
       $stm->execute();
     } catch (PDOException $e) {
-      throw new DatabaseException("Error Updating data: " . $e->getMessage(), $e->getCode(), $e);
+      throw new DatabaseException("Error Updating data: " . $e->getMessage());
     }
   }
   /**
@@ -265,7 +265,7 @@ class Model extends Database
       $stm = $this->bindParams($stm, $where);
       $stm->execute();
     } catch (PDOException $e) {
-      throw new DatabaseException("Error delete data: " . $e->getMessage(), $e->getCode(), $e);
+      throw new DatabaseException("Error delete data: " . $e->getMessage());
     }
   }
   /**
@@ -309,7 +309,7 @@ class Model extends Database
    * @param  $whereNot WHERE NOT
    * @return string
    */
-  private function setWhere($where, $whereNot = []): string
+  protected function setWhere($where, $whereNot = []): string
   {
     $keysValue = '';
 
@@ -327,7 +327,7 @@ class Model extends Database
    * @param  $data of keys
    * @return string
    */
-  private function setInsert($data): string
+  protected function setInsert($data): string
   {
     $insertKeys = '(';
 
@@ -351,7 +351,7 @@ class Model extends Database
    * @param  $data of keys
    * @return string
    */
-  private function setUpdate($data)
+  protected function setUpdate($data)
   {
     $keysValue = '';
 

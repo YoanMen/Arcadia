@@ -1,5 +1,10 @@
 <?php
+
 namespace App\Model;
+
+use App\Core\Exception\DatabaseException;
+use PDO;
+use PDOException;
 
 class HabitatComment extends Model
 {
@@ -61,5 +66,62 @@ class HabitatComment extends Model
     $this->comment = $comment;
 
     return $this;
+  }
+
+  public function fetchHabitatsComment(string $order = 'ASC'): array|null
+  {
+    try {
+      $results = null;
+
+      if ($order !== 'ASC' && $order !== 'DESC') {
+        $order = 'ASC';
+      }
+
+      $pdo = $this->connect();
+
+      $query = "SELECT habitatComment.habitatID, habitatComment.userID,
+      habitatComment.comment, habitat.name AS habitatName, user.email as userName
+      FROM $this->table LEFT JOIN habitat ON habitatComment.habitatID = habitat.id 
+      LEFT JOIN user ON habitatComment.userID = user.id ORDER BY habitat.name $order;";
+
+      $stm = $pdo->prepare($query);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
+  public function getHabitatsCommentByName(string $search): array|null
+  {
+    try {
+      $results = null;
+
+      $search  =  $search . '%';
+      $pdo = $this->connect();
+      $query = "SELECT habitatComment.habitatID, habitatComment.userID,
+      habitatComment.comment, habitat.name AS habitatName, user.email as userName
+      FROM $this->table LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
+      LEFT JOIN user ON habitatComment.userID = user.id  WHERE habitat.name LIKE :search;";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
   }
 }

@@ -1,5 +1,5 @@
 <aside class="dashboard__panel">
-  <a class="dashboard__logo" href="">
+  <a class="dashboard__logo" href="<?= ROOT ?>/">
     <img height="84px" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt="" srcset="">
   </a>
   <ul class="dashboard__list">

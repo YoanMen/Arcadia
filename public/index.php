@@ -40,9 +40,17 @@ $router->addRoute('GET', ROOT . '/logout', 'AuthController', 'logout');
 
 $router->addRoute('GET', ROOT . '/dashboard', 'AdminController', 'index');
 
+
+//API
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
 $router->addRoute('GET', ROOT . '/api/advice/count', 'AdviceController', 'getAdviceCount');
 $router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAdvice');
 $router->addRoute('GET', ROOT . '/api/advice/{id}', 'AdviceController', 'getAdvice');
+
+$router->addRoute('POST', ROOT . '/api/habitats/comment', 'HabitatCommentController', 'getHabitatsComment');
+$router->addRoute('POST', ROOT . '/api/habitats/commentbyname', 'HabitatCommentController', 'getHabitatsCommentByName');
+$router->addRoute('POST', ROOT . '/api/habitats/report', 'HabitatCommentController', 'getReportAnimal');
+
+
 
 $router->goRoute($router);

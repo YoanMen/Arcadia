@@ -141,4 +141,8 @@ class ReportAnimal extends Model
 
     return $this;
   }
+
+  public function fetchReportAnimal()
+  {
+  }
 }

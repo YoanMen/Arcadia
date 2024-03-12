@@ -85,6 +85,10 @@
   width: calc(40% - 16px);
 }
 
+.element__tbody--report {
+  height: calc(40vh - 32px);
+}
+
 .element__table > table {
   padding-top: 16px;
 }
@@ -110,13 +114,29 @@ td {
   font-size: 1.5rem;
 }
 
-.element__search input {
+.element__search {
+  display: flex;
+  gap: 6px;
+}
+
+.element__search input[type="search"] {
   width: 100%;
 }
 
 @media screen and (max-width: 762px) {
   .list__item span {
-    visibility: hidden;
+    display: none;
+  }
+
+  .dashboard__container {
+    padding: 0;
+  }
+
+  .element__search input[type="submit"] {
+    width: 100%;
+  }
+  .element__search {
+    flex-direction: column;
   }
 
   .dashboard__panel {

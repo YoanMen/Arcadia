@@ -23,6 +23,10 @@ class Security
     return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin';
   }
 
+  public static function getUsername(): string|bool
+  {
+    return (isset($_SESSION['user']) && isset($_SESSION['user']['email'])) ? $_SESSION['user']['email'] : false;
+  }
   public static function getCurrentUserId(): int|bool
   {
     return (isset($_SESSION['user']) && isset($_SESSION['user']['id'])) ? $_SESSION['user']['id'] : false;

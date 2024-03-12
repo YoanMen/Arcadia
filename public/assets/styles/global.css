@@ -84,6 +84,11 @@ h4 {
   font-family: var(--font-kodchasan);
   font-size: 2rem;
 }
+
+h5 {
+  font-family: var(--font-kodchasan);
+  font-size: 1.5rem;
+}
 p,
 label,
 td,
@@ -121,6 +126,10 @@ tbody tr {
   padding: 6px 10px;
   font-family: var(--font-luciole);
   border-radius: 5px;
+}
+
+.center {
+  margin: 0 auto;
 }
 
 input {
@@ -252,6 +261,29 @@ input[type="button"]:hover {
   align-items: center;
 }
 
+.loading svg {
+  animation: load linear 0.5s infinite;
+}
+.max-height {
+  height: 100%;
+}
+.max-width {
+  width: 100%;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+@keyframes load {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media screen and (max-width: 762px) {
   .button:not(.button--cube) {
     display: block;
@@ -266,6 +298,10 @@ input[type="button"]:hover {
     padding: 20px 10px;
     font-size: 1.2rem;
     height: 100%;
+  }
+
+  .hidden--mobile {
+    display: none;
   }
 
   :root {

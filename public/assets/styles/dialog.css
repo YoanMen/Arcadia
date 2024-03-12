@@ -7,7 +7,17 @@ dialog {
   border: none;
   padding: 16px;
   border-radius: 5px;
-  width: 600px;
+  width: 400px;
+  overflow: scroll;
+}
+
+.dialog--admin {
+  height: 80%;
+  width: 80%;
+}
+
+.dialog__content {
+  margin-top: 48px;
 }
 
 ::backdrop {
@@ -29,11 +39,25 @@ dialog {
   width: 100%;
 }
 
+.dialog__comment {
+  margin-top: 48px;
+}
+
+.dialog__creator {
+  float: right;
+  font-size: 1rem;
+}
+
 .dialog__close {
   float: right;
 }
 @media screen and (max-width: 762px) {
   dialog {
     width: 100%;
+  }
+
+  .dialog--admin {
+    width: 100%;
+    height: 100%;
   }
 }
