@@ -123,12 +123,27 @@ td {
   width: 100%;
 }
 
+thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+tr:first-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--bg-color-light);
+}
 tbody[id="habitatDetails-tbody"] {
   height: 160px;
 }
 tbody[id="animalReport-tbody"] {
   height: 30vh;
 }
+
 @media screen and (max-width: 762px) {
   .list__item span {
     display: none;

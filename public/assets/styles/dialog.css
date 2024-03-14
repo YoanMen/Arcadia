@@ -56,6 +56,41 @@ dialog {
 .dialog__close {
   float: right;
 }
+
+.dialog__title {
+  margin-bottom: 16px;
+}
+
+.dialog__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog__item:first-child() {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dialog__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 0 var(--padding);
+}
+
+.dialog__item:nth-child(odd) {
+  background-color: var(--bg-color-light);
+}
+
+.dialog__item p:first-child {
+  width: 40%;
+  opacity: 0.5;
+}
+
+.dialog__item p:last-child {
+  padding-left: 6px;
+}
 @media screen and (max-width: 762px) {
   dialog {
     width: 100%;

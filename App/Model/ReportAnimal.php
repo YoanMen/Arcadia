@@ -13,7 +13,7 @@ class ReportAnimal extends Model
   protected string $table = 'reportAnimal';
   private int $id;
 
-  private string $status;
+  private string $statut;
   private int $animalID;
   private string $food;
   private float $weight;
@@ -43,17 +43,17 @@ class ReportAnimal extends Model
   /**
    * Get the value of statut
    */
-  public function getStatus(): string
+  public function getStatut(): string
   {
-    return $this->status;
+    return $this->statut;
   }
 
   /**
    * Set the value of statut
    */
-  public function setStatus(string $statut): self
+  public function setStatut(string $statut): self
   {
-    $this->status = $statut;
+    $this->statut = $statut;
 
     return $this;
   }
@@ -155,19 +155,43 @@ class ReportAnimal extends Model
     return $date->format('d/m/Y');
   }
 
-  public function fetchReportAnimal(): array|null
+  public function fetchReportAnimal(string $search, string $date, string $order, string $orderBy): array|null
   {
-
     try {
       $results = null;
-      $pdo = $this->connect();
 
-      $query = "SELECT reportAnimal.id, animal.name as animalName, user.email as userName, reportAnimal.food,
-              reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.status
+      $search .=  '%';
+
+      if ($order !== 'ASC' && $order !== 'DESC') {
+        $order = 'DESC';
+      }
+
+      $allowedOrderBy = ['id', 'habitatName'];
+      $allowedOrder = ['ASC', 'DESC'];
+
+      if (empty($date)) {
+        $date = null;
+      }
+      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'name';
+      $order = in_array($order, $allowedOrder) ? $order : 'DESC';
+
+
+
+
+      $pdo = $this->connect();
+      $query = "SELECT reportAnimal.id, animal.name as animalName, animal.race as race,
+              user.email as userName, reportAnimal.food,
+              reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
               FROM $this->table LEFT JOIN animal on reportAnimal.animalID = animal.id
-              LEFT JOIN user ON reportAnimal.userID = user.id ";
+              LEFT JOIN user ON reportAnimal.userID = user.id
+              WHERE animal.name LIKE :search OR animal.race LIKE :search AND (:date IS NULL OR reportAnimal.date = :date)
+              ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset;";
+
+
 
       $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+      $stm->bindParam(':date', $date, PDO::PARAM_STR);
 
       if ($stm->execute()) {
         while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
@@ -178,37 +202,6 @@ class ReportAnimal extends Model
 
       return $results;
     } catch (PDOException $e) {
-      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
-    }
-  }
-
-  public function fetchReportAnimalByName($search): array|null
-  {
-
-
-    try {
-      $results = null;
-      $search  =  $search . '%';
-
-      $pdo = $this->connect();
-
-      $query = "SELECT reportAnimal.id, animal.name as animalName, user.email as userName, reportAnimal.food,
-      reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.status
-      FROM $this->table LEFT JOIN animal on reportAnimal.animalID = animal.id
-      LEFT JOIN user ON reportAnimal.userID = user.id WHERE animal.name LIKE  :search; ";
-
-      $stm = $pdo->prepare($query);
-      $stm->bindParam(':search', $search, PDO::PARAM_STR);
-
-      if ($stm->execute()) {
-        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
-          $result['date'] = $this->formatDate($result['date']);
-          $results[] = $result;
-        }
-      }
-
-      return $results;
-    } catch (DatabaseException $e) {
       throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
     }
   }

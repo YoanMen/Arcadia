@@ -1,68 +1,39 @@
-export {
-  getHabitatsComment,
-  getHabitatsCommentByName,
-  getAnimalsDetail,
-  getAnimalsDetailByName,
-};
+export { getHabitatsComment, getAnimalsDetail };
 
 const csrf_token = document.head.querySelector(
   'meta[name="csrf-token"]'
 ).content;
 
-async function getHabitatsComment(order = "ASC") {
+async function getHabitatsComment(search, order, orderBy) {
   const r = await fetch("/public/api/habitats/comment", {
-    method: "POST",
-    headers: {
-      order: order,
-      "X-CSRF-TOKEN": csrf_token,
-      Accept: "application/json",
-    },
-  });
-
-  if (r.ok) {
-    return r.json();
-  }
-}
-
-async function getHabitatsCommentByName(text) {
-  const r = await fetch("/public/api/habitats/commentbyname", {
-    method: "POST",
-    headers: {
-      "X-CSRF-TOKEN": csrf_token,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ search: text }),
-  });
-
-  if (r.ok) {
-    return r.json();
-  }
-}
-
-async function getAnimalsDetail() {
-  const r = await fetch("/public/api/habitats/report", {
-    method: "POST",
-    headers: {
-      "X-CSRF-TOKEN": csrf_token,
-      Accept: "application/json",
-    },
-  });
-
-  if (r.ok) {
-    return r.json();
-  }
-}
-
-async function getAnimalsDetailByName(text) {
-  const r = await fetch("/public/api/habitats/reportbyname", {
     method: "POST",
     headers: {
       "X-CSRF-TOKEN": csrf_token,
       Accept: "application/json",
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ search: text }),
+    body: JSON.stringify({ search: search, order: order, orderBy: orderBy }),
+  });
+
+  if (r.ok) {
+    return r.json();
+  }
+}
+
+async function getAnimalsDetail(search, date, order, orderBy) {
+  const r = await fetch("/public/api/habitats/report", {
+    method: "POST",
+    headers: {
+      "X-CSRF-TOKEN": csrf_token,
+      Accept: "application/json",
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      search: search,
+      date: date,
+      order: order,
+      orderBy: orderBy,
+    }),
   });
 
   if (r.ok) {

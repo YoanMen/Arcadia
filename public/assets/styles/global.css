@@ -75,7 +75,6 @@ h2 {
 }
 h3 {
   font-family: var(--font-kodchasan);
-  color: var(--bg-color-light);
   font-weight: 400;
   font-size: 2.2rem;
 }
@@ -108,7 +107,6 @@ tr {
 tbody {
   display: block;
   overflow: scroll;
-  background-color: var(--bg-color-light);
 }
 
 thead,

@@ -12,6 +12,7 @@
 
 .btn-card__title {
   width: 320px;
+  color: var(--bg-color-light);
 }
 
 @media screen and (max-width: 1180px) {

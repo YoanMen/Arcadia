@@ -68,46 +68,34 @@ class HabitatComment extends Model
     return $this;
   }
 
-  public function fetchHabitatsComment(string $order = 'ASC'): array|null
+  public function fetchHabitatsComment(string $search, string $order, string $orderBy): array|null
   {
     try {
       $results = null;
+
+      $search .=  '%';
 
       if ($order !== 'ASC' && $order !== 'DESC') {
-        $order = 'ASC';
+        $order = 'DESC';
       }
 
+      $allowedOrderBy = ['id', 'habitatName'];
+      $allowedOrder = ['ASC', 'DESC'];
+
+      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
+      $order = in_array($order, $allowedOrder) ? $order : 'ASC';
+
       $pdo = $this->connect();
-
-      $query = "SELECT habitatComment.habitatID, habitatComment.userID,
-      habitatComment.comment, habitat.name AS habitatName, user.email as userName
-      FROM $this->table LEFT JOIN habitat ON habitatComment.habitatID = habitat.id 
-      LEFT JOIN user ON habitatComment.userID = user.id ORDER BY habitat.name $order;";
-      $stm = $pdo->prepare($query);
-
-      if ($stm->execute()) {
-        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
-          $results[] = $result;
-        }
-      }
-
-      return $results;
-    } catch (PDOException $e) {
-      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
-    }
-  }
-
-  public function getHabitatsCommentByName(string $search): array|null
-  {
-    try {
-      $results = null;
-
-      $search  =  $search . '%';
-      $pdo = $this->connect();
-      $query = "SELECT habitatComment.habitatID, habitatComment.userID,
-      habitatComment.comment, habitat.name AS habitatName, user.email as userName
-      FROM $this->table LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
-      LEFT JOIN user ON habitatComment.userID = user.id  WHERE habitat.name LIKE :search;";
+      $query = "SELECT habitatComment.habitatID AS id,
+      habitatComment.comment,
+      habitat.name AS habitatName,
+      user.email AS userName
+      FROM habitatComment
+      LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
+      LEFT JOIN user ON habitatComment.userID = user.id
+      WHERE habitat.name LIKE :search
+      ORDER BY $orderBy  $order
+      LIMIT $this->limit OFFSET $this->offset";
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
