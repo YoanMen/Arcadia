@@ -40,9 +40,12 @@
 
         <div class='image'>
           <?php
-          $images = $data['habitat']->getAllImagePath();
-          $autoplay = false;
-          require_once '../App/View/partials/_carousel.php'
+          if ($data['habitat']->getImage(0) != null) {
+            $images = $data['habitat']->getAllImagePath();
+            $autoplay = false;
+
+            require_once '../App/View/partials/_carousel.php';
+          }
           ?>
         </div>
         <p class="section__text"><?= $data['habitat']->getDescription() ?> </p>

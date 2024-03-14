@@ -49,7 +49,8 @@ $router->addRoute('GET', ROOT . '/api/advice/{id}', 'AdviceController', 'getAdvi
 
 $router->addRoute('POST', ROOT . '/api/habitats/comment', 'HabitatCommentController', 'getHabitatsComment');
 $router->addRoute('POST', ROOT . '/api/habitats/commentbyname', 'HabitatCommentController', 'getHabitatsCommentByName');
-$router->addRoute('POST', ROOT . '/api/habitats/report', 'HabitatCommentController', 'getReportAnimal');
+$router->addRoute('POST', ROOT . '/api/habitats/report', 'ReportAnimalController', 'getReportAnimal');
+$router->addRoute('POST', ROOT . '/api/habitats/reportbyname', 'ReportAnimalController', 'getReportAnimalByName');
 
 
 

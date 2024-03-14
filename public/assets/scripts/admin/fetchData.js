@@ -1,4 +1,9 @@
-export { getHabitatsComment, getHabitatsCommentByName, getAnimalsDetail };
+export {
+  getHabitatsComment,
+  getHabitatsCommentByName,
+  getAnimalsDetail,
+  getAnimalsDetailByName,
+};
 
 const csrf_token = document.head.querySelector(
   'meta[name="csrf-token"]'
@@ -42,6 +47,22 @@ async function getAnimalsDetail() {
       "X-CSRF-TOKEN": csrf_token,
       Accept: "application/json",
     },
+  });
+
+  if (r.ok) {
+    return r.json();
+  }
+}
+
+async function getAnimalsDetailByName(text) {
+  const r = await fetch("/public/api/habitats/reportbyname", {
+    method: "POST",
+    headers: {
+      "X-CSRF-TOKEN": csrf_token,
+      Accept: "application/json",
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ search: text }),
   });
 
   if (r.ok) {

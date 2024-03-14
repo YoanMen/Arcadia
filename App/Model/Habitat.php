@@ -86,6 +86,7 @@ class Habitat extends Model
     foreach ($this->images as $image) {
       $imagesPath[] = $image->getPath();
     }
+
     return $imagesPath ?? null;
   }
 

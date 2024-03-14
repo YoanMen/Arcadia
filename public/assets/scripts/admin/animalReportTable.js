@@ -1,4 +1,7 @@
-import { getAnimalsDetail } from "/public/assets/scripts/admin/fetchData.js";
+import {
+  getAnimalsDetail,
+  getAnimalsDetailByName,
+} from "/public/assets/scripts/admin/fetchData.js";
 
 const dialog = document.querySelector("dialog");
 const dialogContent = document.querySelector("#dialog-content");
@@ -18,15 +21,30 @@ const loading = ` <tr class="loading max-height">
                     </td>
                   </tr>`;
 
-async function getData(order = "ASC") {
+submitButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  getDataByName();
+});
+
+getData();
+
+async function getDataByName(order = "ASC") {
   try {
-    reports = await getAnimalsDetail();
+    reports = await getAnimalsDetailByName(searchInput.value);
     let content = ``;
 
     reports.data.forEach((report) => {
       content += `<tr>
-                                        <td> </td>
-                                         <td><button name='habitatDetails' reportId="${report.id}" class="table__button">voir</button></td>
+                                        <td> ${report.animalName} </td>
+                                        <td class="hidden--mobile"> ${report.status} </td>
+                                        <td class="hidden--mobile"> ${report.food} </td>
+                                        <td class="hidden--mobile"> ${report.weight} </td>
+                                        <td> ${report.date} </td>
+
+
+
+
+                                         <td><button name="reportDetails" reportId="${report.id}" class="table__button">voir</button></td>
                                      </tr>`;
     });
 
@@ -38,9 +56,9 @@ async function getData(order = "ASC") {
 
     reportButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
-        const reportId = event.target.getAttribute("habitatId");
+        const reportId = event.target.getAttribute("reportId");
 
-        const report = reports.data.find((report) => reportId == id);
+        const report = reports.data.find((report) => report.id == reportId);
 
         showReportDetails(report);
       });
@@ -51,3 +69,65 @@ async function getData(order = "ASC") {
                                           </tr>`;
   }
 }
+
+async function getData(order = "ASC") {
+  try {
+    reports = await getAnimalsDetail();
+    let content = ``;
+
+    reports.data.forEach((report) => {
+      content += `<tr>
+                                        <td> ${report.animalName} </td>
+                                        <td class="hidden--mobile"> ${report.status} </td>
+                                        <td class="hidden--mobile"> ${report.food} </td>
+                                        <td class="hidden--mobile"> ${report.weight} </td>
+                                        <td> ${report.date} </td>
+
+
+
+
+                                         <td><button name="reportDetails" reportId="${report.id}" class="table__button">voir</button></td>
+                                     </tr>`;
+    });
+
+    tbody.innerHTML = content;
+
+    const reportButtons = document.querySelectorAll(
+      'button[name="reportDetails"]'
+    );
+
+    reportButtons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const reportId = event.target.getAttribute("reportId");
+
+        const report = reports.data.find((report) => report.id == reportId);
+
+        showReportDetails(report);
+      });
+    });
+  } catch {
+    tbody.innerHTML = ` <tr class='max-height'>
+                                            <td> Aucun résultat</td>        
+                                          </tr>`;
+  }
+}
+
+function showReportDetails(report) {
+  document.body.classList.add("no-scroll");
+  dialogContent.innerHTML = `<h4> animal : ${report.animalName}</h4>
+  <h5>Statut : ${report.status}</h5> 
+  <p class="dialog__creator">de ${report.userName}</p>
+  <p class="dialog__date">le ${report.date}</p>
+  <p>Nourriture à donner : ${report.weight}g de ${report.food}</p>
+  <p class="dialog__comment"> ${report.details}</p>`;
+
+  dialog.showModal();
+}
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+dialog.addEventListener("close", () => {
+  document.body.classList.remove("no-scroll");
+});

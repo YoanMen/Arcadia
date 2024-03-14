@@ -13,3 +13,4 @@ function setURLWithName(string $text): string
 	$text = strtolower($text);
 	return str_replace(" ", '-', $text);
 }
+

@@ -83,7 +83,6 @@ class HabitatComment extends Model
       habitatComment.comment, habitat.name AS habitatName, user.email as userName
       FROM $this->table LEFT JOIN habitat ON habitatComment.habitatID = habitat.id 
       LEFT JOIN user ON habitatComment.userID = user.id ORDER BY habitat.name $order;";
-
       $stm = $pdo->prepare($query);
 
       if ($stm->execute()) {

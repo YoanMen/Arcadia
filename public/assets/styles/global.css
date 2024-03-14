@@ -107,7 +107,6 @@ tr {
 
 tbody {
   display: block;
-  height: 160px;
   overflow: scroll;
   background-color: var(--bg-color-light);
 }

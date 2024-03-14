@@ -76,7 +76,7 @@
                 <th>détails</th>
               </tr>
             </thead>
-            <tbody class=" element__tbody--report">
+            <tbody id="animalReport-tbody">
               <?php require  "../App/View/partials/_loadingTable.php" ?>
             </tbody>
           </table>

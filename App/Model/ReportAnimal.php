@@ -2,12 +2,18 @@
 
 namespace App\Model;
 
+use App\Core\Exception\DatabaseException;
+use DateTimeImmutable;
+use Exception;
+use PDO;
+use PDOException;
+
 class ReportAnimal extends Model
 {
   protected string $table = 'reportAnimal';
   private int $id;
 
-  private string $statut;
+  private string $status;
   private int $animalID;
   private string $food;
   private float $weight;
@@ -37,17 +43,17 @@ class ReportAnimal extends Model
   /**
    * Get the value of statut
    */
-  public function getStatut(): string
+  public function getStatus(): string
   {
-    return $this->statut;
+    return $this->status;
   }
 
   /**
    * Set the value of statut
    */
-  public function setStatut(string $statut): self
+  public function setStatus(string $statut): self
   {
-    $this->statut = $statut;
+    $this->status = $statut;
 
     return $this;
   }
@@ -142,7 +148,68 @@ class ReportAnimal extends Model
     return $this;
   }
 
-  public function fetchReportAnimal()
+  public function formatDate(string $date): string
   {
+    $date = new DateTimeImmutable($date);
+
+    return $date->format('d/m/Y');
+  }
+
+  public function fetchReportAnimal(): array|null
+  {
+
+    try {
+      $results = null;
+      $pdo = $this->connect();
+
+      $query = "SELECT reportAnimal.id, animal.name as animalName, user.email as userName, reportAnimal.food,
+              reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.status
+              FROM $this->table LEFT JOIN animal on reportAnimal.animalID = animal.id
+              LEFT JOIN user ON reportAnimal.userID = user.id ";
+
+      $stm = $pdo->prepare($query);
+
+      if ($stm->execute()) {
+        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
+          $result['date'] = $this->formatDate($result['date']);
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
+  public function fetchReportAnimalByName($search): array|null
+  {
+
+
+    try {
+      $results = null;
+      $search  =  $search . '%';
+
+      $pdo = $this->connect();
+
+      $query = "SELECT reportAnimal.id, animal.name as animalName, user.email as userName, reportAnimal.food,
+      reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.status
+      FROM $this->table LEFT JOIN animal on reportAnimal.animalID = animal.id
+      LEFT JOIN user ON reportAnimal.userID = user.id WHERE animal.name LIKE  :search; ";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $result['date'] = $this->formatDate($result['date']);
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
   }
 }

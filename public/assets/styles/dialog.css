@@ -42,9 +42,14 @@ dialog {
 .dialog__comment {
   margin-top: 48px;
 }
+.dialog__date {
+  margin-bottom: 16px;
+}
 
 .dialog__creator {
-  float: right;
+  width: fit-content;
+  margin-bottom: 32px;
+  margin-left: auto;
   font-size: 1rem;
 }
 
