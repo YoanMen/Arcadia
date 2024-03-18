@@ -18,11 +18,12 @@ class ReportAnimalController extends Controller
         $content = trim(file_get_contents("php://input"));
         $data = json_decode($content, true);
 
-        $search = htmlspecialchars($data['search']);
-        $order = htmlspecialchars($data['order']);
-        $orderBy = htmlspecialchars($data['orderBy']);
-        $date = htmlspecialchars($data['date']);
-        $count = htmlspecialchars($data['count']);
+        $search = htmlspecialchars($data['params']['search']);
+        $order = htmlspecialchars($data['params']['order']);
+        $orderBy = htmlspecialchars($data['params']['orderBy']);
+        $date = '';
+        $date = htmlspecialchars($data['params']['date']);
+        $count = htmlspecialchars($data['params']['count']);
 
         $animaReportRepo = new ReportAnimal();
 

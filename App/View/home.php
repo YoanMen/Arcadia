@@ -30,22 +30,6 @@
 
   <?php require_once '../App/View/partials/_menu.php' ?>
 
-  <dialog class='dialog'>
-    <button class='dialog__close button button--cube'>
-      <svg fill='white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-      </svg>
-    </button>
-    <h4>Ajouter un Avis</h4>
-    <form method="dialog" class="dialog__form">
-      <label for="pseudo">Pseudo </label>
-      <input required type="text" name="pseudo" id="pseudo" minlength="3" maxlength="20">
-      <label for="message">Message</label>
-      <textarea required name="message" id="message" cols="30" rows="10" minlength="3" maxlength="200"></textarea>
-      <button disabled id="send-button" class="button">Envoyer mon avis</button>
-    </form>
-  </dialog>
-
   <div class="hero">
     <?php
     $images = ['792358.webp', '248314-5fdccad0f507.webp',  '1548643.webp'];
@@ -165,11 +149,34 @@
     </section>
   </main>
 
+  <dialog class='dialog'>
+    <div class="dialog__top">
+      <h3 class="dialog__title">Ajouter un Avis</h3>
+      <div class="dialog__top__buttons">
+
+        <button class='dialog__close button button--cube'>
+          <svg fill='white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="dialog-content" class="dialog__content">
+      <form method="dialog" class="dialog__form">
+        <label for="pseudo">Pseudo </label>
+        <input required type="text" name="pseudo" id="pseudo" minlength="3" maxlength="20">
+        <label for="message">Message</label>
+        <textarea required name="message" id="message" cols="30" rows="10" minlength="3" maxlength="200"></textarea>
+        <button disabled id="send-button" class="button">Envoyer mon avis</button>
+      </form>
+    </div>
+  </dialog>
+
   <?php require_once '../App/View/partials/_footer.php' ?>
   <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
   <script src="<?= ROOT ?>/assets/scripts/carousel/carousel.js"></script>
   <script src="<?= ROOT ?>/assets/scripts/testimonial/testimonial-slider.js"> </script>
-  <script src="<?= ROOT ?>/assets/scripts/dialogTestimonial.js"></script>
+  <script src="<?= ROOT ?>/assets/scripts/testimonial/dialogTestimonial.js"></script>
 
 </body>
 

@@ -9,11 +9,11 @@
 
   </form>
   <div class="dashboard__element__table">
-    <table>
+    <table id="habitat-table">
       <thead>
         <tr>
-          <th id="habitat-id" class="clickable">id</th>
-          <th id="habitat-name" class="clickable hidden--mobile">nom</th>
+          <th id="habitat-id" class="clickable hidden--mobile">id</th>
+          <th id="habitat-name" class="clickable ">nom</th>
           <th id="habitat-description" class="hidden--mobile">description</th>
           <th>détails</th>
         </tr>

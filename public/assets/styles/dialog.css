@@ -11,8 +11,10 @@ dialog {
 }
 
 .dialog--admin {
-  height: 80%;
-  width: 80%;
+  position: fixed;
+  right: 0;
+  height: 85%;
+  width: 85%;
 }
 
 .dialog__content {
@@ -63,11 +65,12 @@ dialog {
   padding: 0 6px 0 var(--padding);
   background-color: var(--bg-color-light);
   width: 100%;
-  height: 80px;
+  min-height: 80px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 .dialog__top__buttons {
   display: flex;
+  margin-left: auto;
   gap: 4px;
 }
 
@@ -154,5 +157,13 @@ dialog {
 
   .dialog__image {
     width: 100%;
+  }
+
+  .dialog__item {
+    padding: 0;
+  }
+
+  .dialog__input-wrapper {
+    flex-direction: column;
   }
 }

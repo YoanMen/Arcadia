@@ -5,18 +5,18 @@
 <article name="habitat-detail" class="dashboard__element">
   <h2 class="dashboard__element__title">Détails sur l'état des habitats</h2>
   <form class="dashboard__element__search" action="POST">
-    <input id="habitatDetails-search" placeholder="nom de l'animal" class="max-width " type="search" name="name" id="">
-    <input id="habitatDetails-submit" class="button" type="submit" value="rechercher">
+    <input id="habitatComment-search" placeholder="nom de l'animal" class="max-width " type="search" name="name" id="">
+    <input id="habitatComment-submit" class="button" type="submit" value="rechercher">
   </form>
   <div class="dashboard__element__table">
-    <table>
+    <table id='habitatComment-table'>
       <thead>
         <tr>
-          <th id='habitatDetails-name' class="clickable">nom</th>
+          <th id='habitatComment-name' class="clickable">nom</th>
           <th>détails</th>
         </tr>
       </thead>
-      <tbody id="habitatDetails-tbody">
+      <tbody id="habitatComment-tbody">
         <?php require  "../App/View/partials/_loadingTable.php" ?>
       </tbody>
     </table>
@@ -30,7 +30,7 @@
     <input id="animalReport-submit" class="button" type="submit" value="rechercher">
   </form>
   <div class="dashboard__element__table">
-    <table>
+    <table id='animalReport-table'>
       <thead>
         <tr>
           <th id="animalReport-name" class="clickable">nom</th>
