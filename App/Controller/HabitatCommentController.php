@@ -20,11 +20,21 @@ class HabitatCommentController extends Controller
         $search = htmlspecialchars($data['search']);
         $order = htmlspecialchars($data['order']);
         $orderBy = htmlspecialchars($data['orderBy']);
+        $count = htmlspecialchars($data['count']);
 
         $habitatsCommentRepo = new HabitatComment();
-        $habitatsComment = $habitatsCommentRepo->fetchHabitatsComment($search, $order, $orderBy);
 
-        echo json_encode(['data' => $habitatsComment]);
+        $habitatCount = $habitatsCommentRepo->habitatsCommentCount($search);
+        $remainCount = $habitatCount - $count;
+
+        if ($remainCount > 0) {
+          $habitatsCommentRepo->setOffset($count);
+          $habitatsComment = $habitatsCommentRepo->fetchHabitatsComment($search, $order, $orderBy);
+
+          echo json_encode(['data' => $habitatsComment, 'totalCount' => $habitatCount]);
+        } else {
+          echo json_encode(['error' => 'aucun résultat']);
+        }
       } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);

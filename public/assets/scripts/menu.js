@@ -1,3 +1,5 @@
+import { getDataMenu } from "./fetchData.js";
+
 const desktopMenu = document.querySelector(".desktop-menu--fixed");
 const menuBtn = document.querySelector(".mobile-menu__btn");
 const closeBtn = document.querySelector(".mobile-menu__btn-close");
@@ -8,7 +10,7 @@ const servicesMenu = document.getElementsByName("menu-services");
 setMenuType();
 
 // fetch data for services and habitats to show in the menu
-initDataMenu().then(async (data) => {
+getDataMenu().then(async (data) => {
   let serviceList = ``;
   let habitatList = ``;
 
@@ -66,18 +68,4 @@ function setMenuType() {
     desktopMenu.classList.remove("desktop-menu--fixed");
     desktopMenu.classList.add("desktop-menu");
   }
-}
-
-// fetch data
-async function initDataMenu() {
-  const r = await fetch("/public/api/initmenu", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  });
-  if (r.ok) {
-    return r.json();
-  }
-  throw new Error("Cant get datas menu");
 }

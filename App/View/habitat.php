@@ -9,11 +9,10 @@
     | Habitats
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
-
+  <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
-
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
@@ -65,8 +64,7 @@
   </main>
 
   <?php require '../App/View/partials/_footer.php' ?>
-  <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
-
+  <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

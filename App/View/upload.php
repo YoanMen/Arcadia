@@ -22,7 +22,7 @@
       <label for="file">
         File
       </label>
-      <input type="file" id="file" name="file">
+        <input type="file" id="file" name="file">
 
       <button>
         Upload

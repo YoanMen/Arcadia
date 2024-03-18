@@ -126,27 +126,30 @@ class Model extends Database
    */
   public function count(array $where = []): int|null
   {
-    $result = null;
+    try {
 
-    $pdo = $this->connect();
-    $query = "SELECT COUNT(*) FROM $this->table";
+      $pdo = $this->connect();
+      $query = "SELECT COUNT(*) FROM $this->table";
 
-    if (!empty($where)) {
-      $keysValue = $this->setWhere($where);
-      $query .= ' WHERE ' . $keysValue;
+      if (!empty($where)) {
+        $keysValue = $this->setWhere($where);
+        $query .= ' WHERE ' . $keysValue;
+      }
+
+      $stm = $pdo->prepare($query);
+
+      if (!empty($where)) {
+        $stm = $this->bindParams($stm, $where);
+      }
+
+      if ($stm->execute()) {
+        $result = $stm->fetch();
+      }
+
+      return $result[0] != 0 ? $result[0] : null;
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error find data: " . $e->getMessage());
     }
-
-    $stm = $pdo->prepare($query);
-
-    if (!empty($where)) {
-      $stm = $this->bindParams($stm, $where);
-    }
-
-    if ($stm->execute()) {
-      $result = $stm->fetch();
-    }
-
-    return $result[0] != 0 ? $result[0] : null;
   }
   /**
    * Find

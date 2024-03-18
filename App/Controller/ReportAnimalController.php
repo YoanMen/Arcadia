@@ -22,12 +22,20 @@ class ReportAnimalController extends Controller
         $order = htmlspecialchars($data['order']);
         $orderBy = htmlspecialchars($data['orderBy']);
         $date = htmlspecialchars($data['date']);
+        $count = htmlspecialchars($data['count']);
 
         $animaReportRepo = new ReportAnimal();
-        $reports = $animaReportRepo->fetchReportAnimal($search, $date, $order, $orderBy);
 
+        $reportCount = $animaReportRepo->fetchReportAnimalCount($search, $date);
+        $remainCount = $reportCount - $count;
 
-        echo json_encode(['data' => $reports]);
+        if ($remainCount > 0) {
+          $animaReportRepo->setOffset($count);
+          $reports = $animaReportRepo->fetchReportAnimal($search, $date, $order, $orderBy);
+          echo json_encode(['data' => $reports, 'totalCount' => $reportCount]);
+        } else {
+          echo json_encode(['error' => 'aucun résultat']);
+        }
       } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);

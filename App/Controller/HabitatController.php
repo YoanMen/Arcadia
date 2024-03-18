@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
 use App\Core\Router;
+use App\Core\Security;
 use App\Model\Animal;
 use App\Model\Habitat;
 use App\Model\ReportAnimal;
@@ -11,7 +12,6 @@ use Exception;
 
 class HabitatController extends Controller
 {
-
   public function index()
   {
 
@@ -41,6 +41,75 @@ class HabitatController extends Controller
       'currentPage' => $currentPage + 1
     ]);
   }
+
+  public function getHabitats()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isAdmin()) {
+      try {
+
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $search = htmlspecialchars($data['search']);
+        $order = htmlspecialchars($data['order']);
+        $orderBy = htmlspecialchars($data['orderBy']);
+        $count = htmlspecialchars($data['count']);
+
+        $habitatsRepo = new Habitat();
+
+        $habitatCount = $habitatsRepo->habitatsCount($search);
+        $remainCount = $habitatCount - $count;
+
+        if ($remainCount > 0) {
+          $habitatsRepo->setOffset($count);
+          $habitatsComment = $habitatsRepo->fetchHabitats($search, $order, $orderBy);
+
+          echo json_encode(['data' => $habitatsComment, 'totalCount' => $habitatCount]);
+        } else {
+          echo json_encode(['error' => 'aucun résultat']);
+        }
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
+    }
+  }
+
+  public function getHabitatImages()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+
+    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isAdmin()) {
+      try {
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $id = htmlspecialchars($data['id']);
+
+        $habitatRepo = new Habitat();
+
+        $habitatImages = $habitatRepo->fetchImages($id);
+
+        echo json_encode(['data' => $habitatImages]);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+      echo json_encode(['error' => 'CSRF token is not valid']);
+    }
+  }
+
 
   public function showHabitat($request)
   {
@@ -74,8 +143,6 @@ class HabitatController extends Controller
 
   public function showAnimal($request)
   {
-
-
     try {
       $name = htmlspecialchars($request['animalName']);
       $name = str_replace('-', ' ', $name);
@@ -108,6 +175,41 @@ class HabitatController extends Controller
       }
     } catch (Exception $e) {
       Router::redirect('error');
+    }
+  }
+
+  public function updateHabitat()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+
+    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "PUT" && Security::isAdmin()) {
+      try {
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $id = htmlspecialchars($data['id']);
+        $name = htmlspecialchars($data['name']);
+        $description = htmlspecialchars($data['description']);
+
+
+        $habitatRepo = new Habitat();
+
+
+        // check if have image, if dont have image error
+
+        echo json_encode(['success' => 'l/`habitat à été modifié']);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
     }
   }
 }

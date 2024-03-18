@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
+
   <title>
     <?= APP_NAME ?>
     | <?= ucfirst($data['habitat'])  . ' - ' .  $data['animal']->getName()   ?>
@@ -38,9 +40,12 @@
           (<?= $data['animal']->getRace() ?>) </h1>
         <div class='image'>
           <?php
-          $images = $data['animal']->getAllImagePath();
-          $autoplay = false;
-          require_once '../App/View/partials/_carousel.php'
+          if ($data['animal']->getImage(0) != null) {
+
+            $images = $data['animal']->getAllImagePath();
+            $autoplay = false;
+            require_once '../App/View/partials/_carousel.php';
+          }
           ?>
         </div>
         <?php if (isset($data['report'])) { ?>
@@ -65,7 +70,7 @@
   <?php require_once '../App/View/partials/_footer.php' ?>
 
   <script src="<?= ROOT ?>/assets/scripts/carousel/carousel.js"></script>
-  <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
+  <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

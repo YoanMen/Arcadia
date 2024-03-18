@@ -9,7 +9,7 @@
     | Service - <?= (isset($data['service'])) ? $data['service']->getName() : null  ?>
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
-
+  <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
@@ -44,7 +44,7 @@
   </main>
   <?php require '../App/View/partials/_footer.php' ?>
 
-  <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
+  <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

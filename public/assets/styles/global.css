@@ -174,6 +174,15 @@ hr {
 .no-scroll {
   overflow: hidden;
 }
+
+.text-oneLine {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .image {
   width: 100%;
   height: 360px;
@@ -223,6 +232,10 @@ hr {
   border: none;
 }
 
+.button--red {
+  background-color: red;
+}
+
 .button:disabled {
   cursor: default;
   opacity: 0.2;
@@ -232,6 +245,9 @@ hr {
   background-color: rgb(216, 135, 35);
 }
 
+.button--red:not(:disabled):hover {
+  background-color: rgb(197, 3, 3);
+}
 input[type="button"]:hover {
   background-color: rgb(216, 135, 35);
 }

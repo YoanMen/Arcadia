@@ -19,9 +19,10 @@ class Router
     $method = $_SERVER['REQUEST_METHOD'];
     $uri = BASE_URL . $_SERVER['REQUEST_URI'];
 
+
     $getRoute = $router->getRoute($method, $uri);
     if ($getRoute == null) {
-      $this->redirect('error');
+      //  $this->redirect('error');
     }
     $controller = new $getRoute['controller']();
     $action = $getRoute['action'];

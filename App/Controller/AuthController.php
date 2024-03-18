@@ -15,7 +15,8 @@ class AuthController extends Controller
     if (!Security::isLogged()) {
       $this->show('admin/login');
     } else {
-      Router::redirect('dashboard');
+
+      $this->show('admin/dashboard');
     }
   }
 

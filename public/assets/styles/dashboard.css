@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-.dashboard__top {
+.dashboard-top {
   position: fixed;
   width: 100%;
   height: 60px;
@@ -19,26 +19,26 @@
   justify-content: end;
 }
 
-.dashboard__top ul {
+.dashboard-top ul {
   display: flex;
   gap: 16px;
   align-items: center;
 }
 
-.list__item a {
+.dashboard-panel__list__item a {
   font-family: var(--font-kodchasan);
   font-size: 1.3rem;
 }
 
-.list__item a:hover {
+.dashboard-panel__list__item a:hover {
   color: var(--btn-color);
 }
 
-.list__item:first-child {
+.dashboard-panel__list__item:first-child {
   margin-top: 32px;
 }
 
-.list__item > a {
+.dashboard-panel__list__item > a {
   margin: 16px;
   display: flex;
   align-items: center;
@@ -60,7 +60,7 @@
   width: 100%;
 }
 
-.dashboard__panel {
+.dashboard-panel {
   position: fixed;
   z-index: 1;
   height: 100vh;
@@ -73,7 +73,7 @@
   justify-content: start;
 }
 
-.dashboard__panel svg {
+.dashboard-panel svg {
   margin: 16px auto;
   width: 100%;
 }
@@ -85,11 +85,15 @@
   width: calc(40% - 16px);
 }
 
-.element__tbody--report {
+.dashboard__element--full-width {
+  width: 100%;
+}
+
+.dashboard__element__tbody--report {
   height: calc(40vh - 32px);
 }
 
-.element__table > table {
+.dashboard__element__table > table {
   padding-top: 16px;
 }
 
@@ -101,7 +105,7 @@
   width: 100%;
 }
 
-.element__chart {
+.dashboard__element__chart {
   padding-bottom: 32px;
 }
 
@@ -109,20 +113,27 @@ td {
   text-align: center;
 }
 
-.element__title {
+
+
+.dashboard__element__title {
   margin-bottom: 16px;
   font-size: 1.5rem;
 }
 
-.element__search {
+.dashboard__element__search {
   display: flex;
   gap: 6px;
 }
 
-.element__search input[type="search"] {
+.dashboard__element__search input[type="search"] {
   width: 100%;
 }
 
+.dashboard__element__top {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
 thead {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -143,9 +154,12 @@ tbody[id="habitatDetails-tbody"] {
 tbody[id="animalReport-tbody"] {
   height: 30vh;
 }
+tbody[id="habitat-tbody"] {
+  height: calc(70vh - 24px);
+}
 
 @media screen and (max-width: 762px) {
-  .list__item span {
+  .dashboard-panel__list__item span {
     display: none;
   }
 
@@ -153,15 +167,16 @@ tbody[id="animalReport-tbody"] {
     padding: 0;
   }
 
-  .element__search input[type="submit"] {
+  .dashboard__element__search input[type="submit"] {
     width: 100%;
   }
-  .element__search {
+  .dashboard__element__search {
     flex-direction: column;
   }
 
-  .dashboard__panel {
+  .dashboard-panel {
     width: 60px;
+    overflow: hidden;
     align-items: center;
   }
 
@@ -170,7 +185,7 @@ tbody[id="animalReport-tbody"] {
     padding-left: 60px;
   }
 
-  .list__item {
+  .dashboard-panel__list__item {
     width: 100%;
   }
 

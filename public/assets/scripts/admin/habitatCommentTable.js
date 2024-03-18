@@ -1,16 +1,14 @@
-import { getHabitatsComment } from "/public/assets/scripts/admin/fetchData.js";
+import { getHabitatsComment } from "../fetchData.js";
+import { showLoading } from "./loading.js";
 
 let order = "DESC";
 let orderBy = "id";
-let habitats = null;
+let response = null;
 
-const loading = `<tr class="loading max-height">
-                    <td>
-                      <svg height='32px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
-                      </svg>
-                    </td>
-                  </tr>`;
+let isLoading = false;
+let count = 0;
+let lastScrollPosition = 0;
+let content = ``;
 
 const dialog = document.querySelector("dialog");
 const dialogContent = document.querySelector("#dialog-content");
@@ -22,35 +20,77 @@ const tbody = document.querySelector("#habitatDetails-tbody");
 
 getData();
 
-name.addEventListener("click", () => {
-  order = order == "ASC" ? "DESC" : "ASC";
-  orderBy = "name";
+tbody.addEventListener("scroll", () => {
+  if (
+    tbody.offsetHeight + tbody.scrollTop >= tbody.scrollHeight &&
+    !isLoading &&
+    count < response.totalCount
+  ) {
+    lastScrollPosition = tbody.scrollTop;
+    getData();
+  }
+});
 
-  getData();
+name.addEventListener("click", () => {
+  getDataWithRequest("name");
 });
 
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
-  order = "ASC";
-  orderBy = "id";
-  getData();
+  getDataWithRequest("id", "ASC");
 });
 
+function getDataWithRequest($orderBy, newOrder = null) {
+  if (newOrder == null) {
+    order = order == "ASC" ? "DESC" : "ASC";
+  }
+  orderBy = $orderBy;
+
+  // reset value
+  count = 0;
+  content = "";
+  response = null;
+  lastScrollPosition = 0;
+  getData();
+}
+
 async function getData() {
+  showLoading(tbody);
+  isLoading = true;
+
   try {
-    tbody.innerHTML = loading;
+    let newResponse = await getHabitatsComment(
+      searchInput.value,
+      order,
+      orderBy,
+      count
+    );
 
-    habitats = await getHabitatsComment(searchInput.value, order, orderBy);
-    let content = ``;
+    if (newResponse.error) {
+      tbody.innerHTML = `<tr class='max-height'>
+                            <td>${newResponse.error}</td>        
+                         </tr>`;
+      return;
+    }
 
-    habitats.data.forEach((habitat) => {
+    if (response != null) {
+      const oldResponse = response;
+      response.data = oldResponse.data.concat(newResponse.data);
+    } else {
+      response = newResponse;
+    }
+
+    count += newResponse.data.length;
+
+    newResponse.data.forEach((data) => {
       content += `<tr>
-                      <td> ${habitat.habitatName} </td>
-                       <td><button name='habitatDetails' habitatId="${habitat.id}" class="table__button">voir</button></td>
+                      <td>${data.habitatName}</td>
+                       <td><button name='habitatDetails' habitatId="${data.id}" class="table__button">voir</button></td>
                    </tr>`;
     });
 
     tbody.innerHTML = content;
+    tbody.scroll(0, lastScrollPosition);
 
     const habitatButtons = document.querySelectorAll(
       'button[name="habitatDetails"]'
@@ -59,18 +99,18 @@ async function getData() {
     habitatButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
         const habitatId = event.target.getAttribute("habitatId");
-        const habitat = habitats.data.find(
-          (habitat) => habitat.id == habitatId
-        );
+        const habitat = response.data.find((data) => data.id == habitatId);
 
         show(habitat);
       });
     });
   } catch {
     tbody.innerHTML = `<tr class='max-height'>
-                        <td> Aucun résultat</td>        
+                        <td>impossible de récupérer les données</td>        
                        </tr>`;
   }
+
+  isLoading = false;
 }
 
 function show(habitat) {

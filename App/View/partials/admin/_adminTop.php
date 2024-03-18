@@ -2,7 +2,7 @@
 
 use App\Core\Security;
 ?>
-<header class="dashboard__top">
+<header class="dashboard-top">
   <ul>
     <li>
       <p> <?= Security::getUsername() ?></p>

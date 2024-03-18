@@ -68,6 +68,31 @@ class HabitatComment extends Model
     return $this;
   }
 
+  public function habitatsCommentCount(string $search): int |null
+  {
+    try {
+      $search .= '%';
+
+      $pdo = $this->connect();
+
+      $query = "SELECT COUNT(habitatComment.habitatID) AS total_count
+                FROM habitatComment
+                LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
+                WHERE habitat.name LIKE :search";
+
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        $result = $stm->fetch();
+      }
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error count : " . $e->getMessage());
+    }
+
+    return ($result[0] != 0 ? $result[0] : null);
+  }
   public function fetchHabitatsComment(string $search, string $order, string $orderBy): array|null
   {
     try {
@@ -87,15 +112,15 @@ class HabitatComment extends Model
 
       $pdo = $this->connect();
       $query = "SELECT habitatComment.habitatID AS id,
-      habitatComment.comment,
-      habitat.name AS habitatName,
-      user.email AS userName
-      FROM habitatComment
-      LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
-      LEFT JOIN user ON habitatComment.userID = user.id
-      WHERE habitat.name LIKE :search
-      ORDER BY $orderBy  $order
-      LIMIT $this->limit OFFSET $this->offset";
+                habitatComment.comment,
+                habitat.name AS habitatName,
+                user.email AS userName
+                FROM habitatComment
+                LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
+                LEFT JOIN user ON habitatComment.userID = user.id
+                WHERE habitat.name LIKE :search
+                ORDER BY $orderBy  $order
+                LIMIT $this->limit OFFSET $this->offset";
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);

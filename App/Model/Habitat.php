@@ -109,8 +109,8 @@ class Habitat extends Model
       $results = null;
 
       $pdo = $this->connect();
-      $query = "SELECT image.id, image.path FROM habitat_image
-      INNER JOIN image ON habitat_image.imageID = image.id
+      $query = "SELECT habitat_image.habitatID ,image.id, image.path FROM habitat_image
+      LEFT JOIN image ON habitat_image.imageID = image.id
       WHERE habitat_image.habitatID = :habitatID;";
 
       $stm = $pdo->prepare($query);
@@ -131,6 +131,95 @@ class Habitat extends Model
   /**
    * Find all animals on habitat
    */
+
+  public function habitatsCount($search): int | null
+  {
+    try {
+      $search .= '%';
+
+      $pdo = $this->connect();
+      $query = "SELECT COUNT(habitat.id) AS total_count
+      FROM habitat
+      WHERE habitat.name LIKE :search";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        $result = $stm->fetch();
+      }
+
+      return ($result[0] != null ? $result[0] : null);
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error count : " . $e->getMessage());
+    }
+  }
+
+  public function fetchImages($id)
+  {
+    try {
+
+      $results = null;
+
+      $pdo = $this->connect();
+      $query = "SELECT image.id, image.path FROM habitat_image
+      LEFT JOIN image ON habitat_image.imageID = image.id
+      WHERE habitat_image.habitatID = :habitatID;";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':habitatID', $id, PDO::PARAM_INT);
+
+      if ($stm->execute()) {
+        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error findImages habitat : " . $e->getMessage(), $e->getCode(), $e);
+    }
+  }
+
+  public function fetchHabitats(string $search, string $order, string $orderBy): array | null
+  {
+    try {
+
+      $results = null;
+
+      $search .=  '%';
+
+      if ($order !== 'ASC' && $order !== 'DESC') {
+        $order = 'DESC';
+      }
+
+
+      $allowedOrderBy = ['id', 'name'];
+      $allowedOrder = ['ASC', 'DESC'];
+
+      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
+      $order = in_array($order, $allowedOrder) ? $order : 'ASC';
+
+
+      $pdo = $this->connect();
+      $query = "SELECT * FROM $this->table WHERE habitat.name LIKE :search
+      ORDER BY $orderBy  $order
+      LIMIT $this->limit OFFSET $this->offset";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
   public function findAllAnimals(): array|null
   {
     try {

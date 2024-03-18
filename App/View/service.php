@@ -9,6 +9,7 @@
     | Services
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
+  <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
@@ -62,8 +63,7 @@
   </main>
 
   <?php require_once '../App/View/partials/_footer.php' ?>
-  <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
-
+  <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

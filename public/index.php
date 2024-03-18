@@ -38,7 +38,7 @@ $router->addRoute('GET', ROOT . '/login', 'AuthController', 'index');
 $router->addRoute('POST', ROOT . '/login', 'AuthController', 'login');
 $router->addRoute('GET', ROOT . '/logout', 'AuthController', 'logout');
 
-$router->addRoute('GET', ROOT . '/dashboard', 'AdminController', 'index');
+$router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 
 
 //API
@@ -49,7 +49,8 @@ $router->addRoute('GET', ROOT . '/api/advice/{id}', 'AdviceController', 'getAdvi
 
 $router->addRoute('POST', ROOT . '/api/habitats/comment', 'HabitatCommentController', 'getHabitatsComment');
 $router->addRoute('POST', ROOT . '/api/habitats/report', 'ReportAnimalController', 'getReportAnimal');
-
-
+$router->addRoute('POST', ROOT . '/api/habitats', 'HabitatController', 'getHabitats');
+$router->addRoute('POST', ROOT . '/api/habitats/images', 'HabitatController', 'getHabitatImages');
+$router->addRoute('PUT', ROOT . '/api/habitats', 'HabitatController', 'updateHabitat');
 
 $router->goRoute($router);
