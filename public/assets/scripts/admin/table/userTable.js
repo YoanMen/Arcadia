@@ -31,7 +31,7 @@ export class UserTable extends Table {
                   </  li>
                   <li class="details__item">
                     <label for='password'>mot de passe</label>
-                    <input required minlength="8" maxlength="60" class="details__input" type="password" id="password"" >
+                    <input required minlength="8" maxlength="60" class="details__input" type="text" id="password"" >
                   </li>
                   <li class="details__item">
                     <label for='role'>type de compte</label>
@@ -98,7 +98,7 @@ export class UserTable extends Table {
     return `<tr>
               <td class="hidden--mobile">${data.id} </td>
               <td >${data.email} </td>
-              <td class="hidden--mobile two-line">${data.password} </td>
+              <td class="hidden--mobile">*****</td>
               <td class="hidden--mobile">${
                 data.role == "employee" ? "employé" : "vétérinaire"
               } </td>

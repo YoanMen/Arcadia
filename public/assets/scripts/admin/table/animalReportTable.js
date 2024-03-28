@@ -48,7 +48,7 @@ export class AnimalReport extends Table {
                     <p required class="details__input" <p>${data.food}</p>
                   </li>
                   <li class="details__item">
-                    <label for='weight'>poids</label>
+                    <label for='weight'>poids de la nourriture</label>
                     <p required class="details__input" <p>${data.weight}g</p>
                   </li>
                   <li class="details__item">

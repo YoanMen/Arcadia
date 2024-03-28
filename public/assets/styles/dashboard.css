@@ -103,10 +103,6 @@
   width: 100%;
 }
 
-.dashboard__element__chart {
-  padding-bottom: 32px;
-}
-
 td {
   text-align: center;
 }
@@ -192,7 +188,7 @@ tbody {
 
   .dashboard__element {
     width: 100%;
-    height: fit-content;
+    min-height: 360px;
   }
   .dialog__image {
     padding-right: 0 !important;

@@ -34,7 +34,7 @@ export class HabitatTable extends Table {
                     <textarea required minlength="3" class="details__textarea" id="description" cols="30" rows="10"></textarea>
                   </li>
                   <li class="details__item">
-                    <label for="habitatImage">ajouter une image</label>
+                    <label for="habitatImage">image</label>
                     <input required id="image-input" class="details__input" type="file" id="file" name="file"  accept="image/png, image/jpeg, image/webp">
                   </li>
                 </ul>

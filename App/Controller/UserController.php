@@ -102,20 +102,28 @@ class UserController extends Controller
         $content = trim(file_get_contents('php://input'));
         $data = json_decode($content, true);
 
+        $id = htmlspecialchars($data['params']['id']);
         $email =  htmlspecialchars($data['params']['email']);
         $password = htmlspecialchars($data['params']['password']);
         $role = htmlspecialchars($data['params']['role']);
-        $id = htmlspecialchars($data['params']['id']);
-
-
-        $this->ValidateValues($email, $password, $role, $id);
 
         $userRepo = new User();
 
-        $email = strtolower($email);
-        $password =  Security::hashPassword($password);
+        $this->ValidateValues($email, $password, $role, $id);
 
-        $userRepo->update(['email' => $email, 'password' => $password, 'role' => $role], $id);
+
+        $email = strtolower($email);
+
+        $user = $userRepo->findOneBy(['id' => $id]);
+
+
+        // change password if is not the same
+        if ($password !==  $user->getPassword()) {
+          $password =  Security::hashPassword($password);
+          $userRepo->update(['email' => $email, 'password' => $password, 'role' => $role], $id);
+        }
+
+        $userRepo->update(['email' => $email,  'role' => $role], $id);
         echo json_encode(['success' => 'l\'utilisateur à été modifié']);
       } catch (Exception $e) {
         http_response_code(500);
@@ -173,6 +181,7 @@ class UserController extends Controller
     if (!(strlen($password) >= 8 && strlen($password) <= 60)) {
       throw new ValidatorException('Le mot de passe doit être entre 8 et 60 caractères');
     }
+
 
     if ($role !== 'employee' && $role !== 'veterinary') {
       throw new ValidatorException('Le nom du rôle n\'est pas valide');

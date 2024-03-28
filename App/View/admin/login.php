@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
-
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
+  <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 </head>
 
 <body>

@@ -31,7 +31,9 @@ class UploadFile
 
       $fileName = rtrim($fileName, ". .$extension");
 
-      // Enregistrer l'image dans notre dossier uploads
+
+
+      // save image
       if ($fileSize > MAX_FILE_SIZE) {
         throw new FileException("File exceeds upload_max_filesize");
       } elseif (
@@ -40,11 +42,12 @@ class UploadFile
       ) {
         throw new FileException("Invalid format file");
       }
-      $fileName = $fileName . '-' . bin2hex(random_bytes(6)) . '.' . $extension;
+
+      // random file name
+      $fileName = bin2hex(random_bytes(6)) . '.' . $extension;
       $destination = "uploads/" . $fileName;
       if (!file_exists($destination)) {
         move_uploaded_file($file_tmp_name, $destination);
-
 
         return $fileName;
       } else {

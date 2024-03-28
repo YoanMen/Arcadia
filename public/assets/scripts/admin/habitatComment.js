@@ -57,10 +57,16 @@ async function getData() {
       count: count,
     });
 
-    updateContent(newResponse);
+    if (newResponse.data != null) {
+      updateContent(newResponse);
+    } else {
+      tbody.innerHTML = `<tr class='max-height'>
+                          <td>vide</td>        
+                        </tr>`;
+    }
   } catch (error) {
     tbody.innerHTML = `<tr class='max-height'>
-                        <td>${error}</td>        
+                        <td>${error.message}</td>        
                       </tr>`;
   }
 

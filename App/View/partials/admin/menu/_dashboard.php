@@ -1,6 +1,23 @@
 <article class="dashboard__element">
   <h2 class="dashboard__element__title">Les animaux les plus consulté</h2>
-  <canvas class="dashboard__element__chart" id="chart"></canvas>
+  <div class="chart" id="chart">
+    <div class="chart__text">
+      <p>30</p>
+      <p>15</p>
+      <p>0</p>
+    </div>
+    <div class="chart__items">
+      <article class="chart__item">
+        <div class="chart__item__bar"></div>
+        <p class="chart__item__text one-line">riko</p>
+      </article>
+      <article class="chart__item">
+        <div class="chart__item__bar"></div>
+        <p class="chart__item__text one-line">loadzdzqdzdzqdqzd</p>
+      </article>
+    </div>
+
+  </div>
 </article>
 <article name="habitat-detail" class="dashboard__element">
   <h2 class="dashboard__element__title">Détails sur l'état des habitats</h2>

@@ -40,8 +40,8 @@ export class AnimalTable extends Table {
                     </select>
                   </li>
                   <li class="details__item">
-                    <label for="habitatImage">ajouter une image</label>
-                     <input required id="image-input" class="details__input" type="file" id="file" name="file"  accept="image/png, image/jpeg, image/webp">
+                    <label for="habitatImage">image</label>
+                    <input required id="image-input" class="details__input" type="file" id="file" name="file"  accept="image/png, image/jpeg, image/webp">
                   </li>
                 </ul>
               </form>

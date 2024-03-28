@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/chart.css">
+
 </head>
 
 <body>
