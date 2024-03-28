@@ -1,9 +1,9 @@
 <?php
 
 use App\Core\Router as Router;
+use App\Model\Animal;
 
 require_once "../App/Core/Autoloader.php";
-
 
 session_start();
 
@@ -30,7 +30,6 @@ $router->addRoute('GET', ROOT . '/habitats/{name}', 'HabitatController', 'showHa
 $router->addRoute('GET', ROOT . '/habitats/{name}/{animalName}', 'HabitatController', 'showAnimal');
 
 $router->addRoute('GET', ROOT . '/upload', 'UploadController', 'index');
-$router->addRoute('POST', ROOT . '/upload', 'UploadController', 'uploadFile');
 
 $router->addRoute('GET', ROOT . '/test/{paramName}', 'HomeController', 'withParams');
 
@@ -43,14 +42,48 @@ $router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 
 //API
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
+
 $router->addRoute('GET', ROOT . '/api/advice/count', 'AdviceController', 'getAdviceCount');
 $router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAdvice');
 $router->addRoute('GET', ROOT . '/api/advice/{id}', 'AdviceController', 'getAdvice');
 
-$router->addRoute('POST', ROOT . '/api/habitats/comment', 'HabitatCommentController', 'getHabitatsComment');
-$router->addRoute('POST', ROOT . '/api/animals/report', 'ReportAnimalController', 'getReportAnimal');
 $router->addRoute('POST', ROOT . '/api/habitats', 'HabitatController', 'getHabitats');
+$router->addRoute('POST', ROOT . '/api/habitats/comment', 'HabitatCommentController', 'getHabitatsComment');
+$router->addRoute('POST', ROOT . '/api/habitats/uploadImage', 'HabitatController', 'uploadImage');
 $router->addRoute('POST', ROOT . '/api/habitats/images', 'HabitatController', 'getHabitatImages');
-$router->addRoute('PUT', ROOT . '/api/habitats', 'HabitatController', 'updateHabitat');
+$router->addRoute('DELETE', ROOT . '/api/habitats/images', 'HabitatController', 'deleteImage');
+$router->addRoute('POST', ROOT . '/api/habitats/create', 'HabitatController', 'createHabitat');
+$router->addRoute('POST', ROOT . '/api/habitats/update', 'HabitatController', 'updateHabitat');
+$router->addRoute('DELETE', ROOT . '/api/habitats', 'HabitatController', 'deleteHabitat');
+
+$router->addRoute('POST', ROOT . '/api/animals', 'AnimalController', 'getAnimals');
+$router->addRoute('POST', ROOT . '/api/animals/report', 'ReportAnimalController', 'getReportAnimal');
+$router->addRoute('POST', ROOT . '/api/animals/images', 'AnimalController', 'getAnimalImages');
+$router->addRoute('POST', ROOT . '/api/animals/uploadImage', 'AnimalController', 'uploadImage');
+$router->addRoute('POST', ROOT . '/api/animals/create', 'AnimalController', 'createAnimal');
+$router->addRoute('POST', ROOT . '/api/animals/update', 'AnimalController', 'updateAnimal');
+$router->addRoute('DELETE', ROOT . '/api/animals', 'AnimalController', 'deleteAnimal');
+$router->addRoute('DELETE', ROOT . '/api/animals/images', 'AnimalController', 'deleteImage');
+
+$router->addRoute('POST', ROOT . '/api/services', 'ServiceController', 'getServices');
+$router->addRoute('DELETE', ROOT . '/api/services', 'ServiceController', 'deleteService');
+$router->addRoute('POST', ROOT . '/api/services/update', 'ServiceController', 'updateService');
+$router->addRoute('POST', ROOT . '/api/services/create', 'ServiceController', 'createService');
+
+$router->addRoute('POST', ROOT . '/api/users', 'UserController', 'getUsers');
+$router->addRoute('DELETE', ROOT . '/api/users', 'UserController', 'deleteUser');
+$router->addRoute('POST', ROOT . '/api/users/update', 'UserController', 'updateUser');
+$router->addRoute('POST', ROOT . '/api/users/create', 'UserController', 'createUser');
+
+$router->addRoute('GET', ROOT . '/api/role', 'AuthController', 'getRole');
+
+// DASHBOARD NAVIGATION
+$router->addRoute('GET', ROOT . '/dashboard/habitat', 'AuthController', 'loadHabitatPage');
+$router->addRoute('GET', ROOT . '/dashboard/animal', 'AuthController', 'loadAnimalPage');
+$router->addRoute('GET', ROOT . '/dashboard/dashboard', 'AuthController', 'loadDashboardPage');
+$router->addRoute('GET', ROOT . '/dashboard/service', 'AuthController', 'loadServicePage');
+$router->addRoute('GET', ROOT . '/dashboard/user', 'AuthController', 'loadUserPage');
+
+
 
 $router->goRoute($router);

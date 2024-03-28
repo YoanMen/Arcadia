@@ -48,31 +48,3 @@
     </table>
   </div>
 </article>
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const ctx = document.getElementById('chart');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['name', 'name', 'name', 'name', 'name'],
-      datasets: [{
-        label: 'nombres de consultations',
-        data: [12, 19, 3, 5, 2],
-        borderWidth: 1,
-        backgroundColor: '#203c25',
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-</script>
-<script type="module" src="<?= ROOT ?>/assets/scripts/admin/habitatCommentTable.js"></script>
-<script type="module" src="<?= ROOT ?>/assets/scripts/admin/animalReportTable.js"></script>

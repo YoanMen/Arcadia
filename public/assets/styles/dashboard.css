@@ -3,10 +3,6 @@
   margin: 0 auto;
 }
 
-.dashboard__list {
-  width: 100%;
-}
-
 .dashboard-top {
   position: fixed;
   z-index: 2;
@@ -27,8 +23,10 @@
 }
 
 .dashboard-panel__list__item a {
+  display: flex;
   font-family: var(--font-kodchasan);
   font-size: 1.3rem;
+  min-height: 32px;
 }
 
 .dashboard-panel__list__item a:hover {
@@ -53,11 +51,19 @@
   max-width: 100%;
 }
 
+.dashboard__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .dashboard__container {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   width: 100%;
+  min-height: calc(100vh - 60px);
 }
 
 .dashboard-panel {
@@ -87,14 +93,6 @@
 
 .dashboard__element--full-width {
   width: 100%;
-}
-
-.dashboard__element__tbody--report {
-  height: calc(40vh - 32px);
-}
-
-.dashboard__element__table > table {
-  padding-top: 16px;
 }
 
 .dashboard__element[name="habitat-detail"] {
@@ -132,6 +130,7 @@ td {
   justify-content: space-between;
   padding-bottom: 8px;
 }
+
 thead {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -146,14 +145,14 @@ tr {
 tbody tr:nth-child(odd) {
   background-color: var(--bg-color-light);
 }
-tbody[id="habitatDetails-tbody"] {
-  height: 160px;
+tbody[id="habitatComment-tbody"] {
+  height: 200px;
 }
 tbody[id="animalReport-tbody"] {
   height: 30vh;
 }
-tbody[id="habitat-tbody"] {
-  height: calc(70vh - 24px);
+tbody {
+  height: calc(75vh - 24px);
 }
 
 @media screen and (max-width: 762px) {

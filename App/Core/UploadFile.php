@@ -3,7 +3,6 @@
 namespace App\Core;
 
 use App\Core\Exception\FileException;
-use Exception;
 
 class UploadFile
 {
@@ -13,13 +12,17 @@ class UploadFile
    */
   public static function upload(): string|null
   {
+
+    if (!isset($_FILES['file'])) {
+      throw new FileException("aucun fichier upload");
+    }
     $image_error = $_FILES['file']['error'];
+
 
     if ($image_error === 0) {
       $fileName =  $_FILES['file']['name'];
 
       $file_tmp_name = $_FILES['file']['tmp_name'];
-      debugPrint($_FILES['file']);
       $fileMimeType = mime_content_type($file_tmp_name);
       $fileSize = $_FILES['file']['size'];
       $extension = explode('.', $fileName);
@@ -27,7 +30,6 @@ class UploadFile
       $extension = strtolower($extension);
 
       $fileName = rtrim($fileName, ". .$extension");
-      debugPrint($_FILES['file']);
 
       // Enregistrer l'image dans notre dossier uploads
       if ($fileSize > MAX_FILE_SIZE) {
@@ -43,7 +45,6 @@ class UploadFile
       if (!file_exists($destination)) {
         move_uploaded_file($file_tmp_name, $destination);
 
-        echo " L'image a bien été enregistrée";
 
         return $fileName;
       } else {
@@ -79,11 +80,14 @@ class UploadFile
    * Remove a file
    * @param $filename path of file
    */
-  public static function remove(string $fileName)
+  public  static function  remove(string $fileName)
   {
     try {
-      unlink("uploads/" . $fileName);
-    } catch (Exception $e) {
+
+      if (file_exists("uploads/" . $fileName)) {
+        unlink("uploads/" . $fileName);
+      }
+    } catch (FileException $e) {
       throw new FileException("Unable to delete image : " . $e->getMessage());
     }
   }

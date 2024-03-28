@@ -189,11 +189,6 @@ class Habitat extends Model
 
       $search .=  '%';
 
-      if ($order !== 'ASC' && $order !== 'DESC') {
-        $order = 'DESC';
-      }
-
-
       $allowedOrderBy = ['id', 'name'];
       $allowedOrder = ['ASC', 'DESC'];
 
@@ -220,29 +215,24 @@ class Habitat extends Model
       throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
     }
   }
-  public function findAllAnimals(): array|null
+
+  public function insertImage(int $habitatId, int $imageId): bool|null
   {
+
     try {
 
-      $result = null;
-      $habitatID = $this->getId();
-
       $pdo = $this->connect();
-      $query = "SELECT animal.id as id, animal.name, animal.race FROM habitat
-                INNER JOIN animal ON habitat.id = animal.habitatID
-                WHERE habitat.id = $habitatID;";
+      $query = "INSERT INTO `habitat_image`(`habitatID`, `imageID`) VALUES (:habitatId , :imageId)";
 
       $stm = $pdo->prepare($query);
+      $stm->bindParam(':habitatId', $habitatId, PDO::PARAM_INT);
+      $stm->bindParam(':imageId', $imageId, PDO::PARAM_INT);
 
-      if ($stm->execute()) {
-        while ($result = $stm->fetchObject(Animal::class)) {
-          $results[] = $result;
-        }
-      }
+      $stm->execute();
 
-      return $results;
+      return true;
     } catch (PDOException $e) {
-      throw new DatabaseException("Error findAllAnimals : " . $e->getMessage(), $e->getCode(), $e);
+      throw new DatabaseException("Error to insert habitat_image : " . $e->getMessage());
     }
   }
 }

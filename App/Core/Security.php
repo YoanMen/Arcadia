@@ -5,9 +5,13 @@ namespace App\Core;
 class Security
 {
 
+  public static function getRole(): string
+  {
+    return $_SESSION['user']['role'];
+  }
   public static function isLogged(): bool
   {
-    return isset($_SESSION['user']);
+    return isset($_SESSION['user']) ?? '';
   }
 
   public static function isEmployee(): bool

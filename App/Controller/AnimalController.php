@@ -4,97 +4,16 @@ namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
 use App\Core\Exception\ValidatorException;
-use App\Core\Router;
 use App\Core\Security;
 use App\Core\UploadFile;
 use App\Model\Animal;
 use App\Model\Habitat;
 use App\Model\Image;
-use App\Model\ReportAnimal;
 use Exception;
 
-class HabitatController extends Controller
+class AnimalController extends Controller
 {
-  public function index()
-  {
-
-    $currentPage = 0;
-    if (isset($_GET['page'])) {
-      $getPage = filter_var($_GET['page'], FILTER_VALIDATE_INT);
-      if (is_int($getPage)) {
-        $currentPage = $getPage - 1;
-      }
-    }
-
-
-    // initialize data for habitat page
-    $habitatRepository = new Habitat;
-    $nbHabitats = $habitatRepository->count();
-    $habitatRepository->setLimit(10);
-    $totalPages = ceil($nbHabitats / $habitatRepository->getLimit());
-    $first = $currentPage * $habitatRepository->getLimit();
-    $habitatRepository->setOffset($first);
-    $habitats = $habitatRepository->fetchAll();
-
-    // search image for all habitat
-
-    if ($habitats) {
-      foreach ($habitats as $habitat) {
-        $habitat->findImages();
-      }
-    }
-
-
-    $this->show('habitat', [
-      'habitats' => $habitats,
-      'totalPages' => $totalPages,
-      'currentPage' => $currentPage + 1
-    ]);
-  }
-
-  // show animal page
-  public function showAnimal($request)
-  {
-    try {
-      $name = htmlspecialchars($request['animalName']);
-      $name = str_replace('-', ' ', $name);
-      $habitatName = htmlspecialchars($request['name']);
-      $habitatName = str_replace('-', ' ', $habitatName);
-
-      $habitatRepository = new Habitat();
-      $animalRepository = new Animal();
-
-
-      // find habitat of animal
-      $habitat = $habitatRepository->findOneBy(['name' => $habitatName]);
-
-      // find animal with data
-      if (isset($habitat)) {
-        $animal = $animalRepository->findOneBy(['name' => $name, 'habitatId' => $habitat->getId()]);
-
-        if ($animal) {
-          $animal->findImages();
-          $reportRepository = new ReportAnimal();
-          $report =  $reportRepository->findOneBy(['animalId' => $animal->getId()]);
-
-          $this->show('animal', [
-            'animal' => $animal,
-            'habitat' => $habitatName,
-            'report' => $report
-          ]);
-        } else {
-          throw new DatabaseException('Animal not exist');
-        }
-      } else {
-        throw new DatabaseException('Habitat for animal not exist');
-      }
-    } catch (Exception $e) {
-      Router::redirect('error');
-    }
-  }
-
-  // fetch get image corresponding habitat
-  public function getHabitatImages()
+  public function getAnimalImages()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
 
@@ -106,10 +25,10 @@ class HabitatController extends Controller
 
         // get images for habitat
         $id = htmlspecialchars($data['params']['id']);
-        $habitatRepo = new Habitat();
-        $habitatImages = $habitatRepo->fetchImages($id);
+        $animalRepo = new Animal();
+        $animalImages = $animalRepo->fetchImages($id);
 
-        echo json_encode(['data' => $habitatImages]);
+        echo json_encode(['data' => $animalImages]);
       } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);
@@ -125,45 +44,6 @@ class HabitatController extends Controller
     }
   }
 
-  // show habitat page
-  public function showHabitat($request)
-  {
-    try {
-      $name = htmlspecialchars($request['name']);
-      $name = str_replace('-', ' ', $name);
-
-      $habitatRepository = new Habitat();
-      $animalRepository = new Animal();
-
-
-      // find image for habitat
-      $habitat = $habitatRepository->findOneBy(['name' => $name]);
-      $habitat->findImages();
-
-      // find all animals and images corresponding habitat
-      $animals = $animalRepository->find(['habitatId' => $habitat->getId()]);
-
-      if ($animals) {
-        foreach ($animals as $animal) {
-          $animal->findImages();
-        }
-      }
-
-
-      if (isset($habitat)) {
-        $this->show('habitatDetails', [
-          'habitat' => $habitat,
-          'animals' => $animals
-        ]);
-      } else {
-        throw new DatabaseException('Habitat not exist');
-      }
-    } catch (Exception $e) {
-      Router::redirect('error');
-    }
-  }
-
-  // fetch delete image
   public function  deleteImage()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
@@ -205,8 +85,6 @@ class HabitatController extends Controller
     }
   }
 
-
-  // fetch upload image
   public function uploadImage()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
@@ -217,12 +95,12 @@ class HabitatController extends Controller
 
         $path =  UploadFile::upload();
         $imageRepo = new Image();
-        $habitatRepo = new Habitat();
+        $animalRepo = new Animal();
 
         $imageRepo->insert(['path' => $path]);
         $image = $imageRepo->findOneBy(['path' => $path]);
 
-        $habitatRepo->insertImage($id, $image->getId());
+        $animalRepo->insertImage($id, $image->getId());
 
         echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
       } catch (Exception $e) {
@@ -239,9 +117,7 @@ class HabitatController extends Controller
       }
     }
   }
-
-  // get Habitats for fetch depending params
-  public function getHabitats()
+  public function getAnimals()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
     if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isAdmin()) {
@@ -257,18 +133,20 @@ class HabitatController extends Controller
         $orderBy = htmlspecialchars($data['params']['orderBy']);
         $count = htmlspecialchars($data['params']['count']);
 
-        $habitatsRepo = new Habitat();
+        $animalRepo = new Animal();
+        $habitatRepo = new Habitat();
 
-        $habitatCount = $habitatsRepo->habitatsCount($search);
-        $remainCount = $habitatCount - $count;
+        $habitat = $habitatRepo->fetchAll(true);
 
+        $animalCount = $animalRepo->animalsCount($search);
+        $remainCount = $animalCount - $count;
 
         // check if remaining data
         if ($remainCount > 0) {
-          $habitatsRepo->setOffset($count);
-          $habitatsComment = $habitatsRepo->fetchHabitats($search, $order, $orderBy);
+          $animalRepo->setOffset($count);
+          $animals = $animalRepo->fetchAnimals($search, $order, $orderBy);
 
-          echo json_encode(['data' => $habitatsComment, 'totalCount' => $habitatCount]);
+          echo json_encode(['data' => $animals, 'totalCount' => $animalCount, 'habitat' => $habitat]);
         } else {
           throw new DatabaseException('aucun résultat');
         }
@@ -288,26 +166,28 @@ class HabitatController extends Controller
   }
 
 
-  public function createHabitat()
+  public function createAnimal()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? "";
 
     if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isAdmin()) {
       try {
         $name = $_POST['name'];
-        $description = $_POST['description'];
-
+        $race = $_POST['race'];
+        $habitat = $_POST['habitat'];
         $name = htmlspecialchars($name);
-        $description = htmlspecialchars($description);
+        $race = htmlspecialchars($race);
+        $habitat = htmlspecialchars($habitat);
 
-        $this->ValidateValues($name, $description);
+        $this->ValidateValues($name, $race, $habitat);
 
         $name = ltrim($name, ' ');
-        $description = ltrim($description, ' ');
-        $name = ucfirst($name);
-        $description = ucfirst($description);
+        $race = ltrim($race, ' ');
 
-        $habitatRepo = new Habitat();
+        $name = ucfirst($name);
+        $race = ucfirst($race);
+
+        $animalRepo = new Animal();
 
         // upload file and return path
         $path =  UploadFile::upload();
@@ -318,14 +198,14 @@ class HabitatController extends Controller
         // get id of image
         $image = $imageRepo->findOneBy(['path' => $path]);
 
-        // insert new habitat on table
-        $habitatRepo->insert(['name' => $name, 'description' => $description]);
-        $habitat = $habitatRepo->findOneBy(['name' => $name]);
+        // insert new animal on table
+        $animalRepo->insert(['name' => $name, 'race' => $race, 'habitatId' => $habitat]);
+        $animal = $animalRepo->findOneBy(['name' => $name]);
 
-        // send habitat_id and image_id to habitat_image
-        $habitatRepo->insertImage($habitat->getId(), $image->getId());
+        // send animal_id and image_id to animal_image
+        $animalRepo->insertImage($animal->getId(), $image->getId());
 
-        echo json_encode(['success' => 'l/`habitat à été crée']);
+        echo json_encode(['success' => 'l/`animal à été crée']);
       } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);
@@ -341,7 +221,7 @@ class HabitatController extends Controller
     }
   }
 
-  public function updateHabitat()
+  public function updateAnimal()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
 
@@ -352,19 +232,23 @@ class HabitatController extends Controller
 
         $id = htmlspecialchars($data['params']['id']);
         $name = htmlspecialchars($data['params']['name']);
-        $description = htmlspecialchars($data['params']['description']);
+        $race = htmlspecialchars($data['params']['race']);
+        $habitat =  htmlspecialchars($data['params']['habitat']);
 
-        $this->ValidateValues($name, $description, $id);
+        $habitat = intval($habitat);
+
+        $this->ValidateValues($name, $race, $habitat,  $id);
 
         $name = trim($name);
-        $description = trim($description);
+        $race = trim($race);
+
         $name = ucfirst($name);
-        $description = ucfirst($description);
-        $habitatRepo = new Habitat();
+        $race = ucfirst($race);
+        $animalRepo = new Animal();
 
-        $habitatRepo->update(['name' => $name, 'description' => $description], $id);
+        $animalRepo->update(['name' => $name, 'race' => $race, 'habitatId' => $habitat], $id);
 
-        echo json_encode(['success' => 'l/`habitat à été modifié']);
+        echo json_encode(['success' => 'l/`animal à été modifié']);
       } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);
@@ -380,7 +264,7 @@ class HabitatController extends Controller
     }
   }
 
-  public function deleteHabitat()
+  public function deleteAnimal()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'];
 
@@ -392,21 +276,21 @@ class HabitatController extends Controller
 
         $id = htmlspecialchars($data['params']['id']);
 
-        $habitatRepo = new Habitat();
-        $habitatImages = $habitatRepo->fetchImages($id);
+        $animalRepo = new Animal();
+        $animalImages = $animalRepo->fetchImages($id);
 
 
-        // delete image of habitat
-        if ($habitatImages) {
-          foreach ($habitatImages as $image) {
+        // delete image of animal
+        if ($animalImages) {
+          foreach ($animalImages as $image) {
             UploadFile::remove($image['path']);
           }
         }
 
-        // delete habitat
-        $habitatRepo->delete(['id' => $id]);
+        // delete animal
+        $animalRepo->delete(['id' => $id]);
 
-        echo json_encode(['success' => 'l/`habitat à été supprimé']);
+        echo json_encode(['success' => 'l/`animal à été supprimé']);
       } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);
@@ -421,10 +305,10 @@ class HabitatController extends Controller
       }
     }
   }
-
-  public function ValidateValues(string $name, string $description, int $id = null)
+  public function ValidateValues(string $name, string $race, int $habitat, int $id = null)
   {
     // verification of user values
+
     if (regexSpecialCharacter($name)) {
       throw new ValidatorException('Ne doit pas contenir de caractère spéciales');
     }
@@ -433,26 +317,27 @@ class HabitatController extends Controller
       throw new ValidatorException('Le nom doit être entre 3 et 60 caractères');
     }
 
-    if (!strlen($description) >= 10) {
-      throw new ValidatorException('La description doit être de 10 minimum');
+    if (!(strlen($race) >= 3 && strlen($race) <= 60)) {
+      throw new ValidatorException('Le race doit être entre 3 et 60 caractères');
     }
-    $habitatRepo = new Habitat();
 
-
-    if (isset($id) && !is_int($id)) {
-      throw new ValidatorException('ID doit être un int');
+    if (!is_int($habitat)) {
+      throw new ValidatorException('l\'habitat doit être un int');
     }
-    // check if habitat with this name dont exist
+
+    $animalRepo = new Animal();
+
+    // check if animal with this name dont exist
 
     if (!isset($id)) {
 
-      if ($habitatRepo->findOneBy(['name' => $name])) {
-        throw new ValidatorException('un habitat avec ce nom existe déjà');
+      if ($animalRepo->findOneBy(['name' => $name])) {
+        throw new ValidatorException('un animal avec ce nom existe déjà');
       }
     } else {
-      $habitat = $habitatRepo->findOneBy(['name' => $name]);
-      if ($habitat && $habitat->getId() != $id) {
-        throw new ValidatorException('un habitat avec ce nom existe déjà');
+      $animal = $animalRepo->findOneBy(['name' => $name]);
+      if ($animal && $animal->getId() != $id) {
+        throw new ValidatorException('un animal avec ce nom existe déjà');
       }
     }
   }

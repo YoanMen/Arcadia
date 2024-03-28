@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Core\Exception\AuthenticationException;
 use App\Core\Router;
 use App\Core\Security;
 use App\Model\User;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -78,5 +80,118 @@ class AuthController extends Controller
 
     Router::redirect();
     exit;
+  }
+
+
+  public function getRole()
+  {
+    if (Security::isLogged() && $_SERVER['REQUEST_METHOD'] === 'GET') {
+
+
+      switch (Security::getRole()) {
+        case 'employee':
+          echo json_encode(['role' => 'employee']);
+          break;
+        case 'veterinary':
+          echo json_encode(['role' => 'veterinary']);
+          break;
+        case 'admin':
+          echo json_encode(['role' => 'admin']);
+          break;
+        default:
+          throw new AuthenticationException('le role n\'est pas valide');
+      }
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
+  }
+  public function loadDashboardPage()
+  {
+    if (Security::isLogged() && $_SERVER['REQUEST_METHOD'] === 'GET') {
+      header('Content-Type: text/html');
+
+      switch (Security::getRole()) {
+        case 'employee':
+          require_once '../App/View/partials/admin/menu/_service.php';
+          break;
+        case 'veterinary':
+          # code...
+          break;
+        case 'admin':
+          require_once '../App/View/partials/admin/menu/_dashboard.php';
+          break;
+      }
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
+  }
+
+  public function loadUserPage()
+  {
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'GET') {
+      header('Content-Type: text/html');
+
+      require_once '../App/View/partials/admin/menu/_user.php';
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
+  }
+
+  public function loadHabitatPage()
+  {
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'GET') {
+      header('Content-Type: text/html');
+
+      include "../App/View/partials/admin/menu/_habitat.php";
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
+  }
+
+  public function loadAnimalPage()
+  {
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'GET') {
+      header('Content-Type: text/html');
+
+      include "../App/View/partials/admin/menu/_animal.php";
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
+  }
+
+  public function loadServicePage()
+  {
+    if (
+      Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'GET' ||
+      Security::isEmployee() && $_SERVER['REQUEST_METHOD'] === 'GET'
+    ) {
+      header('Content-Type: text/html');
+
+      include "../App/View/partials/admin/menu/_service.php";
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
+  }
+
+  public function loadAdvicePage()
+  {
+  }
+
+  public function loadFoodAnimal()
+  {
+  }
+
+  public function loadReportAnimalPage()
+  {
+  }
+
+  public function loadCommentHabitatPage()
+  {
   }
 }

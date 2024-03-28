@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
-
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
 </head>
 
 <body>
@@ -20,18 +21,15 @@
   <?php require_once '../App/View/partials/admin/_adminTop.php' ?>
 
   <main class="dashboard">
-
-
-    <div class="dashboard__container">
-      <?php require_once '../App/View/partials/admin/menu/_habitat.php' ?>
-
+    <div id='dashboard-content' class="dashboard__container">
     </div>
-
   </main>
 
-  <dialog class='dialog--admin'>
+  <dialog class='dialog--confirm'>
 
   </dialog>
+
+  <script type="module" src="<?= ROOT ?>/assets/scripts/admin/navigation.js"></script>
 </body>
 
 </html>

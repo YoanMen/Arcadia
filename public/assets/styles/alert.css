@@ -1,0 +1,47 @@
+.alert {
+  padding: 6px;
+  top: 0;
+  gap: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 380px;
+  min-height: 60px;
+  border: solid 1px rgba(0, 0, 0, 0.05);
+  transform: translate(0, 0);
+  margin-bottom: 6px;
+}
+
+.alert--dismiss {
+  animation: dismiss linear 0.5s;
+}
+
+.alert button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+.alert--danger {
+  background-color: #f8d7daff;
+}
+
+.alert--success {
+  background-color: #d4eddaff;
+}
+
+.alert__container {
+  z-index: 1000;
+  right: 16px;
+  bottom: 0;
+  position: fixed;
+  width: fit-content;
+}
+
+@keyframes dismiss {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(calc(400px + 16px), 0);
+  }
+}

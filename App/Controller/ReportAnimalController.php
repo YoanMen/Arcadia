@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Core\Exception\DatabaseException;
 use App\Core\Security;
 use App\Model\ReportAnimal;
 use Exception;
@@ -21,7 +22,6 @@ class ReportAnimalController extends Controller
         $search = htmlspecialchars($data['params']['search']);
         $order = htmlspecialchars($data['params']['order']);
         $orderBy = htmlspecialchars($data['params']['orderBy']);
-        $date = '';
         $date = htmlspecialchars($data['params']['date']);
         $count = htmlspecialchars($data['params']['count']);
 
@@ -35,7 +35,7 @@ class ReportAnimalController extends Controller
           $reports = $animaReportRepo->fetchReportAnimal($search, $date, $order, $orderBy);
           echo json_encode(['data' => $reports, 'totalCount' => $reportCount]);
         } else {
-          echo json_encode(['error' => 'aucun résultat']);
+          throw new DatabaseException("aucun résultat");
         }
       } catch (Exception $e) {
         http_response_code(500);

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
+use App\Core\Exception\ValidatorException;
 use App\Core\Router;
+use App\Core\Security;
 use App\Model\Service;
 use Exception;
 
@@ -36,9 +38,6 @@ class ServiceController extends Controller
     ]);
   }
 
-
-
-
   public function showService($request)
   {
     try {
@@ -57,6 +56,213 @@ class ServiceController extends Controller
       }
     } catch (Exception $e) {
       Router::redirect('/error');
+    }
+  }
+
+  public function getServices()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (
+      Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isEmployee()
+      || Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isAdmin()
+    ) {
+      try {
+
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+
+        // get all params
+        $search = htmlspecialchars($data['params']['search']);
+        $order = htmlspecialchars($data['params']['order']);
+        $orderBy = htmlspecialchars($data['params']['orderBy']);
+        $count = htmlspecialchars($data['params']['count']);
+
+        $serviceRepo = new Service();
+
+        $serviceCount = $serviceRepo->servicesCount($search);
+        $remainCount = $serviceCount - $count;
+
+
+        // check if remaining data
+        if ($remainCount > 0) {
+          $serviceRepo->setOffset($count);
+          $habitatsComment = $serviceRepo->fetchServices($search, $order, $orderBy);
+
+          echo json_encode(['data' => $habitatsComment, 'totalCount' => $serviceCount]);
+        } else {
+          throw new DatabaseException('aucun résultat');
+        }
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
+    }
+  }
+
+  public function createService()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+
+    if (
+      Security::verifyCsrf($csrf) && Security::isEmployee() && $_SERVER['REQUEST_METHOD'] === 'POST'
+      || Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'POST'
+    ) {
+
+      try {
+
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $name = htmlspecialchars($data['params']['name']);
+        $description = htmlspecialchars($data['params']['description']);
+
+        $this->ValidateValues($name, $description);
+
+        $name = ltrim($name, ' ');
+        $description = ltrim($description, ' ');
+
+        $name = ucfirst($name);
+        $description = ucfirst($description);
+
+        $serviceRepo = new Service();
+
+        $serviceRepo->insert(['name' => $name, 'description' => $description]);
+        echo json_encode(['success' => 'le service à été crée']);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
+    }
+  }
+  public function updateService()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+
+    if (
+      Security::verifyCsrf($csrf) && Security::isEmployee() && $_SERVER['REQUEST_METHOD'] === 'POST'
+      || Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'POST'
+    ) {
+
+      try {
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $id = htmlspecialchars($data['params']['id']);
+        $name = htmlspecialchars($data['params']['name']);
+        $description = htmlspecialchars($data['params']['description']);
+
+        $name = htmlspecialchars($name);
+        $description = htmlspecialchars($description);
+
+        $this->ValidateValues($name, $description, $id);
+
+        $name = ltrim($name, ' ');
+        $description = ltrim($description, ' ');
+
+        $name = ucfirst($name);
+        $description = ucfirst($description);
+
+        $serviceRepo = new Service();
+
+        $serviceRepo->update(['name' => $name, 'description' => $description], $id);
+        echo json_encode(['success' => 'le service à été modifié']);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
+    }
+  }
+
+  public function deleteService()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'];
+
+    if (
+      Security::verifyCsrf($csrf) && Security::isEmployee() && $_SERVER['REQUEST_METHOD'] === 'DELETE'
+      || Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'DELETE'
+    ) {
+
+      try {
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $id = htmlspecialchars($data['params']['id']);
+
+        $serviceRepo = new Service();
+        $serviceRepo->delete(['id' => $id]);
+
+        echo json_encode(['success' => 'le service à été supprimé']);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
+    }
+  }
+
+
+  public function ValidateValues(string $name, string $description,  int $id = null)
+  {
+    // verification of user values
+    if (regexSpecialCharacter($name)) {
+      throw new ValidatorException('Ne doit pas contenir de caractère spéciales');
+    }
+
+    if (!(strlen($name) >= 3 && strlen($name) <= 60)) {
+      throw new ValidatorException('Le nom doit être entre 3 et 60 caractères');
+    }
+
+    if (!strlen($description) >= 10) {
+      throw new ValidatorException('La description doit être de 10 minimum');
+    }
+
+    $serviceRepo = new Service();
+
+
+    if (isset($id) && !is_int($id)) {
+      throw new ValidatorException('ID doit être un int');
+    }
+    if (!isset($id)) {
+      if ($serviceRepo->findOneBy(['name' => $name])) {
+        throw new ValidatorException('un service avec ce nom existe déjà');
+      }
+    } else {
+      $habitat = $serviceRepo->findOneBy(['name' => $name]);
+      if ($habitat && $habitat->getId() != $id) {
+        throw new ValidatorException('un service avec ce nom existe déjà');
+      }
     }
   }
 }

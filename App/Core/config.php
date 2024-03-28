@@ -35,7 +35,5 @@ define('ALLOWED_EXTENSIONS_FILE', ['png', 'jpeg', 'jpg', 'webp']);
 define('ALLOWED_MIME_TYPES', [
 	'image/jpeg',
 	'image/png',
-	'image/gif',
-	'image/bmp',
 	'image/webp'
 ]);

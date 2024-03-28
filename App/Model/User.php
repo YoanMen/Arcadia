@@ -1,5 +1,9 @@
 <?php
+
 namespace App\Model;
+
+use App\Core\Exception\DatabaseException;
+use PDO;
 
 class User extends Model
 {
@@ -100,5 +104,67 @@ class User extends Model
 		$this->role = $role;
 
 		return $this;
+	}
+
+	public function userCount($search)
+	{
+
+		try {
+			$search .= '%';
+
+			$pdo = $this->connect();
+			$query = "SELECT COUNT(user.id) as total_count
+								FROM user
+								WHERE user.email LIKE :search	";
+
+			$stm = $pdo->prepare($query);
+			$stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+			if ($stm->execute()) {
+				$result = $stm->fetch();
+			}
+
+			return ($result[0] != null) ? $result[0] : null;
+		} catch (DatabaseException $e) {
+			throw new DatabaseException('Error count :' . $e->getMessage());
+		}
+	}
+
+	public function fetchUsers(string $search, string $order, string $orderBy): array|null
+	{
+		try {
+
+			$results = null;
+
+			$search .=  '%';
+
+			$allowedOrderBy = ['id', 'email', 'role'];
+			$allowedOrder = ['ASC', 'DESC'];
+
+			$orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
+			$order = in_array($order, $allowedOrder) ? $order : 'ASC';
+
+
+			$pdo = $this->connect();
+			$query = "SELECT user.id, user.email, user.password , user.role 
+							FROM $this->table
+							WHERE user.email LIKE :search
+							AND NOT user.role = 'admin'
+							ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset";
+
+
+			$stm = $pdo->prepare($query);
+			$stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+			if ($stm->execute()) {
+				while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+					$results[] = $result;
+				}
+			}
+
+			return $results;
+		} catch (DatabaseException $e) {
+			throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+		}
 	}
 }

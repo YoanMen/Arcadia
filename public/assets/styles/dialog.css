@@ -7,21 +7,35 @@ dialog {
   border: none;
   border-radius: 5px;
   width: 400px;
+  height: 600px;
   overflow: hidden;
 }
 
-.dialog--admin {
-  position: fixed;
-  right: 0;
-  height: 85%;
-  width: 85%;
+.dialog--confirm {
+  height: fit-content;
+  width: 460px;
+  max-width: 80%;
+  padding: 12px 6px;
+}
+
+.dialog--confirm__buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.dialog--confirm__paraph {
+  margin: 32px 0;
+}
+.dialog--admin .dialog__content {
+  margin-top: 80px;
+  height: calc(100% - 80px);
 }
 
 .dialog__content {
-  margin-top: 80px;
+  margin-top: 40px;
   padding: var(--padding);
   overflow: scroll;
-  height: calc(100% - 80px);
+  height: calc(100% - 40px);
 }
 
 ::backdrop {
@@ -33,28 +47,6 @@ dialog {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-.dialog__form label {
-  display: block;
-}
-.dialog__form input,
-.dialog__form button,
-.dialog__form textarea {
-  width: 100%;
-}
-
-.dialog__comment {
-  margin-top: 48px;
-}
-.dialog__date {
-  margin-bottom: 16px;
-}
-
-.dialog__creator {
-  width: fit-content;
-  margin-bottom: 32px;
-  margin-left: auto;
-  font-size: 1rem;
 }
 
 .dialog__top {
@@ -68,81 +60,11 @@ dialog {
   min-height: 80px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
+
 .dialog__top__buttons {
   display: flex;
   margin-left: auto;
   gap: 4px;
-}
-
-.dialog__list {
-  display: flex;
-  flex-direction: column;
-}
-
-.dialog__item:first-child() {
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.dialog__item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  min-height: 40px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 0 var(--padding);
-}
-
-.dialog__item label {
-  width: 30%;
-  margin-right: 10px;
-}
-
-.dialog__input-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  width: 100%;
-}
-
-.dialog__input-wrapper .dialog__input--delete {
-  width: 30%;
-}
-
-.dialog__input:nth-child(odd) {
-  background-color: var(--bg-color-light);
-}
-
-.dialog__item:nth-child(odd) {
-  background-color: var(--bg-color-light);
-}
-
-.dialog__textarea:nth-child(odd) {
-  background-color: white;
-}
-
-.dialog__input,
-.dialog__textarea {
-  margin: 6px 0;
-  width: 100%;
-}
-
-.dialog__item label:first-child {
-  width: 40%;
-  opacity: 0.5;
-}
-
-.dialog__btn {
-  margin-top: 16px;
-}
-
-.dialog__item p:last-child {
-  padding-left: 6px;
-}
-
-.dialog__image {
-  width: 320px;
-  padding: var(--padding);
-  padding-left: 0;
 }
 
 @media screen and (max-width: 762px) {
@@ -150,20 +72,11 @@ dialog {
     width: 100%;
   }
 
-  .dialog--admin {
+  .dialog--confirm__buttons {
+    flex-direction: column-reverse;
+  }
+
+  .dialog--confirm__buttons button {
     width: 100%;
-    height: 100%;
-  }
-
-  .dialog__image {
-    width: 100%;
-  }
-
-  .dialog__item {
-    padding: 0;
-  }
-
-  .dialog__input-wrapper {
-    flex-direction: column;
   }
 }

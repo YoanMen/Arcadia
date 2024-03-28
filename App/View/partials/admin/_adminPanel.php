@@ -6,49 +6,65 @@ use App\Core\Security;
   <a class="dashboard__logo" href="<?= ROOT ?>/">
     <img height="84px" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt="" srcset="">
   </a>
-  <ul class="dashboard-panel__list">
-    <?php
-    if (Security::isVeterinary()) { ?>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="" srcset="">
-          <span for="">commentaire sur les habitats</span></a>
-      </li>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
-          <span for="">rapport sur les animaux</span> </a>
-      </li>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
-          <span for="">alimentation</span> </a>
-      </li>
-    <?php }
-    if (Security::isEmployee()) { ?>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="" srcset="">
-          <span for="">avis</span></a>
-      </li>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
-          <span for="">services</span> </a>
-      </li>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
-          <span for="">alimentation</span> </a>
-      </li>
-    <?php }
-    if (Security::isAdmin()) { ?>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="" srcset="">
-          <span for="">dashboard</span></a>
-      </li>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
-          <span for="">habitats</span> </a>
-      </li>
-      <li class="dashboard-panel__list__item">
-        <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
-          <span for="">animaux</span> </a>
-      </li>
-    <?php } ?>
-  </ul>
+  <nav>
+
+    <ul class="dashboard-panel__list">
+      <?php
+      // VETERINARY
+      if (Security::isVeterinary()) { ?>
+        <li class="dashboard-panel__list__item">
+          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="" srcset="">
+            <span for="">commentaire sur les habitats</span></a>
+        </li>
+        <li class="dashboard-panel__list__item">
+          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
+            <span for="">rapport sur les animaux</span> </a>
+        </li>
+        <li class="dashboard-panel__list__item">
+          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
+            <span for="">alimentation</span> </a>
+        </li>
+      <?php }
+      // EMPLOYEE
+      if (Security::isEmployee()) { ?>
+        <li class="dashboard-panel__list__item">
+          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="" srcset="">
+            <span for="">avis</span></a>
+        </li>
+        <li class="dashboard-panel__list__item">
+          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
+            <span for="">alimentation</span> </a>
+        </li>
+      <?php }
+      // ADMIN
+      if (Security::isAdmin()) { ?>
+        <li class="dashboard-panel__list__item">
+          <a href="#" id="menu-dashboard">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="dashboard icon" srcset="">
+            <span for="">dashboard</span></a>
+        </li>
+        <li class="dashboard-panel__list__item">
+          <a id="menu-user" href="#"> <img height="32px" src="<?= ROOT ?>/assets/images/icons/account-group.svg" alt="user icon" srcset="">
+            <span for="">utilisateurs</span> </a>
+        </li>
+        <li class="dashboard-panel__list__item">
+          <a id='menu-habitat' href="#">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="house icon" srcset="">
+            <span for="">habitats</span>
+          </a>
+        </li>
+        <li class="dashboard-panel__list__item">
+          <a id='menu-animal' href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="paw icon" srcset="">
+            <span for="">animaux</span> </a>
+        </li>
+      <?php }
+      if (Security::isEmployee() || Security::isAdmin()) { ?>
+        <li class="dashboard-panel__list__item">
+          <a id="menu-service" href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/account-wrench.svg" alt="" srcset="">
+            <span for="">services</span> </a>
+        </li>
+      <?php  } ?>
+    </ul>
+  </nav>
+
 </aside>
