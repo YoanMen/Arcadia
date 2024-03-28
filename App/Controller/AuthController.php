@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Core\Exception\AuthenticationException;
 use App\Core\Router;
 use App\Core\Security;
+use App\Model\Schedule;
 use App\Model\User;
 use Exception;
 
@@ -178,7 +179,22 @@ class AuthController extends Controller
       throw new AuthenticationException('Permission refusé');
     }
   }
+  public function loadSchedulePage()
+  {
+    if (
+      Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'GET'
+    ) {
+      header('Content-Type: text/html');
+      $schedulesRepository = new Schedule();
+      $schedules = $schedulesRepository->fetchAll();
 
+
+      include "../App/View/partials/admin/menu/_schedule.php";
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
+  }
   public function loadAdvicePage()
   {
   }

@@ -12,6 +12,7 @@ const habitatBtn = document.getElementById("menu-habitat");
 const animalBtn = document.getElementById("menu-animal");
 const serviceBtn = document.getElementById("menu-service");
 const userBtn = document.getElementById("menu-user");
+const scheduleBtn = document.getElementById("menu-schedule");
 
 init();
 
@@ -153,6 +154,35 @@ if (userBtn) {
   });
 }
 
+if (scheduleBtn) {
+  scheduleBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    await fetch("/public/dashboard/schedule", {
+      method: "GET",
+      headers: {
+        Accept: "text/html",
+      },
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((htmlContent) => {
+        deleteScripts();
+        const timestamp = new Date().getTime();
+
+        content.innerHTML = htmlContent;
+
+        const schedule = document.createElement("script");
+        schedule.id = "js";
+        schedule.type = "module";
+
+        schedule.src = `./assets/scripts/admin/schedule.js?v=${timestamp}`;
+
+        document.body.appendChild(schedule);
+      });
+  });
+}
 /*
  * delete old script to load script for new page
  */

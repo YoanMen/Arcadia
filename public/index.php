@@ -77,12 +77,15 @@ $router->addRoute('POST', ROOT . '/api/users/create', 'UserController', 'createU
 
 $router->addRoute('GET', ROOT . '/api/role', 'AuthController', 'getRole');
 
+$router->addRoute('POST', ROOT . '/api/schedules', 'ScheduleController', 'updateSchedule');
+
 // DASHBOARD NAVIGATION
 $router->addRoute('GET', ROOT . '/dashboard/habitat', 'AuthController', 'loadHabitatPage');
 $router->addRoute('GET', ROOT . '/dashboard/animal', 'AuthController', 'loadAnimalPage');
 $router->addRoute('GET', ROOT . '/dashboard/dashboard', 'AuthController', 'loadDashboardPage');
 $router->addRoute('GET', ROOT . '/dashboard/service', 'AuthController', 'loadServicePage');
 $router->addRoute('GET', ROOT . '/dashboard/user', 'AuthController', 'loadUserPage');
+$router->addRoute('GET', ROOT . '/dashboard/schedule', 'AuthController', 'loadSchedulePage');
 
 
 

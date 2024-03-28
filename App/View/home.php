@@ -167,7 +167,7 @@
         <input required type="text" name="pseudo" id="pseudo" minlength="3" maxlength="20">
         <label for="message">Message</label>
         <textarea required name="message" id="message" cols="30" rows="10" minlength="3" maxlength="200"></textarea>
-        <button disabled id="send-button" class="button">Envoyer mon avis</button>
+        <button disabled id="send-button" class="button max-width">Envoyer mon avis</button>
       </form>
     </div>
   </dialog>
