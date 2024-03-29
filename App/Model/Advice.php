@@ -2,6 +2,9 @@
 
 namespace App\Model;
 
+use App\Core\Exception\DatabaseException;
+use PDO;
+
 class Advice extends Model
 {
   protected string $table = 'advice';
@@ -83,5 +86,41 @@ class Advice extends Model
     $this->approved = $approved;
 
     return $this;
+  }
+
+
+
+  public function fetchAdvices($order, $orderBy): array | null
+  {
+    try {
+
+      $results = null;
+
+
+      $allowedOrderBy = ['approved'];
+      $allowedOrder = ['ASC', 'DESC'];
+
+      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'approved';
+      $order = in_array($order, $allowedOrder) ? $order : 'ASC';
+
+
+      $pdo = $this->connect();
+      $query = "SELECT * FROM $this->table
+                ORDER BY $orderBy  $order
+                LIMIT $this->limit
+                OFFSET $this->offset";
+
+      $stm = $pdo->prepare($query);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
   }
 }

@@ -197,6 +197,17 @@ class AuthController extends Controller
   }
   public function loadAdvicePage()
   {
+    if (
+      Security::isEmployee() && $_SERVER['REQUEST_METHOD'] === 'GET'
+    ) {
+      header('Content-Type: text/html');
+
+
+      include "../App/View/partials/admin/menu/_advice.php";
+    } else {
+      http_response_code(401);
+      throw new AuthenticationException('Permission refusé');
+    }
   }
 
   public function loadFoodAnimal()

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Core\Exception\DatabaseException;
+use App\Core\Exception\ValidatorException;
 use App\Core\Security;
 use App\Core\Validator;
 use App\Model\Advice;
@@ -102,20 +102,80 @@ class AdviceController extends Controller
       echo json_encode(['error' => 'CSRF token is not valid']);
     }
   }
-  public function approvedAdvice(int $id)
+
+
+  public function updateAdvice()
   {
-    $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-    try {
-      $adviceRepository = new Advice();
-      $advice = $adviceRepository->findOneBy(['id' => $id]);
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
 
-      if (isset($advice)) {
-        $advice->setApproved(true);
+    if (Security::verifyCsrf($csrf) && Security::isEmployee() && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        $adviceRepository->update(['approved' => $advice->getApproved()], $id);
+      try {
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $id = htmlspecialchars($data['params']['id']);
+
+        if (!is_int(intval($id))) {
+          throw new ValidatorException('ID doit être un int');
+        }
+        $adviceRepo = new Advice();
+
+        $advice = $adviceRepo->findOneBy(['id' => $id]);
+
+        $current = $advice->getApproved();
+
+        $adviceRepo->update(['approved' => !$current], $id);
+        echo json_encode(['success' => 'l\'avis à été modifié']);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
       }
-    } catch (Exception $e) {
-      throw new DatabaseException('Impossible d\'approuver l\'avis');
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
+    }
+  }
+
+  public function getAdvices()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isEmployee()) {
+      try {
+
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        // get all params
+        $order = htmlspecialchars($data['params']['order']);
+        $orderBy = htmlspecialchars($data['params']['orderBy']);
+        $count = htmlspecialchars($data['params']['count']);
+
+        $adviceRepo = new Advice();
+
+        $adviceCount = $adviceRepo->count();
+
+        $adviceRepo->setOffset($count);
+        $advices = $adviceRepo->fetchAdvices($order, $orderBy);
+
+        echo json_encode(['data' => $advices, 'totalCount' => $adviceCount]);
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
     }
   }
 }

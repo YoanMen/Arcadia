@@ -28,7 +28,8 @@ use App\Core\Security;
       // EMPLOYEE
       if (Security::isEmployee()) { ?>
         <li class="dashboard-panel__list__item">
-          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/star.svg" alt="" srcset="">
+          <a href="#" id="menu-advice">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/star.svg" alt="" srcset="">
             <span for="">avis</span></a>
         </li>
         <li class="dashboard-panel__list__item">
@@ -59,6 +60,11 @@ use App\Core\Security;
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="paw icon" srcset="">
             <span for="">animaux</span> </a>
         </li>
+        <li class="dashboard-panel__list__item">
+          <a id='menu-schedule' href="">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/clock-outline.svg" alt="clock icon" srcset="">
+            <span for="">horaires</span> </a>
+        </li>
       <?php }
       if (Security::isEmployee() || Security::isAdmin()) { ?>
         <li class="dashboard-panel__list__item">
@@ -67,11 +73,7 @@ use App\Core\Security;
             <span for="">services</span> </a>
         </li>
       <?php  } ?>
-      <li class="dashboard-panel__list__item">
-        <a id='menu-schedule' href="">
-          <img height="32px" src="<?= ROOT ?>/assets/images/icons/clock-outline.svg" alt="clock icon" srcset="">
-          <span for="">horaires</span> </a>
-      </li>
+
     </ul>
   </nav>
 

@@ -79,6 +79,11 @@ $router->addRoute('GET', ROOT . '/api/role', 'AuthController', 'getRole');
 
 $router->addRoute('POST', ROOT . '/api/schedules', 'ScheduleController', 'updateSchedule');
 
+$router->addRoute('POST', ROOT . '/api/advices/update', 'AdviceController', 'updateAdvice');
+$router->addRoute('POST', ROOT . '/api/advices', 'AdviceController', 'getAdvices');
+
+
+
 // DASHBOARD NAVIGATION
 $router->addRoute('GET', ROOT . '/dashboard/habitat', 'AuthController', 'loadHabitatPage');
 $router->addRoute('GET', ROOT . '/dashboard/animal', 'AuthController', 'loadAnimalPage');
@@ -86,7 +91,6 @@ $router->addRoute('GET', ROOT . '/dashboard/dashboard', 'AuthController', 'loadD
 $router->addRoute('GET', ROOT . '/dashboard/service', 'AuthController', 'loadServicePage');
 $router->addRoute('GET', ROOT . '/dashboard/user', 'AuthController', 'loadUserPage');
 $router->addRoute('GET', ROOT . '/dashboard/schedule', 'AuthController', 'loadSchedulePage');
-
-
+$router->addRoute('GET', ROOT . '/dashboard/advice', 'AuthController', 'loadAdvicePage');
 
 $router->goRoute($router);

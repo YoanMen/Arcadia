@@ -5,9 +5,7 @@ use App\Model\Schedule; ?>
 <article name="service" class="dashboard__element dashboard__element--full-width ">
   <div class="dashboard__element__top">
     <h1>Horaires</h1>
-
   </div>
-
   <div class="dashboard__element__table">
     <table aria-describedby="table for service">
       <thead>
@@ -17,14 +15,10 @@ use App\Model\Schedule; ?>
           <th>fermeture</th>
           <th>ouvert</th>
           <th></th>
-
         </tr>
       </thead>
-      <tbody id="service-tbody">
+      <tbody>
         <?php
-
-
-
         foreach ($schedules as $schedule) { ?>
           <tr class="schedule-js">
             <td class="hidden--mobile"><?= $schedule->getDay() ?></td>
@@ -43,7 +37,6 @@ use App\Model\Schedule; ?>
     </table>
   </div>
 </article>
-
 <?php
 
 function setSwitch(Schedule $schedule): bool

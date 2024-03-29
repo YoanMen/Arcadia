@@ -13,6 +13,7 @@ const animalBtn = document.getElementById("menu-animal");
 const serviceBtn = document.getElementById("menu-service");
 const userBtn = document.getElementById("menu-user");
 const scheduleBtn = document.getElementById("menu-schedule");
+const adviceBtn = document.getElementById("menu-advice");
 
 init();
 
@@ -183,6 +184,36 @@ if (scheduleBtn) {
       });
   });
 }
+
+if (adviceBtn) {
+  adviceBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    await fetch("/public/dashboard/advice", {
+      method: "GET",
+      headers: {
+        Accept: "text/html",
+      },
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((htmlContent) => {
+        deleteScripts();
+        const timestamp = new Date().getTime();
+
+        content.innerHTML = htmlContent;
+
+        const advice = document.createElement("script");
+        advice.id = "js";
+        advice.type = "module";
+        advice.src = `./assets/scripts/admin/advice.js?v=${timestamp}`;
+
+        document.body.appendChild(advice);
+      });
+  });
+}
+
 /*
  * delete old script to load script for new page
  */
