@@ -112,25 +112,22 @@
         Les Avis
       </h2>
       <div class="testimonial__container">
-        <?php if (isset($data['advice'])) { ?>
-          <div class="testimonial__hidden">
-            <button id="left-btn" disabled class="button button--cube" type="button">
-              <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
-            </button>
-          </div>
-          <div id="testimonial-card" class="testimonial__card">
-            <p id="testimonial-text" class="testimonial__text"><?= $data['advice'][0]->getAdvice() ?></p>
-            <hr>
-            <p id="testimonial-pseudo" class="testimonial__pseudo"><?= $data['advice'][0]->getPseudo() ?></p>
-          </div>
-          <div class="testimonial__hidden ">
-            <button disabled id="right-btn" class="button  button--cube" type="button">
-              <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
-            </button>
-          </div>
-        <?php  } else { ?>
-          <p class="testimonial__not">Aucun avis pour le moment</p>
-        <?php } ?>
+        <div class="testimonial__hidden">
+          <button id="left-btn" disabled class="button button--cube" type="button">
+            <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
+          </button>
+        </div>
+        <div id="testimonial-card" class="testimonial__card">
+          <p id="testimonial-text" class="testimonial__text"></p>
+          <hr>
+          <p id="testimonial-pseudo" class="testimonial__pseudo"></p>
+        </div>
+        <div class="testimonial__hidden ">
+          <button disabled id="right-btn" class="button  button--cube" type="button">
+            <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
+          </button>
+        </div>
+        <!-- <p class="testimonial__not">Aucun avis pour le moment</p> -->
       </div>
 
       <?php

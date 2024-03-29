@@ -141,10 +141,18 @@ async function openDetails(data) {
   // create dialog
   detailPanel = document.createElement("div");
   detailPanel.classList.add("details");
+  detailPanel.name = "outer-details";
 
   dashboardContent.appendChild(detailPanel);
 
   detailPanel.innerHTML = table.createDetailContent(data);
+
+  detailPanel.addEventListener("click", (event) => {
+    if (event.target.name == "outer-details") {
+      document.body.classList.remove("no-scroll");
+      detailPanel.outerHTML = "";
+    }
+  });
 
   // close detail panel and remove panel element
   const closeButton = document.querySelector("#details-close");

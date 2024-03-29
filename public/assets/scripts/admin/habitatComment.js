@@ -126,11 +126,19 @@ async function openDetails(data) {
 
   detailPanel = document.createElement("div");
   detailPanel.classList.add("details");
+  detailPanel.name = "outer-details";
 
   dashboardContent.appendChild(detailPanel);
 
   detailPanel.innerHTML = table.createDetailContent(data);
   const closeButton = document.querySelector("#details-close");
+
+  detailPanel.addEventListener("click", (event) => {
+    if (event.target.name == "outer-details") {
+      document.body.classList.remove("no-scroll");
+      detailPanel.outerHTML = "";
+    }
+  });
 
   // close detail panel and remove panel element
   closeButton.addEventListener("click", () => {

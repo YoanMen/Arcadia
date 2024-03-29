@@ -10,11 +10,11 @@ function initializeTestimonialSlider() {
 
   let currentAdvice = 1;
   let disable = false;
-  let totalAdvices;
+  let advices = "";
 
-  // total count
-  getAdviceCount().then((data) => {
-    totalAdvices = data.count;
+  // get Advice
+  getAdvices().then((data) => {
+    advices = data.count;
     if (totalAdvices != 0) {
       setButtonStatut();
     }
@@ -80,8 +80,8 @@ function initializeTestimonialSlider() {
     });
   }
 
-  async function getAdviceCount() {
-    const r = await fetch("/public/api/advice/count", {
+  async function getAdvices() {
+    const r = await fetch("/public/api/advices/approved", {
       method: "GET",
       headers: {
         "X-CSRF-TOKEN": csrf_token,
@@ -95,35 +95,9 @@ function initializeTestimonialSlider() {
     }
   }
 
-  async function getNextAdvice() {
-    const r = await fetch("/public/api/advice/" + (currentAdvice + 1), {
-      method: "GET",
-      headers: {
-        "X-CSRF-TOKEN": csrf_token,
-        Accept: "application/json",
-      },
-    });
+  async function getNextAdvice() {}
 
-    if (r.ok) {
-      return r.json();
-    }
-    throw new Error("Cant get advice");
-  }
-
-  async function getPreviousAdvice() {
-    const r = await fetch("/public/api/advice/" + (currentAdvice - 1), {
-      method: "GET",
-      headers: {
-        "X-CSRF-TOKEN": csrf_token,
-        Accept: "application/json",
-      },
-    });
-
-    if (r.ok) {
-      return r.json();
-    }
-    throw new Error("Cant get advice");
-  }
+  async function getPreviousAdvice() {}
 }
 
 initializeTestimonialSlider();

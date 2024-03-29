@@ -146,6 +146,7 @@ function openNew() {
   document.body.classList.add("no-scroll");
   detailPanel = document.createElement("div");
   detailPanel.classList.add("details");
+  detailPanel.name = "outer-details";
 
   dashboardContent.appendChild(detailPanel);
 
@@ -207,6 +208,13 @@ function openNew() {
     }
   });
 
+  detailPanel.addEventListener("click", (event) => {
+    if (event.target.name == "outer-details") {
+      document.body.classList.remove("no-scroll");
+      detailPanel.outerHTML = "";
+    }
+  });
+
   closeButton.addEventListener("click", () => {
     document.body.classList.remove("no-scroll");
     detailPanel.outerHTML = "";
@@ -225,6 +233,7 @@ async function openDetails(animal) {
 
   detailPanel = document.createElement("div");
   detailPanel.classList.add("details");
+  detailPanel.name = "outer-details";
 
   dashboardContent.appendChild(detailPanel);
 
@@ -280,6 +289,13 @@ async function openDetails(animal) {
             `impossible de modifier l'animal : ${error}`
           );
         });
+    }
+  });
+
+  detailPanel.addEventListener("click", (event) => {
+    if (event.target.name == "outer-details") {
+      document.body.classList.remove("no-scroll");
+      detailPanel.outerHTML = "";
     }
   });
 

@@ -43,9 +43,6 @@ $router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 //API
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
 
-$router->addRoute('GET', ROOT . '/api/advice/count', 'AdviceController', 'getAdviceCount');
-$router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAdvice');
-$router->addRoute('GET', ROOT . '/api/advice/{id}', 'AdviceController', 'getAdvice');
 
 $router->addRoute('POST', ROOT . '/api/habitats', 'HabitatController', 'getHabitats');
 $router->addRoute('POST', ROOT . '/api/habitats/comment', 'HabitatCommentController', 'getHabitatsComment');
@@ -81,7 +78,8 @@ $router->addRoute('POST', ROOT . '/api/schedules', 'ScheduleController', 'update
 
 $router->addRoute('POST', ROOT . '/api/advices/update', 'AdviceController', 'updateAdvice');
 $router->addRoute('POST', ROOT . '/api/advices', 'AdviceController', 'getAdvices');
-
+$router->addRoute('GET', ROOT . '/api/advices/approved', 'AdviceController', 'getApprovedAdvice');
+$router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAdvice');
 
 
 // DASHBOARD NAVIGATION

@@ -89,7 +89,29 @@ class Advice extends Model
   }
 
 
+  public function getApprovedAdvices(): array | null
+  {
+    try {
+      $results = null;
 
+      $pdo = $this->connect();
+      $query = "SELECT advice.pseudo , advice.advice, ROW_NUMBER() OVER (ORDER BY id) AS sort_id
+              FROM advice
+              WHERE approved = 1
+              LIMIT 5";
+      $stm = $pdo->prepare($query);
+
+      if ($stm->execute()) {
+        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error get advices : " . $e->getMessage());
+    }
+  }
   public function fetchAdvices($order, $orderBy): array | null
   {
     try {

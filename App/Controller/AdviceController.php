@@ -41,6 +41,32 @@ class AdviceController extends Controller
     }
   }
 
+  public function getApprovedAdvices()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::verifyCsrf($csrf)) {
+
+      try {
+        $adviceRepository = new Advice();
+
+        $advice = $adviceRepository->getApprovedAdvices();
+
+        if (isset($advice)) {
+          header('Content-Type: application/json');
+          echo json_encode(['data' => $advice]);
+        } else {
+          http_response_code(404);
+          echo json_encode(['error' => 'Advice not found']);
+        }
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+      echo json_encode(['error' => 'CSRF token is not valid']);
+    }
+  }
   public function getAdvice($request)
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
@@ -66,32 +92,6 @@ class AdviceController extends Controller
         } else {
           http_response_code(404);
           echo json_encode(['error' => 'Advice not found']);
-        }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
-      echo json_encode(['error' => 'CSRF token is not valid']);
-    }
-  }
-
-  public function getAdviceCount()
-  {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf)) {
-
-      try {
-        $adviceRepository = new Advice();
-        $count =  $adviceRepository->count(['approved' => true]);
-
-        if (isset($count)) {
-          header('Content-Type: application/json');
-          echo json_encode(['count' => $count]);
-        } else {
-          http_response_code(204);
-          echo json_encode(['error' => 'No advice']);
         }
       } catch (Exception $e) {
         http_response_code(500);

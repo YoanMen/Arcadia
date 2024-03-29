@@ -18,12 +18,7 @@ class HomeController extends Controller
 		$habitatRepository = new Habitat;
 		$habitats = $habitatRepository->fetchAll();
 
-		$adviceRepository = new Advice();
-		$adviceRepository->setOrderBy('asc');
-		$adviceRepository->setLimit(1);
-		$advice = $adviceRepository->find(['approved' => true]);
-
-		// add image to some Habitats
+		// add image to habitats
 		for ($i = 0; $i < 2; $i++) {
 			$habitats[$i]->findImages();
 		}
@@ -34,7 +29,6 @@ class HomeController extends Controller
 			'services' => $services,
 			'habitats' => $habitats,
 			'schedules' => $schedules,
-			'advice' => $advice
 		]);
 	}
 
