@@ -53,7 +53,7 @@ class AdviceController extends Controller
 
         if (isset($advice)) {
           header('Content-Type: application/json');
-          echo json_encode(['data' => $advice]);
+          echo json_encode(['advices' => $advice]);
         } else {
           http_response_code(404);
           echo json_encode(['error' => 'Advice not found']);

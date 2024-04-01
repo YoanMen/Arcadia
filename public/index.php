@@ -78,7 +78,7 @@ $router->addRoute('POST', ROOT . '/api/schedules', 'ScheduleController', 'update
 
 $router->addRoute('POST', ROOT . '/api/advices/update', 'AdviceController', 'updateAdvice');
 $router->addRoute('POST', ROOT . '/api/advices', 'AdviceController', 'getAdvices');
-$router->addRoute('GET', ROOT . '/api/advices/approved', 'AdviceController', 'getApprovedAdvice');
+$router->addRoute('GET', ROOT . '/api/advices/approved', 'AdviceController', 'getApprovedAdvices');
 $router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAdvice');
 
 

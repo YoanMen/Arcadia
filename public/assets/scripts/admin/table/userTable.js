@@ -107,33 +107,6 @@ export class UserTable extends Table {
               }" class="table__button">voir</button></td>
             </tr>`;
   }
-
-  async create(name, description, file) {
-    try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("file", file);
-
-      const r = await fetch("/public/api/habitats/create", {
-        method: "POST",
-        headers: {
-          "X-CSRF-TOKEN": csrf_token,
-        },
-        body: formData,
-      });
-
-      const data = await r.json();
-
-      if (r.ok) {
-        return data;
-      } else {
-        throw new Error(data.error || "Erreur inattendue du serveur");
-      }
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
 }
 
 function setRoleOption(data = "") {

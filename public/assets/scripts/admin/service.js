@@ -13,7 +13,6 @@ const submitButton = document.getElementById("submit");
 // Order Column
 const id = document.getElementById("service-id");
 const name = document.getElementById("service-name");
-const description = document.getElementById("service-description");
 
 // END DOM
 
@@ -41,10 +40,6 @@ function listeners() {
 
   name.addEventListener("click", () => {
     getDataWithParams("name");
-  });
-
-  description.addEventListener("click", () => {
-    getDataWithParams("description");
   });
 
   submitButton.addEventListener("click", (event) => {

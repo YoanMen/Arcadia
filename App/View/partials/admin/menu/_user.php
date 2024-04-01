@@ -1,10 +1,8 @@
 <article name="user" class="dashboard__element dashboard__element--full-width ">
   <div class="dashboard__element__top">
-    <h1>Utilisateurs</h1>
-    <button t id="user-add" class="button button--cube">
-      <svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-      </svg>
+    <h1 class="hidden--mobile">Utilisateurs</h1>
+    <button t id="user-add" class="button max-width--mobile">
+      Ajouter
     </button>
   </div>
   <form class="dashboard__element__search" action="POST">

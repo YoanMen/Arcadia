@@ -62,9 +62,16 @@
 }
 
 .desktop-menu__submenu {
-  overflow: scroll;
+  overflow-y: scroll;
+
+  overflow-x: hidden;
   max-height: 400px;
 }
+
+.desktop-menu__submenu::-webkit-scrollbar-track {
+  background: var(--bg-color-dark);
+}
+
 .desktop-menu__list .desktop-menu__submenu {
   display: none;
   padding: 0;

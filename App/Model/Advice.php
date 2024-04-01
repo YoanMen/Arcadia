@@ -95,10 +95,12 @@ class Advice extends Model
       $results = null;
 
       $pdo = $this->connect();
-      $query = "SELECT advice.pseudo , advice.advice, ROW_NUMBER() OVER (ORDER BY id) AS sort_id
-              FROM advice
-              WHERE approved = 1
-              LIMIT 5";
+      $query = "SELECT advice.id, advice.pseudo, advice.advice
+                FROM advice
+                WHERE approved = 1
+                ORDER BY advice.id DESC
+                LIMIT 20;";
+                
       $stm = $pdo->prepare($query);
 
       if ($stm->execute()) {

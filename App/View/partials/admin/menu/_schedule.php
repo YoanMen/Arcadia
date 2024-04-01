@@ -4,7 +4,7 @@ use App\Model\Schedule; ?>
 
 <article name="service" class="dashboard__element dashboard__element--full-width ">
   <div class="dashboard__element__top">
-    <h1>Horaires</h1>
+    <h1 class="hidden--mobile">Horaires</h1>
   </div>
   <div class="dashboard__element__table">
     <table aria-describedby="table for service">

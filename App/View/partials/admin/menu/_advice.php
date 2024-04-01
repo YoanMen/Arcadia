@@ -1,8 +1,7 @@
 <article name="service" class="dashboard__element dashboard__element--full-width ">
   <div class="dashboard__element__top">
-    <h1>avis</h1>
+    <h1 class="hidden--mobile">Avis</h1>
   </div>
-
   <div class="dashboard__element__table">
     <table aria-describedby="table for service">
       <thead>

@@ -127,7 +127,6 @@
             <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
           </button>
         </div>
-        <!-- <p class="testimonial__not">Aucun avis pour le moment</p> -->
       </div>
 
       <?php

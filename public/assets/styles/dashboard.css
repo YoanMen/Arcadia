@@ -79,6 +79,9 @@
   justify-content: start;
 }
 
+.dashboard-panel::-webkit-scrollbar {
+  display: none;
+}
 .dashboard-panel svg {
   margin: 16px auto;
   width: 100%;
@@ -147,8 +150,9 @@ tbody[id="habitatComment-tbody"] {
 tbody[id="animalReport-tbody"] {
   height: 30vh;
 }
+
 tbody {
-  height: calc(75vh - 24px);
+  height: 60vh;
 }
 
 /* SLIDER */
@@ -236,6 +240,7 @@ input:checked + .slider:before {
     width: 60px;
     overflow: hidden;
     align-items: center;
+    flex-direction: column-reverse;
   }
 
   .dashboard {
