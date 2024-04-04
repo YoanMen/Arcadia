@@ -7,6 +7,7 @@ use App\Core\Exception\ValidatorException;
 use App\Core\Router;
 use App\Core\Security;
 use App\Core\UploadFile;
+use App\Core\Validator;
 use App\Model\Animal;
 use App\Model\Habitat;
 use App\Model\Image;
@@ -26,7 +27,6 @@ class HabitatController extends Controller
       }
     }
 
-
     // initialize data for habitat page
     $habitatRepository = new Habitat;
     $nbHabitats = $habitatRepository->count();
@@ -37,13 +37,11 @@ class HabitatController extends Controller
     $habitats = $habitatRepository->fetchAll();
 
     // search image for all habitat
-
     if ($habitats) {
       foreach ($habitats as $habitat) {
         $habitat->findImages();
       }
     }
-
 
     $this->show('habitat', [
       'habitats' => $habitats,
@@ -215,6 +213,8 @@ class HabitatController extends Controller
         $id = $_POST['id'] ?? '';
         $id = htmlspecialchars($id);
 
+        Validator::strIsInt($id);
+
         $path =  UploadFile::upload();
         $imageRepo = new Image();
         $habitatRepo = new Habitat();
@@ -249,7 +249,6 @@ class HabitatController extends Controller
 
         $content = trim(file_get_contents('php://input'));
         $data = json_decode($content, true);
-
 
         // get all params
         $search = htmlspecialchars($data['params']['search']);
@@ -287,7 +286,6 @@ class HabitatController extends Controller
     }
   }
 
-
   public function createHabitat()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
@@ -300,14 +298,23 @@ class HabitatController extends Controller
         $name = htmlspecialchars($name);
         $description = htmlspecialchars($description);
 
-        $this->ValidateValues($name, $description);
-
-        $name = ltrim($name, ' ');
+        $name = trim($name);
         $description = ltrim($description, ' ');
+
         $name = ucfirst($name);
         $description = ucfirst($description);
 
+        Validator::strLengthCorrect($name, 3, 60);
+        Validator::strWithoutSpecialCharacters($name);
+        Validator::strMinLengthCorrect($description, 10);
+
         $habitatRepo = new Habitat();
+
+        $habitat = $habitatRepo->findOneBy(['name' => $name]);
+
+        if ($habitat) {
+          throw new ValidatorException('un habitat avec ce nom existe déjà');
+        }
 
         // upload file and return path
         $path =  UploadFile::upload();
@@ -354,13 +361,22 @@ class HabitatController extends Controller
         $name = htmlspecialchars($data['params']['name']);
         $description = htmlspecialchars($data['params']['description']);
 
-        $this->ValidateValues($name, $description, $id);
-
         $name = trim($name);
         $description = trim($description);
+
         $name = ucfirst($name);
-        $description = ucfirst($description);
+
+        Validator::strIsInt($id);
+        Validator::strLengthCorrect($name, 3, 60);
+        Validator::strWithoutSpecialCharacters($name);
+        Validator::strMinLengthCorrect($description, 10);
+
         $habitatRepo = new Habitat();
+
+        $habitat = $habitatRepo->findOneBy(['name' => $name]);
+        if ($habitat && $habitat->getId() != $id) {
+          throw new ValidatorException('un habitat avec ce nom existe déjà');
+        }
 
         $habitatRepo->update(['name' => $name, 'description' => $description], $id);
 
@@ -418,41 +434,6 @@ class HabitatController extends Controller
         echo json_encode(['error' => 'CSRF token is not valid']);
       } else {
         echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-
-  public function ValidateValues(string $name, string $description, int $id = null)
-  {
-    // verification of user values
-    if (regexSpecialCharacter($name)) {
-      throw new ValidatorException('Ne doit pas contenir de caractère spéciales');
-    }
-
-    if (!(strlen($name) >= 3 && strlen($name) <= 60)) {
-      throw new ValidatorException('Le nom doit être entre 3 et 60 caractères');
-    }
-
-    if (!strlen($description) >= 10) {
-      throw new ValidatorException('La description doit être de 10 minimum');
-    }
-    $habitatRepo = new Habitat();
-
-
-    if (isset($id) && !is_int($id)) {
-      throw new ValidatorException('ID doit être un int');
-    }
-    // check if habitat with this name dont exist
-
-    if (!isset($id)) {
-
-      if ($habitatRepo->findOneBy(['name' => $name])) {
-        throw new ValidatorException('un habitat avec ce nom existe déjà');
-      }
-    } else {
-      $habitat = $habitatRepo->findOneBy(['name' => $name]);
-      if ($habitat && $habitat->getId() != $id) {
-        throw new ValidatorException('un habitat avec ce nom existe déjà');
       }
     }
   }

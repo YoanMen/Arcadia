@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
 use App\Core\Database;
+use DateTimeImmutable;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -365,5 +366,12 @@ class Model extends Database
     $keysValue = rtrim($keysValue, ' , ');
 
     return $keysValue;
+  }
+
+  public function formatDate(string $date): string
+  {
+    $date = new DateTimeImmutable($date);
+
+    return $date->format('d/m/Y');
   }
 }

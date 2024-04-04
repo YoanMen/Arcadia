@@ -61,7 +61,8 @@
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.details__item label {
+.details__item label,
+.details__item span {
   width: 30%;
   margin-right: 10px;
   opacity: 0.5;
@@ -92,8 +93,10 @@
   width: 100%;
 }
 
-.details__item label:first-child {
-  word-break: break-all;
+.details__item label:first-child,
+.details__item span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
   opacity: 0.5;
 }
 

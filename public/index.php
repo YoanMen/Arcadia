@@ -61,6 +61,7 @@ $router->addRoute('POST', ROOT . '/api/animals/create', 'AnimalController', 'cre
 $router->addRoute('POST', ROOT . '/api/animals/update', 'AnimalController', 'updateAnimal');
 $router->addRoute('DELETE', ROOT . '/api/animals', 'AnimalController', 'deleteAnimal');
 $router->addRoute('DELETE', ROOT . '/api/animals/images', 'AnimalController', 'deleteImage');
+$router->addRoute('POST', ROOT . '/api/animals/habitats', 'AnimalController', 'getAnimalsByHabitat');
 
 $router->addRoute('POST', ROOT . '/api/services', 'ServiceController', 'getServices');
 $router->addRoute('DELETE', ROOT . '/api/services', 'ServiceController', 'deleteService');
@@ -81,12 +82,17 @@ $router->addRoute('POST', ROOT . '/api/advices', 'AdviceController', 'getAdvices
 $router->addRoute('GET', ROOT . '/api/advices/approved', 'AdviceController', 'getApprovedAdvices');
 $router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAdvice');
 
+$router->addRoute('POST', ROOT . '/api/food', 'FoodAnimalController', 'getFoods');
+$router->addRoute('POST', ROOT . '/api/food/create', 'FoodAnimalController', 'createFood');
+
 
 // DASHBOARD NAVIGATION
 $router->addRoute('GET', ROOT . '/dashboard/habitat', 'AuthController', 'loadHabitatPage');
 $router->addRoute('GET', ROOT . '/dashboard/animal', 'AuthController', 'loadAnimalPage');
 $router->addRoute('GET', ROOT . '/dashboard/dashboard', 'AuthController', 'loadDashboardPage');
 $router->addRoute('GET', ROOT . '/dashboard/service', 'AuthController', 'loadServicePage');
+$router->addRoute('GET', ROOT . '/dashboard/food', 'AuthController', 'loadFoodAnimalPage');
+
 $router->addRoute('GET', ROOT . '/dashboard/user', 'AuthController', 'loadUserPage');
 $router->addRoute('GET', ROOT . '/dashboard/schedule', 'AuthController', 'loadSchedulePage');
 $router->addRoute('GET', ROOT . '/dashboard/advice', 'AuthController', 'loadAdvicePage');

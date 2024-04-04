@@ -35,7 +35,7 @@ dialog {
   margin-top: 40px;
   padding: var(--padding);
   overflow: scroll;
-  height: calc(100% - 40px);
+  height: 100%;
 }
 
 ::backdrop {

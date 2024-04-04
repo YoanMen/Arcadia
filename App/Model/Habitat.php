@@ -198,8 +198,8 @@ class Habitat extends Model
 
       $pdo = $this->connect();
       $query = "SELECT * FROM $this->table WHERE habitat.name LIKE :search
-      ORDER BY $orderBy  $order
-      LIMIT $this->limit OFFSET $this->offset";
+                ORDER BY $orderBy  $order
+                LIMIT $this->limit OFFSET $this->offset";
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);

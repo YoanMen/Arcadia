@@ -6,6 +6,7 @@ use App\Core\Exception\DatabaseException;
 use App\Core\Exception\ValidatorException;
 use App\Core\Router;
 use App\Core\Security;
+use App\Core\Validator;
 use App\Model\Service;
 use Exception;
 
@@ -118,20 +119,19 @@ class ServiceController extends Controller
     ) {
 
       try {
-
         $content = trim(file_get_contents('php://input'));
         $data = json_decode($content, true);
 
         $name = htmlspecialchars($data['params']['name']);
         $description = htmlspecialchars($data['params']['description']);
 
-        $this->ValidateValues($name, $description);
-
         $name = ltrim($name, ' ');
         $description = ltrim($description, ' ');
 
         $name = ucfirst($name);
-        $description = ucfirst($description);
+
+        Validator::strLengthCorrect($name, 3, 60);
+        Validator::strMinLengthCorrect($description, 10);
 
         $serviceRepo = new Service();
 
@@ -168,18 +168,21 @@ class ServiceController extends Controller
         $name = htmlspecialchars($data['params']['name']);
         $description = htmlspecialchars($data['params']['description']);
 
-        $name = htmlspecialchars($name);
-        $description = htmlspecialchars($description);
-
-        $this->ValidateValues($name, $description, $id);
-
         $name = ltrim($name, ' ');
         $description = ltrim($description, ' ');
 
         $name = ucfirst($name);
-        $description = ucfirst($description);
+
+        Validator::strIsInt($id);
+        Validator::strLengthCorrect($name, 3, 60);
+        Validator::strMinLengthCorrect($description, 10);
 
         $serviceRepo = new Service();
+
+        $habitat = $serviceRepo->findOneBy(['name' => $name]);
+        if ($habitat && $habitat->getId() != $id) {
+          throw new ValidatorException('un service avec ce nom existe déjà');
+        }
 
         $serviceRepo->update(['name' => $name, 'description' => $description], $id);
         echo json_encode(['success' => 'le service à été modifié']);
@@ -228,40 +231,6 @@ class ServiceController extends Controller
         echo json_encode(['error' => 'CSRF token is not valid']);
       } else {
         echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-
-
-  public function ValidateValues(string $name, string $description,  int $id = null)
-  {
-    // verification of user values
-    if (regexSpecialCharacter($name)) {
-      throw new ValidatorException('Ne doit pas contenir de caractère spéciales');
-    }
-
-    if (!(strlen($name) >= 3 && strlen($name) <= 60)) {
-      throw new ValidatorException('Le nom doit être entre 3 et 60 caractères');
-    }
-
-    if (!strlen($description) >= 10) {
-      throw new ValidatorException('La description doit être de 10 minimum');
-    }
-
-    $serviceRepo = new Service();
-
-
-    if (isset($id) && !is_int($id)) {
-      throw new ValidatorException('ID doit être un int');
-    }
-    if (!isset($id)) {
-      if ($serviceRepo->findOneBy(['name' => $name])) {
-        throw new ValidatorException('un service avec ce nom existe déjà');
-      }
-    } else {
-      $habitat = $serviceRepo->findOneBy(['name' => $name]);
-      if ($habitat && $habitat->getId() != $id) {
-        throw new ValidatorException('un service avec ce nom existe déjà');
       }
     }
   }

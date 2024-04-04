@@ -28,13 +28,14 @@ use App\Core\Security;
       // EMPLOYEE
       if (Security::isEmployee()) { ?>
         <li class="dashboard-panel__list__item">
+          <a id="menu-foodAnimal" href="#">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/food-drumstick.svg" alt="" srcset="">
+            <span for="">alimentation</span> </a>
+        </li>
+        <li class="dashboard-panel__list__item">
           <a href="#" id="menu-advice">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/star.svg" alt="" srcset="">
             <span for="">avis</span></a>
-        </li>
-        <li class="dashboard-panel__list__item">
-          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/food-drumstick.svg" alt="" srcset="">
-            <span for="">alimentation</span> </a>
         </li>
       <?php }
       // ADMIN

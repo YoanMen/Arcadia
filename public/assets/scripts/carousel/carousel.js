@@ -40,38 +40,40 @@ carousels.forEach((carousel) => {
   createSelectButton();
 
   function createSelectButton() {
-    for (let i = 0; i < img.length; i++) {
-      const button = document.createElement("button");
+    if (img.length > 1) {
+      for (let i = 0; i < img.length; i++) {
+        const button = document.createElement("button");
 
-      button.classList.add("carousel__element");
-      button.type = "button";
-      button.id = i;
-      select[0].appendChild(button);
-      img[i].id = i;
-    }
+        button.classList.add("carousel__element");
+        button.type = "button";
+        button.id = i;
+        select[0].appendChild(button);
+        img[i].id = i;
+      }
 
-    const buttons = select[0].querySelectorAll(".carousel__element");
-    currentImage = 0;
+      const buttons = select[0].querySelectorAll(".carousel__element");
+      currentImage = 0;
 
-    buttons.forEach((button) => {
-      detectScrollPosition(button, buttons);
-    });
-
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        stopAutoplay();
-        currentImage = button.id;
-        container[0].scrollTo({
-          behavior: "smooth",
-          left: img[button.id].offsetLeft,
-        });
-        startAutoplay();
+      buttons.forEach((button) => {
+        detectScrollPosition(button, buttons);
       });
 
-      container[0].addEventListener("scroll", () =>
-        detectScrollPosition(button, buttons)
-      );
-    });
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          stopAutoplay();
+          currentImage = button.id;
+          container[0].scrollTo({
+            behavior: "smooth",
+            left: img[button.id].offsetLeft,
+          });
+          startAutoplay();
+        });
+
+        container[0].addEventListener("scroll", () =>
+          detectScrollPosition(button, buttons)
+        );
+      });
+    }
   }
 
   function setActiveButton(buttons, id) {

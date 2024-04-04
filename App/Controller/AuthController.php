@@ -30,6 +30,8 @@ class AuthController extends Controller
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+      $email = trim($email);
+
       $password = htmlspecialchars($_POST['password']);
 
       if (Security::verifyCsrf($_POST['csrf_token'])) {
@@ -122,6 +124,8 @@ class AuthController extends Controller
         case 'admin':
           require_once '../App/View/partials/admin/menu/_dashboard.php';
           break;
+        default:
+          throw new AuthenticationException('le role n\'est pas valide');
       }
     } else {
       http_response_code(401);
@@ -146,7 +150,7 @@ class AuthController extends Controller
     if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'GET') {
       header('Content-Type: text/html');
 
-      include "../App/View/partials/admin/menu/_habitat.php";
+      include_once "../App/View/partials/admin/menu/_habitat.php";
     } else {
       http_response_code(401);
       throw new AuthenticationException('Permission refusé');
@@ -158,7 +162,7 @@ class AuthController extends Controller
     if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'GET') {
       header('Content-Type: text/html');
 
-      include "../App/View/partials/admin/menu/_animal.php";
+      include_once "../App/View/partials/admin/menu/_animal.php";
     } else {
       http_response_code(401);
       throw new AuthenticationException('Permission refusé');
@@ -173,7 +177,7 @@ class AuthController extends Controller
     ) {
       header('Content-Type: text/html');
 
-      include "../App/View/partials/admin/menu/_service.php";
+      include_once "../App/View/partials/admin/menu/_service.php";
     } else {
       http_response_code(401);
       throw new AuthenticationException('Permission refusé');
@@ -189,7 +193,7 @@ class AuthController extends Controller
       $schedules = $schedulesRepository->fetchAll();
 
 
-      include "../App/View/partials/admin/menu/_schedule.php";
+      include_once "../App/View/partials/admin/menu/_schedule.php";
     } else {
       http_response_code(401);
       throw new AuthenticationException('Permission refusé');
@@ -203,15 +207,20 @@ class AuthController extends Controller
       header('Content-Type: text/html');
 
 
-      include "../App/View/partials/admin/menu/_advice.php";
+      include_once "../App/View/partials/admin/menu/_advice.php";
     } else {
       http_response_code(401);
       throw new AuthenticationException('Permission refusé');
     }
   }
 
-  public function loadFoodAnimal()
+  public function loadFoodAnimalPage()
   {
+    if (Security::isEmployee() && $_SERVER['REQUEST_METHOD'] == 'GET') {
+      header('Content-Type: text/html');
+
+      include_once '../App/View/partials/admin/menu/_foodAnimal.php';
+    }
   }
 
   public function loadReportAnimalPage()

@@ -21,7 +21,7 @@ class UploadController extends Controller
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
     if (Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'POST') {
       try {
-        $file =  UploadFile::upload();
+        UploadFile::upload();
       } catch (Exception $e) {
         throw new FileException("Error with file Upload : " . $e->getMessage(), $e->getCode(), $e);
       }

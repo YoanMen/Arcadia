@@ -28,36 +28,36 @@ export class AnimalReport extends Table {
               <div id="details-content" class="details__content">
                 <ul>
                   <li class="details__item">
-                    <label for='de'>de</label>
+                    <span>de</span>
                     <p required class="details__input" <p>${data.userName}</p>
                   </li>
                   <li class="details__item">
-                    <label for='name'>nom</label>
+                    <span >nom</span>
                     <p required class="details__input" <p>${data.animalName}</p>
                   </li>
                   <li class="details__item">
-                    <label for='by'>race</label>
+                    <span>race</span>
                     <p required class="details__input" <p>${data.race}</p>
                   </li>
                   <li class="details__item">
-                    <label for='name'>statut</label>
+                    <span>statut</span>
                     <p required class="details__input" <p>${data.statut}</p>
                   </li>
                   <li class="details__item">
-                    <label for='name'>nourriture recommandé</label>
-                    <p required class="details__input" <p>${data.food}</p>
+                    <span>nourriture recommandé</span>
+                    <p  class="details__input" <p>${data.food}</p>
                   </li>
                   <li class="details__item">
-                    <label for='weight'>poids de la nourriture</label>
-                    <p required class="details__input" <p>${data.weight}g</p>
+                    <span>poids de la nourriture</span>
+                    <p  class="details__input" <p>${data.weight}g</p>
                   </li>
                   <li class="details__item">
-                    <label for='date'>date</label>
-                    <p required class="details__input" <p>${data.date}</p>
+                    <span>date</span>
+                    <p  class="details__input" <p>${data.date}</p>
                   </li>
                   <li class="details__item">
-                    <label for='details'>commentaire</label>
-                    <p required class="details__input" <p>${data.details}</p>
+                    <span>commentaire</span>
+                    <p  class="details__input" <p>${data.details}</p>
                   </li>
                 </ul>
               </div>

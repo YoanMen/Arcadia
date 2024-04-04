@@ -23,16 +23,16 @@ export class HabitatComment extends Table {
               <div id="details-content" class="details__content">
                 <ul>
                   <li class="details__item">
-                    <label for='name'>nom</label>
-                    <p required class="details__input" <p>${data.habitatName}</p>
+                    <span>nom</span>
+                    <p  class="details__input" <p>${data.habitatName}</p>
                   </li>
                   <li class="details__item">
-                    <label for='by'>de</label>
-                    <p required class="details__input" <p>${data.userName}</p>
+                    <span>de</span>
+                    <p  class="details__input" <p>${data.userName}</p>
                   </li>
                   <li class="details__item">
-                    <label for='name'>description</label>
-                    <p required class="details__input" <p>${data.comment}</p>
+                    <span>description</span>
+                    <p  class="details__input" <p>${data.comment}</p>
                   </li>
                 </ul>
               </div>

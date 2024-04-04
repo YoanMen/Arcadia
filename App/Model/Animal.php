@@ -220,16 +220,42 @@ class Animal extends Model
       $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
       $order = in_array($order, $allowedOrder) ? $order : 'ASC';
 
-
       $pdo = $this->connect();
       $query = "SELECT animal.id, animal.name, animal.race , habitat.name as habitat
-                FROM animal LEFT JOIN habitat ON habitat.id = animal.habitatID
-                WHERE (animal.race LIKE :search OR animal.name LIKE :search)
+                FROM animal INNER JOIN habitat ON habitat.id = animal.habitatID
+                WHERE animal.race LIKE :search OR animal.name LIKE :search
                 ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset";
 
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
+  public function fetchAnimalsByHabitat(string $id): array|null
+  {
+    try {
+
+      $results = null;
+
+      $pdo = $this->connect();
+      $query = "SELECT animal.id, animal.name, animal.race
+                FROM animal
+                WHERE animal.habitatID = :id";
+
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':id', $id, PDO::PARAM_INT);
 
       if ($stm->execute()) {
         while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {

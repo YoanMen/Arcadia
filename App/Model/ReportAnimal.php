@@ -148,12 +148,6 @@ class ReportAnimal extends Model
     return $this;
   }
 
-  public function formatDate(string $date): string
-  {
-    $date = new DateTimeImmutable($date);
-
-    return $date->format('d/m/Y');
-  }
 
 
   public function fetchReportAnimalCount(string $search, string $date): int | null
@@ -168,10 +162,10 @@ class ReportAnimal extends Model
       $pdo = $this->connect();
       $query = "SELECT COUNT(reportAnimal.id) AS total_count
                 FROM reportAnimal
-                LEFT JOIN animal ON reportAnimal.animalID = animal.id
-                LEFT JOIN user ON reportAnimal.userID = user.id
-                WHERE (animal.name LIKE :search OR animal.race LIKE :search)
-                AND (:date IS NULL OR reportAnimal.date = :date);";
+                INNER JOIN animal ON reportAnimal.animalID = animal.id
+                INNER JOIN user ON reportAnimal.userID = user.id
+                WHERE animal.name LIKE :search OR animal.race LIKE :search
+                AND :date IS NULL OR reportAnimal.date = :date;";
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
@@ -207,10 +201,11 @@ class ReportAnimal extends Model
       $query = "SELECT reportAnimal.id, animal.name as animalName, animal.race as race,
                 user.email as userName, reportAnimal.food,
                 reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
-                FROM $this->table LEFT JOIN animal on reportAnimal.animalID = animal.id
-                LEFT JOIN user ON reportAnimal.userID = user.id
-                WHERE (animal.name LIKE :search OR animal.race LIKE :search)
-                AND (:date IS NULL OR reportAnimal.date = :date)
+                FROM $this->table
+                INNER JOIN animal on reportAnimal.animalID = animal.id
+                INNER JOIN user ON reportAnimal.userID = user.id
+                WHERE animal.name LIKE :search OR animal.race LIKE :search
+                AND :date IS NULL OR reportAnimal.date = :date
                 ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset;";
 
       $stm = $pdo->prepare($query);

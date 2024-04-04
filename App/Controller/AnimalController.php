@@ -6,6 +6,7 @@ use App\Core\Exception\DatabaseException;
 use App\Core\Exception\ValidatorException;
 use App\Core\Security;
 use App\Core\UploadFile;
+use App\Core\Validator;
 use App\Model\Animal;
 use App\Model\Habitat;
 use App\Model\Image;
@@ -22,9 +23,11 @@ class AnimalController extends Controller
         $content = trim(file_get_contents('php://input'));
         $data = json_decode($content, true);
 
-
         // get images for habitat
         $id = htmlspecialchars($data['params']['id']);
+
+        Validator::strIsInt($id);
+
         $animalRepo = new Animal();
         $animalImages = $animalRepo->fetchImages($id);
 
@@ -93,6 +96,8 @@ class AnimalController extends Controller
         $id = $_POST['id'] ?? '';
         $id = htmlspecialchars($id);
 
+        Validator::strIsInt($id);
+
         $path =  UploadFile::upload();
         $imageRepo = new Image();
         $animalRepo = new Animal();
@@ -125,7 +130,6 @@ class AnimalController extends Controller
 
         $content = trim(file_get_contents('php://input'));
         $data = json_decode($content, true);
-
 
         // get all params
         $search = htmlspecialchars($data['params']['search']);
@@ -165,6 +169,40 @@ class AnimalController extends Controller
     }
   }
 
+  public function getAnimalsByHabitat()
+  {
+    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isEmployee()) {
+      try {
+
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+
+        $id = htmlspecialchars($data['params']['id']);
+
+        if (isset($id) && is_int(intval($id))) {
+          $animalRepo = new Animal();
+          $animals = $animalRepo->fetchAnimalsByHabitat($id);
+
+          echo json_encode(['data' => $animals]);
+        } else {
+          throw new ValidatorException('id n\'est pas valide');
+        }
+      } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => $e->getMessage()]);
+      }
+    } else {
+      http_response_code(401);
+
+      if (!Security::verifyCsrf($csrf)) {
+        echo json_encode(['error' => 'CSRF token is not valid']);
+      } else {
+        echo json_encode(['error' => 'accès interdit']);
+      }
+    }
+  }
 
   public function createAnimal()
   {
@@ -175,19 +213,34 @@ class AnimalController extends Controller
         $name = $_POST['name'];
         $race = $_POST['race'];
         $habitat = $_POST['habitat'];
+
         $name = htmlspecialchars($name);
         $race = htmlspecialchars($race);
         $habitat = htmlspecialchars($habitat);
 
-        $this->ValidateValues($name, $race, $habitat);
+        $name = trim($name);
+        $race = trim($race);
 
-        $name = ltrim($name, ' ');
-        $race = ltrim($race, ' ');
-
+        $name = strtolower($name);
         $name = ucfirst($name);
+
+        $race = strtolower($race);
         $race = ucfirst($race);
 
         $animalRepo = new Animal();
+
+        Validator::strLengthCorrect($name, 3, 40);
+        Validator::strWithoutSpecialCharacters($name);
+        Validator::strLengthCorrect($race, 3, 40);
+        Validator::strIsInt($habitat);
+
+        $animalRepo = new Animal();
+
+        $animal = $animalRepo->findOneBy(['name' => $name]);
+
+        if ($animal) {
+          throw new ValidatorException('un animal avec ce nom existe déjà');
+        }
 
         // upload file and return path
         $path =  UploadFile::upload();
@@ -235,16 +288,25 @@ class AnimalController extends Controller
         $race = htmlspecialchars($data['params']['race']);
         $habitat =  htmlspecialchars($data['params']['habitat']);
 
-        $habitat = intval($habitat);
-
-        $this->ValidateValues($name, $race, $habitat,  $id);
-
         $name = trim($name);
         $race = trim($race);
 
         $name = ucfirst($name);
         $race = ucfirst($race);
+
+        Validator::strIsInt($id);
+        Validator::strIsInt($habitat);
+        Validator::strLengthCorrect($name, 3, 40);
+        Validator::strWithoutSpecialCharacters($name);
+        Validator::strLengthCorrect($race, 3, 40);
+
         $animalRepo = new Animal();
+
+        $animal = $animalRepo->findOneBy(['name' => $name]);
+
+        if ($animal && $animal->getId() != $id) {
+          throw new ValidatorException('un animal avec ce nom existe déjà');
+        }
 
         $animalRepo->update(['name' => $name, 'race' => $race, 'habitatId' => $habitat], $id);
 
@@ -302,42 +364,6 @@ class AnimalController extends Controller
         echo json_encode(['error' => 'CSRF token is not valid']);
       } else {
         echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-  public function ValidateValues(string $name, string $race, int $habitat, int $id = null)
-  {
-    // verification of user values
-
-    if (regexSpecialCharacter($name)) {
-      throw new ValidatorException('Ne doit pas contenir de caractère spéciales');
-    }
-
-    if (!(strlen($name) >= 3 && strlen($name) <= 60)) {
-      throw new ValidatorException('Le nom doit être entre 3 et 60 caractères');
-    }
-
-    if (!(strlen($race) >= 3 && strlen($race) <= 60)) {
-      throw new ValidatorException('Le race doit être entre 3 et 60 caractères');
-    }
-
-    if (!is_int($habitat)) {
-      throw new ValidatorException('l\'habitat doit être un int');
-    }
-
-    $animalRepo = new Animal();
-
-    // check if animal with this name dont exist
-
-    if (!isset($id)) {
-
-      if ($animalRepo->findOneBy(['name' => $name])) {
-        throw new ValidatorException('un animal avec ce nom existe déjà');
-      }
-    } else {
-      $animal = $animalRepo->findOneBy(['name' => $name]);
-      if ($animal && $animal->getId() != $id) {
-        throw new ValidatorException('un animal avec ce nom existe déjà');
       }
     }
   }

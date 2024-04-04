@@ -6,6 +6,7 @@ use App\Controller\Controller;
 use App\Core\Exception\DatabaseException;
 use App\Core\Exception\ValidatorException;
 use App\Core\Security;
+use App\Core\Validator;
 use App\Model\User;
 use Exception;
 
@@ -67,11 +68,19 @@ class UserController extends Controller
         $password = htmlspecialchars($data['params']['password']);
         $role = htmlspecialchars($data['params']['role']);
 
+        $email = trim($email);
         $email = strtolower($email);
 
-        $this->ValidateValues($email, $password, $role);
+        Validator::strIsValideEmail($email);
+        Validator::strLengthCorrect($password, 8, 60);
+        Validator::strIsValidRole($role);
 
         $userRepo = new User();
+
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if ($user) {
+          throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
+        }
 
         $password =  Security::hashPassword($password);
 
@@ -107,15 +116,22 @@ class UserController extends Controller
         $password = htmlspecialchars($data['params']['password']);
         $role = htmlspecialchars($data['params']['role']);
 
-        $userRepo = new User();
-
-        $this->ValidateValues($email, $password, $role, $id);
-
-
+        $email = trim($email);
         $email = strtolower($email);
 
-        $user = $userRepo->findOneBy(['id' => $id]);
+        $userRepo = new User();
 
+        Validator::strIsInt($id);
+        Validator::strIsValideEmail($email);
+        Validator::strLengthCorrect($password, 8, 60);
+        Validator::strIsValidRole($role);
+
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if ($user && $user->getId() != $id) {
+          throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
+        }
+
+        $user = $userRepo->findOneBy(['id' => $id]);
 
         // change password if is not the same
         if ($password !==  $user->getPassword()) {
@@ -167,39 +183,6 @@ class UserController extends Controller
         echo json_encode(['error' => 'CSRF token is not valid']);
       } else {
         echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-
-  public function ValidateValues(string $email, string $password, string $role, int $id = null)
-  {
-    // verification of user values
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      throw new ValidatorException('adresse email non valide');
-    }
-
-    if (!(strlen($password) >= 8 && strlen($password) <= 60)) {
-      throw new ValidatorException('Le mot de passe doit être entre 8 et 60 caractères');
-    }
-
-
-    if ($role !== 'employee' && $role !== 'veterinary') {
-      throw new ValidatorException('Le nom du rôle n\'est pas valide');
-    }
-
-    $userRepo = new User();
-
-    if (isset($id) && !is_int($id)) {
-      throw new ValidatorException('ID doit être un int');
-    }
-    if (!isset($id)) {
-      if ($userRepo->findOneBy(['email' => $email])) {
-        throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
-      }
-    } else {
-      $user = $userRepo->findOneBy(['email' => $email]);
-      if ($user && $user->getId() != $id) {
-        throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
       }
     }
   }

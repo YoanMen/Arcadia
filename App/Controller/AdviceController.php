@@ -24,8 +24,8 @@ class AdviceController extends Controller
         $pseudo = htmlspecialchars($data['pseudo']);
         $message =  htmlspecialchars($data['message']);
 
-        Validator::lengthCorrect($pseudo, 3, 20, 'Le nombres de caractère pour le pseudo dois être entre 3 et 20.');
-        Validator::lengthCorrect($message, 3, 200, 'Le nombres de caractère pour le message dois être entre 3 et 200.');
+        Validator::strLengthCorrect($pseudo, 3, 20);
+        Validator::strLengthCorrect($message, 3, 200);
 
         $adviceRepository = new Advice();
         $adviceRepository->insert(['pseudo' => $pseudo, 'advice' => $message]);
@@ -75,11 +75,8 @@ class AdviceController extends Controller
       try {
         $id  = filter_var($request['id'], FILTER_VALIDATE_INT);
 
-        if (!is_int($id)) {
-          http_response_code(400);
-          echo json_encode(['error' => 'Is not a int']);
-          return;
-        }
+        Validator::strIsInt($id);
+
         $adviceRepository = new Advice();
         $advice =  $adviceRepository->findOneBy(['id' => $id]);
 
@@ -116,9 +113,8 @@ class AdviceController extends Controller
 
         $id = htmlspecialchars($data['params']['id']);
 
-        if (!is_int(intval($id))) {
-          throw new ValidatorException('ID doit être un int');
-        }
+        Validator::strIsInt($id);
+
         $adviceRepo = new Advice();
 
         $advice = $adviceRepo->findOneBy(['id' => $id]);

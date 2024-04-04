@@ -32,7 +32,6 @@ class HomeController extends Controller
 		]);
 	}
 
-
 	public function initMenu()
 	{
 		try {

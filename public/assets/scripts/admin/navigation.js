@@ -14,6 +14,7 @@ const serviceBtn = document.getElementById("menu-service");
 const userBtn = document.getElementById("menu-user");
 const scheduleBtn = document.getElementById("menu-schedule");
 const adviceBtn = document.getElementById("menu-advice");
+const foodAnimalBtn = document.getElementById("menu-foodAnimal");
 
 init();
 
@@ -34,7 +35,7 @@ async function init() {
         loadDashboard();
         break;
       case "employee":
-        loadService();
+        loadFoodAnimal();
         break;
       default:
         break;
@@ -214,6 +215,13 @@ if (adviceBtn) {
   });
 }
 
+if (foodAnimalBtn) {
+  foodAnimalBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    loadFoodAnimal();
+  });
+}
 /*
  * delete old script to load script for new page
  */
@@ -249,6 +257,30 @@ async function loadService() {
     });
 }
 
+async function loadFoodAnimal() {
+  await fetch("/public/dashboard/food", {
+    method: "GET",
+    headers: {
+      Accept: "text/html",
+    },
+  })
+    .then((response) => {
+      return response.text();
+    })
+    .then((htmlContent) => {
+      deleteScripts();
+      const timestamp = new Date().getTime();
+
+      content.innerHTML = htmlContent;
+
+      const service = document.createElement("script");
+      service.id = "js";
+      service.type = "module";
+      service.src = `./assets/scripts/admin/foodAnimal.js?v=${timestamp}`;
+
+      document.body.appendChild(service);
+    });
+}
 async function loadDashboard() {
   await fetch("/public/dashboard/dashboard", {
     method: "GET",
