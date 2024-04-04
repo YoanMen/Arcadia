@@ -14,7 +14,6 @@ use App\Model\Schedule; ?>
           <th>ouverture</th>
           <th>fermeture</th>
           <th>ouvert</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -26,11 +25,10 @@ use App\Model\Schedule; ?>
             <td><input type="time" name="" id="time-close" value="<?= $schedule->getClose() ?>"></td>
             <td>
               <label class="switch">
-                <input type="checkbox" id="close" <?= (setSwitch($schedule)) ? 'checked' : '' ?>>
+                <input data-schedule-id="<?= $schedule->getId()  ?>" type="checkbox" id="close" <?= (setSwitch($schedule)) ? 'checked' : '' ?>>
                 <span class="slider round"></span>
               </label>
             </td>
-            <td><button data-schedule-id="<?= $schedule->getId()  ?>" class="table__button">modifier</button></td>
           </tr>
         <?php } ?>
       </tbody>
