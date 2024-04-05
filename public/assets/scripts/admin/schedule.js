@@ -41,8 +41,6 @@ schedules.forEach((schedule) => {
   });
 
   async function updateSchedule() {
-    console.log("update");
-
     const id = slider.dataset.scheduleId;
 
     // send to backend for update
