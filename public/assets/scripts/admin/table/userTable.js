@@ -1,9 +1,5 @@
 import { Table } from "./table.js";
 
-const csrf_token = document.head.querySelector(
-  'meta[name="csrf-token"]'
-).content;
-
 export class UserTable extends Table {
   createNewContent() {
     return `<div class="details__container details__container--show">

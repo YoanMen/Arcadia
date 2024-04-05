@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
 use App\Core\Security;
+use App\Model\Habitat;
 use App\Model\ReportAnimal;
 use Exception;
 
@@ -26,14 +27,16 @@ class ReportAnimalController extends Controller
         $count = htmlspecialchars($data['params']['count']);
 
         $animaReportRepo = new ReportAnimal();
+        $habitatRepo = new Habitat();
 
+        $habitats = $habitatRepo->fetchAllHabitatsWithoutComment();
         $reportCount = $animaReportRepo->fetchReportAnimalCount($search, $date);
         $remainCount = $reportCount - $count;
 
         if ($remainCount > 0) {
           $animaReportRepo->setOffset($count);
           $reports = $animaReportRepo->fetchReportAnimal($search, $date, $order, $orderBy);
-          echo json_encode(['data' => $reports, 'totalCount' => $reportCount]);
+          echo json_encode(['data' => $reports, 'habitats' => $habitats, 'totalCount' => $reportCount]);
         } else {
           throw new DatabaseException("aucun résultat");
         }

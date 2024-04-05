@@ -174,7 +174,7 @@ function openNew() {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible d'ajouter le service : ${error}`
+            `impossible d'ajouter le service : ${error.message}`
           );
         });
     }
@@ -249,7 +249,7 @@ async function openDetails(service) {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible de modifier le service : ${error}`
+            `impossible de modifier le service : ${error.message}`
           );
         });
     }
@@ -286,7 +286,7 @@ async function openDetails(service) {
           .catch((error) => {
             new FlashMessage(
               "error",
-              `impossible de supprimer le service ${error}`
+              `impossible de supprimer le service ${error.message}`
             );
           })
     );

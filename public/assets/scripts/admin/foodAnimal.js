@@ -4,7 +4,6 @@ import { FoodAnimalTable } from "./table/foodAnimalTable.js";
 // DOM SECTION
 const add = document.getElementById("foodAnimal-add");
 const tbody = document.getElementById("foodAnimal-tbody");
-const dialogConfirm = document.querySelector(".dialog--confirm");
 const dashboardContent = document.getElementById("dashboard-content");
 // SEARCH
 const searchInput = document.getElementById("search");
@@ -28,9 +27,6 @@ let detailPanel = "";
 
 let order = "ASC";
 let orderBy = "date";
-
-// Ajout : Récupérer la liste des habitat, quand un habitat est
-// séléctioner récupéré la liste des animaux lié
 
 getData();
 listeners();
@@ -183,7 +179,7 @@ function openNew() {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible d'ajouter l'alimentation de l'animal : ${error}`
+            `impossible d'ajouter l'alimentation de l'animal : ${error.message}`
           );
         });
     }
@@ -201,8 +197,11 @@ function openNew() {
   });
 
   habitatSelectInput.addEventListener("change", async () => {
-    animalSelectInput.disabled =
-      habitatSelectInput.value !== "0" ? false : true;
+    if (habitatSelectInput.value !== "0") {
+      animalSelectInput.disabled = false;
+    } else {
+      animalSelectInput.disabled = true;
+    }
 
     if (!animalSelectInput.disabled) {
       let animals = await table.fetchData("/api/animals/habitats", "POST", {

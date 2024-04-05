@@ -128,10 +128,6 @@ th {
   overflow: hidden;
 }
 
-tr {
-  height: 40px;
-}
-
 tbody {
   display: block;
   overflow: scroll;

@@ -225,9 +225,19 @@ class AuthController extends Controller
 
   public function loadReportAnimalPage()
   {
+    if (Security::isVeterinary() && $_SERVER['REQUEST_METHOD'] == 'GET') {
+      header('Content-Type: text/html');
+
+      include_once '../App/View/partials/admin/menu/_reportAnimal.php';
+    }
   }
 
   public function loadCommentHabitatPage()
   {
+    if (Security::isVeterinary() && $_SERVER['REQUEST_METHOD'] == 'GET') {
+      header('Content-Type: text/html');
+
+      include_once '../App/View/partials/admin/menu/_habitatComment.php';
+    }
   }
 }

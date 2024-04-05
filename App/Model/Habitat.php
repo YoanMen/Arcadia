@@ -235,4 +235,28 @@ class Habitat extends Model
       throw new DatabaseException("Error to insert habitat_image : " . $e->getMessage());
     }
   }
+
+  public function fetchAllHabitatsWithoutComment(): array | null
+  {
+    try {
+      $results = null;
+
+      $pdo = $this->connect();
+      $query = "SELECT habitat.id, habitat.name from habitat";
+
+      $stm = $pdo->prepare($query);
+
+      $stm->execute();
+
+      if ($stm->execute()) {
+        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error to fetch : " . $e->getMessage());
+    }
+  }
 }

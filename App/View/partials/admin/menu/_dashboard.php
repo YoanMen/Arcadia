@@ -30,11 +30,12 @@
       <thead>
         <tr>
           <th id='habitatComment-name' class="clickable">nom</th>
+          <th class="hidden--mobile">commentaire</th>
           <th>détails</th>
         </tr>
       </thead>
       <tbody id="habitatComment-tbody">
-        <?php require  "../App/View/partials/_loadingTable.php" ?>
+        <?php require_once  "../App/View/partials/_loadingTable.php" ?>
       </tbody>
     </table>
   </div>
@@ -60,7 +61,7 @@
         </tr>
       </thead>
       <tbody id="animalReport-tbody">
-        <?php require  "../App/View/partials/_loadingTable.php" ?>
+        <?php require_once  "../App/View/partials/_loadingTable.php" ?>
       </tbody>
     </table>
   </div>

@@ -173,7 +173,7 @@ function openNew() {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible d'ajouter l'utilisateur : ${error}`
+            `impossible d'ajouter l'utilisateur : ${error.message}`
           );
         });
     }
@@ -240,7 +240,7 @@ async function openDetails(user) {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible de modifier l'utilisateur : ${error}`
+            `impossible de modifier l'utilisateur : ${error.message}`
           );
         });
     }
@@ -277,7 +277,7 @@ async function openDetails(user) {
           .catch((error) => {
             new FlashMessage(
               "error",
-              `impossible de supprimer l'utilisateur ${error}`
+              `impossible de supprimer l'utilisateur ${error.message}`
             );
           })
     );

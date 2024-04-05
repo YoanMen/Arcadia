@@ -3,11 +3,14 @@
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
+use Exception;
 use PDO;
 use PDOException;
 
 class HabitatComment extends Model
 {
+  protected string $orderColumn = "habitatId";
+
   protected string $table = 'habitatComment';
   private int $habitatID;
   private int $userID;
@@ -92,6 +95,26 @@ class HabitatComment extends Model
     }
 
     return ($result[0] != 0 ? $result[0] : null);
+  }
+
+  public function updateComment(int $habitatId, int $userId, string $comment)
+  {
+    try {
+
+      $pdo = $this->connect();
+
+      $query = "UPDATE $this->table SET userId = :userId, comment = :comment WHERE habitatId = :habitatId; ";
+
+      $stm = $pdo->prepare($query);
+
+      $stm->bindParam(':comment', $comment, PDO::PARAM_STR);
+      $stm->bindParam(':habitatId', $habitatId, PDO::PARAM_INT);
+      $stm->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+      $stm->execute();
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error update data: " . $e->getMessage());
+    }
   }
   public function fetchHabitatsComment(string $search, string $order, string $orderBy): array|null
   {

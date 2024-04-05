@@ -186,7 +186,7 @@ function openNew() {
           resetData();
         })
         .catch((error) => {
-          new FlashMessage("error", `impossible d'ajouter l'animal : ${error}`);
+          new FlashMessage("error", `impossible d'ajouter l'animal : ${error.message}`);
         });
     }
   });
@@ -286,7 +286,7 @@ async function openDetails(animal) {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible de modifier l'animal : ${error}`
+            `impossible de modifier l'animal : ${error.message}`
           );
         });
     }
@@ -328,7 +328,7 @@ async function openDetails(animal) {
           .catch((error) => {
             new FlashMessage(
               "error",
-              `impossible de supprimer l'animal ${error}`
+              `impossible de supprimer l'animal ${error.message}`
             );
           })
     );
@@ -414,7 +414,7 @@ function listeningButtonsDeleteImage() {
             .catch((error) => {
               new FlashMessage(
                 "error",
-                `Impossible de supprimer l'image : ${error}`
+                `Impossible de supprimer l'image : ${error.message}`
               );
             })
       );

@@ -1,9 +1,5 @@
 import { Table } from "./table.js";
 
-const csrf_token = document.head.querySelector(
-  'meta[name="csrf-token"]'
-).content;
-
 export class AnimalTable extends Table {
   createNewContent(habitats) {
     return `<div class="details__container details__container--show">
@@ -131,7 +127,7 @@ export class AnimalTable extends Table {
       const r = await fetch("/public/api/animals/create", {
         method: "POST",
         headers: {
-          "X-CSRF-TOKEN": csrf_token,
+          "X-CSRF-TOKEN": this.csrf_token,
         },
         body: formData,
       });

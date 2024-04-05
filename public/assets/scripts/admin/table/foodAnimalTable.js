@@ -1,9 +1,4 @@
 import { Table } from "./table.js";
-
-const csrf_token = document.head.querySelector(
-  'meta[name="csrf-token"]'
-).content;
-
 export class FoodAnimalTable extends Table {
   createNewContent(habitats) {
     return `<div class="details__container details__container--show">
@@ -36,7 +31,7 @@ export class FoodAnimalTable extends Table {
                     <label for='animal-select'>animal</label>
                     <select disabled required id="animal-select">
                     </select>
-                </li>
+                  </li>
                   <li class="details__item">
                     <label for='food'>nourriture</label>
                     <input required minlength="3" maxlength="20" class="details__input" type="text" id="food"" >

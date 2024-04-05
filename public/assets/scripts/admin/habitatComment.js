@@ -1,5 +1,5 @@
+import { FlashMessage } from "../flashMessage.js";
 import { HabitatComment } from "./table/habitatCommentTable.js";
-
 // DOM SECTION
 const tbody = document.getElementById("habitatComment-tbody");
 const dashboardContent = document.getElementById("dashboard-content");
@@ -7,7 +7,7 @@ const dashboardContent = document.getElementById("dashboard-content");
 // SEARCH
 const searchInput = document.getElementById("habitatComment-search");
 const submitButton = document.getElementById("habitatComment-submit");
-
+const addButton = document.getElementById("habitatComment-add");
 // Order Column
 const name = document.getElementById("habitatComment-name");
 
@@ -35,6 +35,12 @@ function listeners() {
     getDataWithParams("name");
   });
 
+  if (addButton) {
+    addButton.addEventListener("click", () => {
+      openNew();
+    });
+  }
+
   submitButton.addEventListener("click", (event) => {
     event.preventDefault();
     getDataWithParams("id", "ASC");
@@ -50,7 +56,7 @@ async function getData() {
   isLoading = true;
 
   try {
-    let newResponse = await table.fetchData("/api/habitats/comment", "POST", {
+    let newResponse = await table.fetchData("/api/habitats-comment", "POST", {
       search: searchInput.value,
       order: order,
       orderBy: orderBy,
@@ -147,6 +153,60 @@ async function openDetails(data) {
   });
 }
 
+/**
+ * open new panel
+ */
+async function openNew() {
+  document.body.classList.add("no-scroll");
+  detailPanel = document.createElement("div");
+  detailPanel.classList.add("details");
+  detailPanel.name = "outer-details";
+
+  dashboardContent.appendChild(detailPanel);
+
+  detailPanel.innerHTML = table.createNewContent(response.habitats);
+
+  const create = document.getElementById("create");
+  const form = document.getElementById("createForm");
+  const closeButton = document.getElementById("new-close");
+  const habitatSelectInput = document.getElementById("habitat-select");
+  const commentInput = document.getElementById("comment");
+
+  create.addEventListener("click", async (event) => {
+    if (form.checkValidity()) {
+      event.preventDefault();
+
+      await table
+        .fetchData("/api/habitats-comment/create", "POST", {
+          habitat_id: habitatSelectInput.value,
+          comment: commentInput.value,
+        })
+        .then(() => {
+          new FlashMessage("success", "le commentaire à été envoyé");
+          detailPanel.remove();
+          document.body.classList.remove("no-scroll");
+          resetData();
+        })
+        .catch((error) => {
+          new FlashMessage(
+            "error",
+            `impossible d'envoyer le commentaire : ${error.message}`
+          );
+        });
+    }
+  });
+
+  detailPanel.addEventListener("click", (event) => {
+    if (event.target.name == "outer-details") {
+      document.body.classList.remove("no-scroll");
+      detailPanel.outerHTML = "";
+    }
+  });
+  closeButton.addEventListener("click", () => {
+    document.body.classList.remove("no-scroll");
+    detailPanel.outerHTML = "";
+  });
+}
 /**
  * Check position of scroll in tbody and load more data when scroll is bottom
  */

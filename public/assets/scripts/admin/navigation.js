@@ -15,7 +15,9 @@ const userBtn = document.getElementById("menu-user");
 const scheduleBtn = document.getElementById("menu-schedule");
 const adviceBtn = document.getElementById("menu-advice");
 const foodAnimalBtn = document.getElementById("menu-foodAnimal");
-
+const habitatCommentBtn = document.getElementById("menu-habitatComment");
+const reportAnimalBtn = document.getElementById("menu-report");
+const showFoodAnimalBtn = document.getElementById("menu-showFoodAnimal");
 init();
 
 // get role of user and display corresponding page
@@ -51,6 +53,39 @@ if (dashboardBtn) {
     content.innerHTML = loading;
 
     loadDashboard();
+  });
+}
+
+if (showFoodAnimalBtn) {
+  showFoodAnimalBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+    content.innerHTML = loading;
+
+    await fetch("/public/dashboard/food/show", {
+      method: "GET",
+      headers: {
+        Accept: "text/html",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.text();
+        }
+      })
+      .then((htmlContent) => {
+        deleteScripts();
+        const timestamp = new Date().getTime();
+        content.innerHTML = htmlContent;
+
+        const habitat = document.createElement("script");
+        habitat.id = "js";
+        habitat.src = `./assets/scripts/admin/foodAnimal.js?v=${timestamp}`;
+        habitat.type = "module";
+        document.body.appendChild(habitat);
+      })
+      .catch((error) => {
+        new FlashMessage("error", error.message);
+      });
   });
 }
 
@@ -222,6 +257,65 @@ if (foodAnimalBtn) {
     loadFoodAnimal();
   });
 }
+
+if (habitatCommentBtn) {
+  habitatCommentBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    await fetch("/public/dashboard/habitat-comment", {
+      method: "GET",
+      headers: {
+        Accept: "text/html",
+      },
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((htmlContent) => {
+        deleteScripts();
+        const timestamp = new Date().getTime();
+
+        content.innerHTML = htmlContent;
+
+        const service = document.createElement("script");
+        service.id = "js";
+        service.type = "module";
+        service.src = `./assets/scripts/admin/habitatComment.js?v=${timestamp}`;
+
+        document.body.appendChild(service);
+      });
+  });
+}
+
+if (reportAnimalBtn) {
+  reportAnimalBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    await fetch("/public/dashboard/animal-report", {
+      method: "GET",
+      headers: {
+        Accept: "text/html",
+      },
+    })
+      .then((response) => {
+        return response.text();
+      })
+      .then((htmlContent) => {
+        deleteScripts();
+        const timestamp = new Date().getTime();
+
+        content.innerHTML = htmlContent;
+
+        const service = document.createElement("script");
+        service.id = "js";
+        service.type = "module";
+        service.src = `./assets/scripts/admin/animalReport.js?v=${timestamp}`;
+
+        document.body.appendChild(service);
+      });
+  });
+}
+
 /*
  * delete old script to load script for new page
  */
@@ -281,6 +375,7 @@ async function loadFoodAnimal() {
       document.body.appendChild(service);
     });
 }
+
 async function loadDashboard() {
   await fetch("/public/dashboard/dashboard", {
     method: "GET",

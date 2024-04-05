@@ -172,7 +172,7 @@ function openNew() {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible d'ajouter l'habitat : ${error}`
+            `impossible d'ajouter l'habitat : ${error.message}`
           );
         });
     }
@@ -272,7 +272,7 @@ async function openDetails(habitat) {
         .catch((error) => {
           new FlashMessage(
             "error",
-            `impossible de modifier l'habitat : ${error}`
+            `impossible de modifier l'habitat : ${error.message}`
           );
         });
     }
@@ -314,7 +314,7 @@ async function openDetails(habitat) {
           .catch((error) => {
             new FlashMessage(
               "error",
-              `impossible de supprimer l'habitat ${error}`
+              `impossible de supprimer l'habitat ${error.message}`
             );
           })
     );
@@ -348,7 +348,7 @@ async function openDetails(habitat) {
       } catch (error) {
         new FlashMessage(
           "error",
-          `impossible d'ajouter pour ${habitat.name} : ${error}`
+          `impossible d'ajouter pour ${habitat.name} : ${error.message}`
         );
       }
     });
@@ -400,7 +400,7 @@ function listeningButtonsDeleteImage() {
             .catch((error) => {
               new FlashMessage(
                 "error",
-                `Impossible de supprimer l'image : ${error}`
+                `Impossible de supprimer l'image : ${error.message}`
               );
             })
       );

@@ -133,9 +133,13 @@ class HabitatController extends Controller
       $habitatRepository = new Habitat();
       $animalRepository = new Animal();
 
+      $habitat = $habitatRepository->findOneBy(['name' => $name]);
+
+      if (!$habitat) {
+        throw new DatabaseException('Habitat not exist');
+      }
 
       // find image for habitat
-      $habitat = $habitatRepository->findOneBy(['name' => $name]);
       $habitat->findImages();
 
       // find all animals and images corresponding habitat
@@ -147,15 +151,10 @@ class HabitatController extends Controller
         }
       }
 
-
-      if (isset($habitat)) {
-        $this->show('habitatDetails', [
-          'habitat' => $habitat,
-          'animals' => $animals
-        ]);
-      } else {
-        throw new DatabaseException('Habitat not exist');
-      }
+      $this->show('habitatDetails', [
+        'habitat' => $habitat,
+        'animals' => $animals
+      ]);
     } catch (Exception $e) {
       Router::redirect('error');
     }

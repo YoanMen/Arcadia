@@ -7,7 +7,7 @@ use App\Model\Schedule; ?>
     <h1 class="hidden--mobile">Horaires</h1>
   </div>
   <div class="dashboard__element__table">
-    <table aria-describedby="table for service">
+    <table aria-describedby="table for schedules">
       <thead>
         <tr>
           <th class="hidden--mobile"></th>

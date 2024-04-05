@@ -16,6 +16,7 @@ async function getDataMenu() {
     method: "GET",
     headers: {
       Accept: "application/json",
+      "X-CSRF-TOKEN": csrf_token,
     },
   });
   if (r.ok) {

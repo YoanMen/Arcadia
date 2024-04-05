@@ -1,9 +1,5 @@
 import { Table } from "./table.js";
 
-const csrf_token = document.head.querySelector(
-  'meta[name="csrf-token"]'
-).content;
-
 export class HabitatTable extends Table {
   createNewContent() {
     return `<div class="details__container details__container--show">
@@ -113,7 +109,7 @@ export class HabitatTable extends Table {
       const r = await fetch("/public/api/habitats/create", {
         method: "POST",
         headers: {
-          "X-CSRF-TOKEN": csrf_token,
+          "X-CSRF-TOKEN": this.csrf_token,
         },
         body: formData,
       });

@@ -30,7 +30,7 @@ class FoodAnimalController extends Controller
 
         $foodAnimalRepo = new FoodAnimal();
         $habitatRepo = new Habitat();
-        $habitats = $habitatRepo->fetchAll(true);
+        $habitats = $habitatRepo->fetchAllHabitatsWithoutComment();
         $foodCount = $foodAnimalRepo->foodAnimalsCount($search);
         $remainCount = $foodCount - $count;
         // check if remaining data
@@ -86,6 +86,10 @@ class FoodAnimalController extends Controller
         Validator::strIsDateOrTime($date);
         Validator::strIsDateOrTime($time);
 
+
+        if (empty($animalId)) {
+          throw new ValidatorException('Aucun animal sélectionné');
+        }
         // insert to table
         $foodRepo = new FoodAnimal();
 

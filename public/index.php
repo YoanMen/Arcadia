@@ -45,7 +45,6 @@ $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
 
 
 $router->addRoute('POST', ROOT . '/api/habitats', 'HabitatController', 'getHabitats');
-$router->addRoute('POST', ROOT . '/api/habitats/comment', 'HabitatCommentController', 'getHabitatsComment');
 $router->addRoute('POST', ROOT . '/api/habitats/uploadImage', 'HabitatController', 'uploadImage');
 $router->addRoute('POST', ROOT . '/api/habitats/images', 'HabitatController', 'getHabitatImages');
 $router->addRoute('DELETE', ROOT . '/api/habitats/images', 'HabitatController', 'deleteImage');
@@ -85,6 +84,9 @@ $router->addRoute('POST', ROOT . '/api/advice/send', 'AdviceController', 'sendAd
 $router->addRoute('POST', ROOT . '/api/food', 'FoodAnimalController', 'getFoods');
 $router->addRoute('POST', ROOT . '/api/food/create', 'FoodAnimalController', 'createFood');
 
+$router->addRoute('POST', ROOT . '/api/habitats-comment', 'HabitatCommentController', 'getHabitatsComment');
+$router->addRoute('POST', ROOT . '/api/habitats-comment/create', 'HabitatCommentController', 'createComment');
+
 
 // DASHBOARD NAVIGATION
 $router->addRoute('GET', ROOT . '/dashboard/habitat', 'AuthController', 'loadHabitatPage');
@@ -92,9 +94,12 @@ $router->addRoute('GET', ROOT . '/dashboard/animal', 'AuthController', 'loadAnim
 $router->addRoute('GET', ROOT . '/dashboard/dashboard', 'AuthController', 'loadDashboardPage');
 $router->addRoute('GET', ROOT . '/dashboard/service', 'AuthController', 'loadServicePage');
 $router->addRoute('GET', ROOT . '/dashboard/food', 'AuthController', 'loadFoodAnimalPage');
-
+$router->addRoute('GET', ROOT . '/dashboard/food/show', 'AuthController', 'loadFoodAnimalPage');
 $router->addRoute('GET', ROOT . '/dashboard/user', 'AuthController', 'loadUserPage');
 $router->addRoute('GET', ROOT . '/dashboard/schedule', 'AuthController', 'loadSchedulePage');
 $router->addRoute('GET', ROOT . '/dashboard/advice', 'AuthController', 'loadAdvicePage');
+$router->addRoute('GET', ROOT . '/dashboard/habitat-comment', 'AuthController', 'loadCommentHabitatPage');
+$router->addRoute('GET', ROOT . '/dashboard/animal-report', 'AuthController', 'loadReportAnimalPage');
+
 
 $router->goRoute($router);

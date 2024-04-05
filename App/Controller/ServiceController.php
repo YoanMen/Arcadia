@@ -206,8 +206,7 @@ class ServiceController extends Controller
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'];
 
     if (
-      Security::verifyCsrf($csrf) && Security::isEmployee() && $_SERVER['REQUEST_METHOD'] === 'DELETE'
-      || Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'DELETE'
+      Security::verifyCsrf($csrf) && !Security::isVeterinary() && $_SERVER['REQUEST_METHOD'] === 'DELETE'
     ) {
 
       try {

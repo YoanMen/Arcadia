@@ -13,16 +13,19 @@ use App\Core\Security;
       // VETERINARY
       if (Security::isVeterinary()) { ?>
         <li class="dashboard-panel__list__item">
-          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="" srcset="">
-            <span for="">commentaire sur les habitats</span></a>
+          <a id="menu-showFoodAnimal" href="#">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/food-drumstick.svg" alt="" srcset="">
+            <span for="">alimentation des animaux</span> </a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
-            <span for="">rapport sur les animaux</span> </a>
+          <a id="menu-habitatComment" href="#">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
+            <span for="">état des habitats</span></a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a href=""> <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
-            <span for="">alimentation</span> </a>
+          <a id="menu-report" href="#">
+            <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
+            <span for="">rapport des animaux</span> </a>
         </li>
       <?php }
       // EMPLOYEE

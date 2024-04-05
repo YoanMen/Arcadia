@@ -51,19 +51,16 @@
         <?php if (isset($data['report'])) { ?>
 
           <div class="section__background">
-            <h3>État de l'animal : <?= strtoupper($data['report']->getStatut()) ?> </h3>
+            <h3>Rapport du vétérinaire : </h3>
+
+            <p>État : <?= strtoupper($data['report']->getStatut()) ?> </p>
             <?php
             $details = $data['report']->getDetails();
             if (!empty($details)) { ?>
               <p class="section__text mt"> <?= $details ?> </p>
             <?php  }  ?>
           </div>
-        <?php  } else { ?>
-          <div class="section__background">
-            <h3 class="section__text"> Aucune données</h3>
-          </div>
-      <?php
-        }
+      <?php  }
       } ?>
     </section>
   </main>
