@@ -57,9 +57,6 @@
 .details__item:nth-child(2n) select {
   background-color: white;
 }
-.details__item:first-child() {
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
 
 .details__item label,
 .details__item span {
@@ -73,14 +70,6 @@
   align-items: center;
   gap: 2px;
   width: 100%;
-}
-
-.details__input:nth-child(odd) {
-  background-color: var(--bg-color-light);
-}
-
-.details__item:nth-child(odd) {
-  background-color: var(--bg-color-light);
 }
 
 .details__textarea:nth-child(odd) {
@@ -108,14 +97,6 @@
   width: 320px;
   padding: var(--padding);
   padding-left: 0;
-}
-@keyframes show {
-  from {
-    transform: translateX(80%);
-  }
-  to {
-    transform: translateX(0);
-  }
 }
 
 @media screen and (max-width: 762px) {

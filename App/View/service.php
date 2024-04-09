@@ -12,14 +12,14 @@
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
 
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
+  <link rel="stylesheet" href="./assets/styles/global.css">
+  <link rel="stylesheet" href="./assets/styles/section/section.css">
 
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/breadcrumbs.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="./assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="./assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="./assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="./assets/styles/div/breadcrumbs.css">
+  <link rel="stylesheet" href="./assets/styles/pagination/pagination.css">
 
 </head>
 
@@ -46,7 +46,7 @@
           <?php
           if ($data["services"]) {
             foreach ($data["services"] as $service) { ?>
-              <li><a href="<?= ROOT ?>/services/<?= setURLWithName($service->getName()); ?>">
+              <li><a href="./services/<?= setURLWithName($service->getName()); ?>">
                   <?= $service->getName() ?>
                 </a></li>
           <?php }
@@ -63,7 +63,7 @@
   </main>
 
   <?php require_once '../App/View/partials/_footer.php' ?>
-  <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
+  <script src="./assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

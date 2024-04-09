@@ -5,6 +5,7 @@
   margin-bottom: 16px;
   background-color: var(--bg-color-dark);
   border-radius: 5px;
+  margin-top: auto;
 }
 
 .pagination__container {

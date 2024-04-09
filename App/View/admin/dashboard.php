@@ -25,13 +25,13 @@
   <main class="dashboard">
     <div id='dashboard-content' class="dashboard__container">
     </div>
+
   </main>
 
   <dialog class='dialog--confirm'>
 
   </dialog>
 
-  <script type="module" src="<?= ROOT ?>/assets/scripts/admin/navigation.js"></script>
 </body>
 
 </html>

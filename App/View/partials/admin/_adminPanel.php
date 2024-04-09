@@ -44,35 +44,35 @@ use App\Core\Security;
       // ADMIN
       if (Security::isAdmin()) { ?>
         <li class="dashboard-panel__list__item">
-          <a href="#" id="menu-dashboard">
+          <a href="<?= ROOT ?>/dashboard" id="menu-dashboard">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="dashboard icon" srcset="">
             <span for="">dashboard</span></a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a id="menu-user" href="#">
+          <a id="menu-user" href="<?= ROOT ?>/dashboard/utilisateurs">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/account-group.svg" alt="user icon" srcset="">
             <span for="">utilisateurs</span> </a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a id='menu-habitat' href="#">
+          <a id='menu-habitat' href="<?= ROOT ?>/dashboard/habitats">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="house icon" srcset="">
             <span for="">habitats</span>
           </a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a id='menu-animal' href="">
+          <a id='menu-animal' href="./animaux">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="paw icon" srcset="">
             <span for="">animaux</span> </a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a id='menu-schedule' href="">
+          <a id='menu-schedule' href="./horaires">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/clock-outline.svg" alt="clock icon" srcset="">
             <span for="">horaires</span> </a>
         </li>
       <?php }
       if (Security::isEmployee() || Security::isAdmin()) { ?>
         <li class="dashboard-panel__list__item">
-          <a id="menu-service" href="">
+          <a id="menu-service" href="./services">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/account-wrench.svg" alt="wrench icon" srcset="">
             <span for="">services</span> </a>
         </li>

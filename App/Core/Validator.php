@@ -27,17 +27,17 @@ class Validator
       throw new ValidatorException($error);
     }
   }
+
   public static function strIsInt(
     string $string,
     string $error = 'Ce n\'est pas un int'
   ) {
-    $int = intval($string);
-
-    if (!is_int($int)) {
+    if (!ctype_digit($string)) {
       http_response_code(400);
       throw new ValidatorException($error);
     }
   }
+
 
   public static function strIsFloat(
     string $string,

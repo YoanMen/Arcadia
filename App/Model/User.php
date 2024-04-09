@@ -115,7 +115,7 @@ class User extends Model
 			$pdo = $this->connect();
 			$query = "SELECT COUNT(user.id) as total_count
 								FROM user
-								WHERE user.email LIKE :search	";
+								WHERE user.email LIKE :search	AND user.role != 'admin' ";
 
 			$stm = $pdo->prepare($query);
 			$stm->bindParam(':search', $search, PDO::PARAM_STR);
@@ -130,27 +130,27 @@ class User extends Model
 		}
 	}
 
-	public function fetchUsers(string $search, string $order, string $orderBy): array|null
+	public function fetchUsers(string $search, string $orderBy, string $order): array|null
 	{
 		try {
 
 			$results = null;
-
 			$search .=  '%';
 
 			$allowedOrderBy = ['id', 'email', 'role'];
-			$allowedOrder = ['ASC', 'DESC'];
+			$allowedOrder = ['asc', 'desc'];
+
 
 			$orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
 			$order = in_array($order, $allowedOrder) ? $order : 'ASC';
 
 
 			$pdo = $this->connect();
-			$query = "SELECT user.id, user.email, user.password , user.role 
-							FROM $this->table
-							WHERE user.email LIKE :search
-							AND NOT user.role = 'admin'
-							ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset";
+			$query = "SELECT user.id, user.email, user.password , user.role
+								FROM $this->table
+								WHERE user.email LIKE :search
+								AND NOT user.role = 'admin'
+								ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset";
 
 
 			$stm = $pdo->prepare($query);

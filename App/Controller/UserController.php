@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\Controller;
 use App\Core\Exception\DatabaseException;
 use App\Core\Exception\ValidatorException;
+use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;
 use App\Model\User;
@@ -12,178 +13,191 @@ use Exception;
 
 class UserController extends Controller
 {
-  public function getUsers()
+
+  public function table()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? "";
+    if (Security::isLogged()) {
 
-    if (Security::isAdmin() && Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+      if (Security::isAdmin()) {
+        $search = $_GET['search'] ?? '';
+        $orderBy = $_GET['orderBy'] ?? 'id';
+        $order = $_GET['order'] ?? 'asc';
 
-        // get all params
-        $search = htmlspecialchars($data['params']['search']);
-        $order = htmlspecialchars($data['params']['order']);
-        $orderBy = htmlspecialchars($data['params']['orderBy']);
-        $count = htmlspecialchars($data['params']['count']);
+        try {
+          $page = $_GET['page'] ?? 1;
+          $currentPage = $page;
 
-        $userRepo = new User();
+          $userRepo = new User();
+          $nbUsers = $userRepo->userCount($search);
 
-        $userCount = $userRepo->userCount($search);
-        $remainCount = $userCount - $count;
+          $userRepo->setLimit(10);
+          $totalPage = ceil($nbUsers / $userRepo->getLimit());
+          $first = ($currentPage - 1) * $userRepo->getLimit();
 
-        if ($remainCount > 0) {
-          $userRepo->setOffset($count);
-          $users = $userRepo->fetchUsers($search, $order, $orderBy);
-          echo json_encode(['data' => $users, 'totalCount' => $userCount]);
-        } else {
-          throw new DatabaseException('aucun résultat');
+          $userRepo->setOffset($first);
+          $users = $userRepo->fetchUsers($search, $orderBy, $order);
+
+          $this->show('admin/user/table', [
+            'params' => ['search' => $search, 'order' => $order],
+            'users' => $users,
+            'totalPages' => ($totalPage != 0) ?  $totalPage : 1,
+            'currentPage' =>  $currentPage,
+          ]);
+        } catch (Exception $e) {
+          throw new DatabaseException($e);
         }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
     } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      Router::redirect('login');
     }
   }
 
-  public function createUser()
+  public function add()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::isLogged()) {
 
-    if (Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] == 'POST') {
+      if (Security::isAdmin()) {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+          $csrf = $_POST['csrf_token'] ?? '';
+          if (Security::verifyCsrf($csrf)) {
+            try {
+              $email =  htmlspecialchars($_POST['email']);
+              $password = htmlspecialchars($_POST['password']);
+              $role = htmlspecialchars($_POST['role']);
 
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+              $email = trim($email);
+              $email = strtolower($email);
 
-        $email =  htmlspecialchars($data['params']['email']);
-        $password = htmlspecialchars($data['params']['password']);
-        $role = htmlspecialchars($data['params']['role']);
+              $userRepo = new User();
 
-        $email = trim($email);
-        $email = strtolower($email);
+              // validate value from user
+              Validator::strIsValideEmail($email);
+              Validator::strLengthCorrect($password, 8, 60, 'Le mot de passe doit être en 8 et 60 caractères');
+              Validator::strIsValidRole($role);
 
-        Validator::strIsValideEmail($email);
-        Validator::strLengthCorrect($password, 8, 60);
-        Validator::strIsValidRole($role);
+              $userRepo = new User();
 
-        $userRepo = new User();
+              // Check if user already exists
+              $user = $userRepo->findOneBy(['email' => $email]);
+              if ($user) {
+                throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
+              }
 
-        $user = $userRepo->findOneBy(['email' => $email]);
-        if ($user) {
-          throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
+              $password =  Security::hashPassword($password);
+
+              $userRepo->insert(['email' => $email, 'password' => $password, 'role' => $role]);
+
+              $_SESSION['success'] = $email . ' à été crée';
+              Router::redirect('dashboard/utilisateurs');
+            } catch (Exception $e) {
+              $_SESSION['error'] =  $e->getMessage();
+            }
+          } else {
+
+            $_SESSION['error'] = 'Clé CSRF non valide';
+          }
         }
 
-        $password =  Security::hashPassword($password);
-
-        $userRepo->insert(['email' => $email, 'password' => $password, 'role' => $role]);
-        echo json_encode(['success' => 'l\'utilisateur à été crée']);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+        $this->show('admin/user/add');
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
     } else {
-      http_response_code(401);
+      Router::redirect('login');
+    }
+  }
+  public function edit($request)
+  {
+    if (Security::isLogged()) {
+      if (Security::isAdmin()) {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+          $csrf = $_POST['csrf_token'] ?? '';
+          if (Security::verifyCsrf($csrf)) {
+            try {
 
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
+              $id = htmlspecialchars($request['id']);
+              $email =  htmlspecialchars($_POST['email']);
+              $password = htmlspecialchars($_POST['password']);
+              $role = htmlspecialchars($_POST['role']);
+              $email = trim($email);
+              $email = strtolower($email);
+
+              $userRepo = new User();
+
+              Validator::strIsInt($id);
+              Validator::strIsValideEmail($email);
+              Validator::strIsValidRole($role);
+
+              if ($password != null) {
+                Validator::strLengthCorrect($password, 8, 60, 'Le mot de passe doit être en 8 et 60 caractères');
+              }
+
+              $user = $userRepo->findOneBy(['email' => $email]);
+              if ($user && $user->getId() != $id) {
+                throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
+              }
+
+              $user = $userRepo->findOneBy(['id' => $id]);
+
+              if ($password != null) {
+                $password =  Security::hashPassword($password);
+                $userRepo->update(['email' => $email, 'password' => $password, 'role' => $role], $id);
+              } else {
+                $userRepo->update(['email' => $email,  'role' => $role], $id);
+              }
+
+              $_SESSION['success'] = $user->getEmail() . ' à été modifié';
+              Router::redirect('dashboard/utilisateurs');
+            } catch (Exception $e) {
+              $_SESSION['error'] =  $e->getMessage();
+            }
+          } else {
+
+            $_SESSION['error'] = 'Clé CSRF non valide';
+          }
+        }
+
+        $userRepo = new User();
+        $user = $userRepo->findOneBy(['id' => $request['id']]);
+        $this->show('admin/user/edit', [
+          'user' => $user,
+        ]);
       } else {
-        echo json_encode(['error' => 'accès interdit']);
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
+    } else {
+      Router::redirect('login');
     }
   }
 
-  public function updateUser()
+  public function delete($request)
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === "POST") {
+      $csrf = $_POST['csrf_token'] ?? '';
+      if (Security::verifyCsrf($csrf)) {
+        try {
+          $id =  htmlspecialchars($request['id']);
+          Validator::strIsInt($id);
 
-    if (Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] == 'POST') {
+          $userRepo = new User();
+          $userRepo->delete(['id' => $id]);
 
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
-
-        $id = htmlspecialchars($data['params']['id']);
-        $email =  htmlspecialchars($data['params']['email']);
-        $password = htmlspecialchars($data['params']['password']);
-        $role = htmlspecialchars($data['params']['role']);
-
-        $email = trim($email);
-        $email = strtolower($email);
-
-        $userRepo = new User();
-
-        Validator::strIsInt($id);
-        Validator::strIsValideEmail($email);
-        Validator::strLengthCorrect($password, 8, 60);
-        Validator::strIsValidRole($role);
-
-        $user = $userRepo->findOneBy(['email' => $email]);
-        if ($user && $user->getId() != $id) {
-          throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
+          $_SESSION['success'] = 'l\'utilisateur à été supprimé';
+        } catch (Exception $e) {
+          $_SESSION['error'] =  $e->getMessage();
         }
-
-        $user = $userRepo->findOneBy(['id' => $id]);
-
-        // change password if is not the same
-        if ($password !==  $user->getPassword()) {
-          $password =  Security::hashPassword($password);
-          $userRepo->update(['email' => $email, 'password' => $password, 'role' => $role], $id);
-        }
-
-        $userRepo->update(['email' => $email,  'role' => $role], $id);
-        echo json_encode(['success' => 'l\'utilisateur à été modifié']);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
       } else {
-        echo json_encode(['error' => 'accès interdit']);
+        $_SESSION['error'] = 'Clé CSRF pas valide';
       }
-    }
-  }
-
-  public function deleteUser()
-  {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'];
-
-    if (Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
-
-        $id = htmlspecialchars($data['params']['id']);
-
-        $userRepo = new User();
-        $userRepo->delete(['id' => $id]);
-
-        echo json_encode(['success' => 'le service à été supprimé']);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
+      Router::redirect('dashboard/utilisateurs');
     } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      $_SESSION['error'] = 'Vous n\'avez pas la permission';
+      Router::redirect('dashboard');
     }
   }
 }

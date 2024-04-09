@@ -163,81 +163,186 @@ class HabitatController extends Controller
   // fetch delete image
   public function  deleteImage()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === "DELETE") {
+      $content = trim(file_get_contents('php://input'));
+      $data = json_decode($content, true);
 
+      $csrf = htmlspecialchars($data['csrf']);
 
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'DELETE' && Security::isAdmin()) {
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+      if (Security::verifyCsrf($csrf)) {
 
+        try {
+          // search image corresponding by id
+          $id = htmlspecialchars($data['id']);
+          $imageRepo = new Image();
+          $image = $imageRepo->findOneBy(['id' => $id]);
 
-        // search image corresponding by id
-        $id = htmlspecialchars($data['params']['id']);
-        $imageRepo = new Image();
-        $image = $imageRepo->findOneBy(['id' => $id]);
+          if ($image) {
+            // remove image in folder and ddb
+            UploadFile::remove($image->getPath());
+            $imageRepo->delete(['id' => $id]);
 
-        if ($image) {
-
-          // remove image in folder and ddb
-          UploadFile::remove($image->getPath());
-          $imageRepo->delete(['id' => $id]);
-
-          echo json_encode(['success' => 'image supprimé']);
-        } else {
-          throw new DatabaseException('impossible de récupéré l\'image ');
+            $_SESSION['success'] = "image supprimé";
+            echo json_encode(['success' => 'image supprimé']);
+          } else {
+            http_response_code(201);
+            $_SESSION['error'] = "impossible de récupéré l\'image ";
+            throw new DatabaseException('impossible de récupéré l\'image ');
+          }
+        } catch (Exception $e) {
+          http_response_code(500);
+          $_SESSION['error'] = $e->getMessage();
+          echo json_encode(['error' => $e->getMessage()]);
         }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+      } else {
+        http_response_code(401);
+        echo json_encode(['error' => 'Clé CSRF non valide']);
       }
     } else {
       http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      echo json_encode(['error' => 'Vous n\'avez pas la permission']);
     }
   }
 
-
-  // fetch upload image
-  public function uploadImage()
+  public function  uploadImage()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isAdmin()) {
-      try {
-        $id = $_POST['id'] ?? '';
-        $id = htmlspecialchars($id);
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === "POST") {
 
-        Validator::strIsInt($id);
 
-        $path =  UploadFile::upload();
-        $imageRepo = new Image();
-        $habitatRepo = new Habitat();
+      $csrf = htmlspecialchars($_POST['csrf']);
+      if (Security::verifyCsrf($csrf)) {
 
-        $imageRepo->insert(['path' => $path]);
-        $image = $imageRepo->findOneBy(['path' => $path]);
+        try {
+          $id = htmlspecialchars($_POST['id']);
 
-        $habitatRepo->insertImage($id, $image->getId());
+          Validator::strIsInt($id);
 
-        echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+          $path =   UploadFile::upload();
+          $imageRepo = new Image();
+          $habitatRepo = new Habitat();
+
+          $imageRepo->insert(['path' => $path]);
+          $image = $imageRepo->findOneBy(['path' => $path]);
+
+          $habitatRepo->insertImage($id, $image->getId());
+
+          $_SESSION['success'] = 'Image ajouté';
+          echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
+        } catch (Exception $e) {
+          http_response_code(500);
+          $_SESSION['error'] = $e->getMessage();
+          echo json_encode(['error' => $e->getMessage()]);
+        }
+      } else {
+        http_response_code(401);
+        $_SESSION['error'] = 'Clé CSRF non valide';
+        echo json_encode(['error' => 'Clé CSRF non valide']);
       }
     } else {
       http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      echo json_encode(['error' => 'Vous n\'avez pas la permission']);
     }
   }
+
+
+  public function table()
+  {
+    if (Security::isLogged()) {
+
+      if (Security::isAdmin()) {
+        $search = $_GET['search'] ?? '';
+        $orderBy = $_GET['orderBy'] ?? 'id';
+        $order = $_GET['order'] ?? 'asc';
+
+        try {
+          $page = $_GET['page'] ?? 1;
+          $currentPage = $page;
+
+          $habitatRepo = new Habitat();
+          $nbUsers = $habitatRepo->habitatsCount($search);
+
+          $habitatRepo->setLimit(10);
+          $totalPage = ceil($nbUsers / $habitatRepo->getLimit());
+          $first = ($currentPage - 1) * $habitatRepo->getLimit();
+
+          $habitatRepo->setOffset($first);
+          $data = $habitatRepo->fetchHabitats($search, $orderBy, $order);
+
+          $this->show('admin/habitat/table', [
+            'params' => ['search' => $search, 'order' => $order],
+            'habitats' => $data,
+            'totalPages' => ($totalPage != 0) ?  $totalPage : 1,
+            'currentPage' =>  $currentPage,
+          ]);
+        } catch (Exception $e) {
+          throw new DatabaseException($e);
+        }
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
+      }
+    } else {
+      Router::redirect('login');
+    }
+  }
+
+  public function edit($request)
+  {
+    if (Security::isLogged()) {
+      if (Security::isAdmin()) {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+          $csrf = $_POST['csrf_token'] ?? '';
+          if (Security::verifyCsrf($csrf)) {
+            try {
+
+              $id = htmlspecialchars($request['id']);
+              $name = htmlspecialchars($_POST['name']);
+              $description = htmlspecialchars($_POST['description']);
+
+              $name = trim($name);
+              $description = trim($description);
+
+              $name = ucfirst($name);
+
+              Validator::strIsInt($id);
+              Validator::strLengthCorrect($name, 3, 60);
+              Validator::strWithoutSpecialCharacters($name);
+              Validator::strMinLengthCorrect($description, 10);
+
+              $habitatRepo = new Habitat();
+
+              $habitat = $habitatRepo->findOneBy(['name' => $name]);
+              if ($habitat && $habitat->getId() != $id) {
+                throw new ValidatorException('un habitat avec ce nom existe déjà');
+              }
+
+              $habitatRepo->update(['name' => $name, 'description' => $description], $id);
+              Router::redirect('dashboard/habitats');
+            } catch (Exception $e) {
+              $_SESSION['error'] =  $e->getMessage();
+            }
+          } else {
+
+            $_SESSION['error'] = 'Clé CSRF non valide';
+          }
+        }
+
+        $habitatRepo = new Habitat();
+        $habitat = $habitatRepo->findOneBy(['id' => $request['id']]);
+        $images = $habitatRepo->fetchImages($request['id']);
+        $this->show('admin/habitat/edit', [
+          'habitat' => $habitat,
+          'images' => $images
+        ]);
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
+      }
+    } else {
+      Router::redirect('login');
+    }
+  }
+
 
   // get Habitats for fetch depending params
   public function getHabitats()

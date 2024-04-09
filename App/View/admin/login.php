@@ -36,7 +36,7 @@
           </g>
         </svg>
         <h1 class="login__title">Connexion</h1>
-        <?php require_once '../App/View/partials/_message.php'  ?>
+        <?php require_once '../App/View/partials/_error.php'  ?>
         <form id="login-form" action="<?= ROOT ?>/login" method="POST">
           <div class="login__input-container">
             <label for="email">Adresse email:</label>

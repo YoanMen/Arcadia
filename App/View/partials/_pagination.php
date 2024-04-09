@@ -2,6 +2,18 @@
 // @param need $baseUrl
 // @param need $currentPage and totalPages
 
+
+$baseUrl = $_SERVER['REQUEST_URI'];
+
+
+$baseUrl = preg_replace('/(&[?]page=\d+)/', '', $baseUrl);
+$baseUrl = preg_replace('/([?]page=\d+)/', '', $baseUrl);
+
+if (str_contains($baseUrl, '?')) {
+  $baseUrl .= "&";
+}
+
+
 if (isset($data['currentPage']) && $data['totalPages']) { ?>
   <nav class="pagination">
     <ul class="pagination__container">
@@ -23,9 +35,9 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
         <?php } else {
         $showLast = true;
         if ($data['totalPages'] - $data['currentPage'] >= 5) {
-          $slipt = 4;
+          $split = 4;
         } else {
-          $slipt = $data['totalPages'] - $data['currentPage'];
+          $split = $data['totalPages'] - $data['currentPage'];
           $showLast = false;
         }
 

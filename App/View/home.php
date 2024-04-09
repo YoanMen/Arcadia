@@ -85,6 +85,7 @@
       <ul>
         <?php
         if (isset($data['habitats'])) {
+          // create interactive cards to show habitats 
           foreach ($data['habitats'] as $habitat) {
             $haveImage = $habitat->getImage(0);
             $textBtn = "Découvrir cette habitat";
