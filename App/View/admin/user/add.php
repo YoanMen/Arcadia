@@ -38,17 +38,17 @@
           <ul>
             <li class="details__item">
               <label for='email'>adresse email</label>
-              <input name="email" required minlength="3" maxlength="60" class="details__input" type="text" id="email" value="">
+              <input name="email" required minlength="3" maxlength="60" class="details__input" type="text" id="email" value="<?= $data['email'] ?>">
             </li>
             <li class="details__item">
               <label for='password'>mot de passe</label>
-              <input name="password" required minlength="8" maxlength="60" class="details__input" type="text" id="password" value="">
+              <input name="password" required minlength="8" maxlength="60" class="details__input" type="text" id="password" value="<?= $data['password'] ?>">
             </li>
             <li class="details__item">
               <label for='role'>type de compte</label>
               <select name="role" id="role">
-                <option selected value="employee">employé</option>
-                <option value="veterinary">vétérinaire</option>
+                <option <?= $data['role'] == 'employee' ? 'selected' : '' ?> value="employee">employé</option>
+                <option <?= $data['role'] == 'veterinary' ? 'selected' : '' ?> value="veterinary">vétérinaire</option>
               </select>
             </li>
           </ul>

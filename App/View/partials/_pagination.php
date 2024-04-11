@@ -1,16 +1,14 @@
 <?php
-// @param need $baseUrl
-// @param need $currentPage and totalPages
-
-
 $baseUrl = $_SERVER['REQUEST_URI'];
 
+// remove old "page" param
+$baseUrl = preg_replace('/([&?]page=\d+)/', '', $baseUrl);
 
-$baseUrl = preg_replace('/(&[?]page=\d+)/', '', $baseUrl);
-$baseUrl = preg_replace('/([?]page=\d+)/', '', $baseUrl);
-
+// check if url contain params
 if (str_contains($baseUrl, '?')) {
-  $baseUrl .= "&";
+  $baseUrl .= "&page=";
+} else {
+  $baseUrl .= "?page=";
 }
 
 
@@ -18,7 +16,7 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
   <nav class="pagination">
     <ul class="pagination__container">
       <li class="pagination__btn--navigation  <?= $data['currentPage'] > 1 ? '' : 'pagination__btn--disabled' ?> ">
-        <a class=" button button--cube" href="<?= $baseUrl ?>?page=<?= $data['currentPage'] - 1 ?>">
+        <a class=" button button--cube" href="<?= $baseUrl ?><?= $data['currentPage'] - 1 ?>">
           <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
         </a>
       </li>
@@ -27,7 +25,7 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
       if ($data['totalPages'] <= 5) {
         for ($i = 1; $i <= $data['totalPages']; $i++) { ?>
           <li class="pagination__btn <?= $data['currentPage'] == $i ? 'pagination__btn--current' : '' ?>  ">
-            <a href="<?= $baseUrl ?>?page=<?= $i ?>" class="button button--cube"><?= $i ?></a>
+            <a href="<?= $baseUrl ?><?= $i ?>" class="button button--cube"><?= $i ?></a>
           </li>
         <?php }
 
@@ -43,17 +41,17 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
 
         if ($data['currentPage'] > 2) { ?>
           <li class="pagination__btn">
-            <a class="button  button--cube" href="<?= $baseUrl ?>?page=1">1</a>
+            <a class="button  button--cube" href="<?= $baseUrl ?>1">1</a>
           </li>
           <li class="pagination__dot ">
             ...
           </li>
         <?php }
 
-        for ($i = 0; $i <= $slipt; $i++) { ?>
+        for ($i = 0; $i <= $split; $i++) { ?>
           <li class="pagination__btn <?= $data['currentPage'] == $data['currentPage'] + $i ?
                                         'pagination__btn--current' : '' ?>  ">
-            <a class="button button--cube" href="<?= $baseUrl ?>?page=<?= $data['currentPage'] + $i ?>">
+            <a class="button button--cube" href="<?= $baseUrl ?><?= $data['currentPage'] + $i ?>">
               <?= $data['currentPage'] + $i ?></a>
           </li>
         <?php }
@@ -63,7 +61,7 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
             ...
           </li>
           <li class="pagination__btn">
-            <a class="button  button--cube" href="<?= $baseUrl ?>?page=<?= $data['totalPages'] ?>">
+            <a class="button  button--cube" href="<?= $baseUrl ?><?= $data['totalPages'] ?>">
               <?= $data['totalPages'] ?></a>
           </li>
 
@@ -71,7 +69,7 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
       } ?>
       <li class="pagination__btn--navigation   <?= $data['currentPage'] >= $data['totalPages'] ?
                                                   'pagination__btn--disabled' : '' ?> ">
-        <a class="button button--cube" href="<?= $baseUrl ?>?page=<?= $data['currentPage'] + 1 ?>">
+        <a class="button button--cube" href="<?= $baseUrl ?><?= $data['currentPage'] + 1 ?>">
           <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
         </a>
       </li>

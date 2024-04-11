@@ -16,16 +16,17 @@ class AuthController extends Controller
   {
 
     if (!Security::isLogged()) {
-      $this->show('admin/login');
+      Router::redirect('login');
     } else {
       if (Security::isAdmin()) {
         $this->show('admin/dashboard');
       }
       if (Security::isEmployee()) {
-        $this->show('admin/other');
+
+        Router::redirect('dashboard/alimentation-animaux');
       }
       if (Security::isVeterinary()) {
-        $this->show('admin/other');
+        Router::redirect('dashboard/rapport-animaux');
       }
     }
   }
@@ -61,9 +62,10 @@ class AuthController extends Controller
       } else {
         $_SESSION['error'] = "csrf token is invalid";
       }
+
+      sleep(1);
     }
 
-    sleep(1);
     $this->show('admin/login', ['error' => $error]);
   }
 

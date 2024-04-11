@@ -4,113 +4,160 @@ namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
 use App\Core\Exception\ValidatorException;
+use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;
 use App\Model\FoodAnimal;
 use App\Model\Habitat;
-use App\Model\User;
 use Exception;
 
 class FoodAnimalController extends Controller
 {
-  public function getFoods()
+
+  public function table()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isEmployee()) {
-      try {
+    if (Security::isLogged()) {
 
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+      if (Security::isEmployee() || Security::isVeterinary()) {
+        $search = $_GET['search'] ?? '';
+        $orderBy = $_GET['orderBy'] ?? 'Date';
+        $order = $_GET['order'] ?? 'desc';
+        $date = $_GET['date'] ?? '';
+        try {
+          $page = $_GET['page'] ?? 1;
+          $currentPage = $page;
+          $foodAnimalRepo = new FoodAnimal();
+          $nbFoodAnimal = $foodAnimalRepo->foodAnimalsCount($search, $date);
 
-        // get all params
-        $search = htmlspecialchars($data['params']['search']);
-        $order = htmlspecialchars($data['params']['order']);
-        $orderBy = htmlspecialchars($data['params']['orderBy']);
-        $count = htmlspecialchars($data['params']['count']);
 
-        $foodAnimalRepo = new FoodAnimal();
-        $habitatRepo = new Habitat();
-        $habitats = $habitatRepo->fetchAllHabitatsWithoutComment();
-        $foodCount = $foodAnimalRepo->foodAnimalsCount($search);
-        $remainCount = $foodCount - $count;
-        // check if remaining data
-        if ($remainCount > 0) {
-          $foodAnimalRepo->setOffset($count);
+          $foodAnimalRepo->setLimit(10);
+          $totalPages = ceil($nbFoodAnimal / $foodAnimalRepo->getLimit());
+          $first = ($currentPage - 1) * $foodAnimalRepo->getLimit();
 
-          $userRepo = new User();
-          $user = $userRepo->findOneBy(['email' => Security::getUsername()]);
-          $foods = $foodAnimalRepo->fetchFoodAnimalsByUser($search,  $user->getId(),  $order, $orderBy);
-          echo json_encode(['data' => $foods, 'totalCount' => $foodCount, 'habitats' => $habitats]);
-        } else {
-          throw new DatabaseException('aucun résultat');
+          $foodAnimalRepo->setOffset($first);
+
+
+          $foodAnimals = $foodAnimalRepo->fetchFoodAnimals($search, $date,   $order, $orderBy);
+
+          $this->show('admin/food/table', [
+            'params' => ['search' => $search, 'order' => $order, 'date' => $date],
+            'foodAnimals' => $foodAnimals,
+            'totalPages' => ($totalPages != 0) ?  $totalPages : 1,
+            'currentPage' =>  $currentPage,
+          ]);
+        } catch (Exception $e) {
+          throw new DatabaseException($e);
         }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
     } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      Router::redirect('login');
     }
   }
 
-  public function createFood()
+  public function detail($request)
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? "";
+    if (Security::isLogged()) {
 
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isEmployee()) {
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+      if (Security::isEmployee() || Security::isVeterinary()) {
+        $id = $request['id'];
 
-        $userId = Security::getCurrentUserId();
-        $animalId = htmlspecialchars($data['params']['animal_id']);
-        $food = htmlspecialchars($data['params']['food']);
-        $quantity = htmlspecialchars($data['params']['quantity']);
-        $date =  htmlspecialchars($data['params']['date']);
-        $time =  htmlspecialchars($data['params']['time']);
+        try {
 
-        $food = ltrim($food, ' ');
-        $food = strtolower($food);
-        $food = ucfirst($food);
+          Validator::strIsInt($id);
 
-        Validator::strIsInt($animalId);
-        Validator::strIsInt($userId);
-        Validator::strLengthCorrect($food, 3, 20);
-        Validator::strIsFloat($quantity);
-        Validator::strIsDateOrTime($date);
-        Validator::strIsDateOrTime($time);
+          $foodAnimalRepo = new FoodAnimal();
 
+          $foodAnimal = $foodAnimalRepo->fetchFoodAnimalsByID($id);
 
-        if (empty($animalId)) {
-          throw new ValidatorException('Aucun animal sélectionné');
+          $this->show('admin/food/detail', [
+            'foodAnimal' => $foodAnimal
+          ]);
+        } catch (Exception $e) {
+          throw new DatabaseException($e);
         }
-        // insert to table
-        $foodRepo = new FoodAnimal();
-
-        $foodRepo->insert([
-          'userId' => $userId, 'animalId' => $animalId,
-          'food' => $food, 'quantity' => $quantity, 'time' => $time,
-          'date' => $date
-        ]);
-        echo json_encode(['success' => 'l/`animal à été crée']);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
     } else {
-      http_response_code(401);
+      Router::redirect('login');
+    }
+  }
 
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
+  public function add()
+  {
+    if (Security::isLogged()) {
+
+      if (Security::isEmployee()) {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+          $csrf = $_POST['csrf_token'] ?? '';
+          if (Security::verifyCsrf($csrf)) {
+            try {
+
+
+              $userId = Security::getCurrentUserId();
+              $animalId = htmlspecialchars($_POST['animal']);
+
+              $food = htmlspecialchars($_POST['food']);
+              $quantity = htmlspecialchars($_POST['quantity']);
+              $date =  htmlspecialchars($_POST['date']);
+              $time =  htmlspecialchars($_POST['time']);
+
+              $food = ltrim($food, ' ');
+              $food = strtolower($food);
+
+              Validator::isNull($animalId, 'Animal ne peut pas être nulle');
+              Validator::strIsInt($animalId);
+              Validator::strIsInt($userId);
+              Validator::strLengthCorrect($food, 3, 20);
+              Validator::strIsFloat($quantity);
+              Validator::strIsDateOrTime($date);
+              Validator::strIsDateOrTime($time);
+
+              if (empty($animalId)) {
+                throw new ValidatorException('Aucun animal sélectionné');
+              }
+              // insert to table
+              $foodRepo = new FoodAnimal();
+
+              $foodRepo->insert([
+                'userId' => $userId, 'animalId' => $animalId,
+                'food' => $food, 'quantity' => $quantity, 'time' => $time,
+                'date' => $date
+              ]);
+
+              $_SESSION['success'] = 'Le rapport de nourrissage à été crée';
+              Router::redirect('dashboard/nourriture');
+            } catch (Exception $e) {
+              $_SESSION['error'] =  $e->getMessage();
+            }
+          } else {
+
+            $_SESSION['error'] = 'Clé CSRF non valide';
+          }
+        }
+
+        $habitatRepo = new Habitat();
+        $habitats = $habitatRepo->fetchAllHabitatsWithoutComment();
+
+
+        $this->show('admin/food/add', [
+          'animal_id' => $animalId ?? '',
+          'food' => $food ?? '',
+          'quantity' => $quantity ?? '',
+          'date' => $date ?? '',
+          'time' => $time ?? '',
+          'habitats' => $habitats
+        ]);
       } else {
-        echo json_encode(['error' => 'accès interdit']);
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
+    } else {
+      Router::redirect('login');
     }
   }
 }

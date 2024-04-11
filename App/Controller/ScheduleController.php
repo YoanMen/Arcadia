@@ -3,39 +3,83 @@
 namespace App\Controller;
 
 use App\Controller\Controller;
+use App\Core\Exception\DatabaseException;
+use App\Core\Router;
 use App\Core\Security;
 use App\Model\Schedule;
+use Exception;
 
 class ScheduleController extends Controller
 {
 
+  public function table()
+  {
+    if (Security::isLogged()) {
+
+      if (Security::isAdmin()) {
+        try {
+
+          $scheduleRepo = new Schedule();
+
+
+          $data = $scheduleRepo->fetchAll();
+
+          $this->show('admin/schedule/table', [
+            'schedules' => $data,
+
+          ]);
+        } catch (Exception $e) {
+          throw new DatabaseException($e);
+        }
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
+      }
+    } else {
+      Router::redirect('login');
+    }
+  }
+
+
   public function updateSchedule()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'POST') {
-      $content = trim(file_get_contents('php://input'));
-      $data = json_decode($content, true);
 
-      $id = htmlspecialchars($data['params']['id']);
-      $open = htmlspecialchars($data['params']['open']);
-      $close =  htmlspecialchars($data['params']['close']);
+    if (Security::isAdmin()) {
+      if ($_SERVER['REQUEST_METHOD'] === "PUT") {
 
-      if (empty($open) || empty($close)) {
-        $open = null;
-        $close = null;
+        $content = trim(file_get_contents('php://input'));
+        $data = json_decode($content, true);
+
+        $id = htmlspecialchars($data['id']);
+        $open = htmlspecialchars($data['open']);
+        $close =  htmlspecialchars($data['close']);
+        $csrf = htmlspecialchars($data['csrf_token']);
+
+        if (Security::verifyCsrf($csrf)) {
+          try {
+            if (empty($open) || empty($close)) {
+              $open = null;
+              $close = null;
+            }
+            $scheduleRepo = new Schedule();
+
+            $scheduleRepo->update(['open' => $open, 'close' => $close], $id);
+            echo json_encode(['success' =>  'horaire modifié']);
+          } catch (Exception $e) {
+            http_response_code(500);
+            $_SESSION['error'] =  $e->getMessage();
+            echo json_encode(['error' =>  $e->getMessage()]);
+          }
+        } else {
+
+          $_SESSION['error'] = 'Clé CSRF non valide';
+          http_response_code(500);
+          echo json_encode(['error' => 'Clé CSRF non valide']);
+        }
       }
-      $scheduleRepo = new Schedule();
-
-      $scheduleRepo->update(['open' => $open, 'close' => $close], $id);
-      echo json_encode(['success' => 'horaire mise à jour']);
     } else {
       http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      echo json_encode(['error' => 'accès interdit']);
     }
   }
 }

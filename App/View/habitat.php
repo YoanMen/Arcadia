@@ -57,9 +57,7 @@
       </ul>
     </section>
 
-    <?php
-    $baseUrl = ROOT .  '/habitats';
-    require '../App/View/partials/_pagination.php' ?>
+    <?php require_once '../App/View/partials/_pagination.php' ?>
 
   </main>
 

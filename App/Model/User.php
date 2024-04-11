@@ -91,9 +91,22 @@ class User extends Model
 	/**
 	 * Get the value of role
 	 */
+
+
 	public function getRole(): string
 	{
 		return $this->role;
+	}
+	public function getRoleTranslated(): string
+	{
+		switch ($this->role) {
+			case 'employee':
+				return 'employé';
+			case 'veterinary':
+				return 'vétérinaire';
+			default:
+				return $this->role;
+		}
 	}
 
 	/**
@@ -157,7 +170,7 @@ class User extends Model
 			$stm->bindParam(':search', $search, PDO::PARAM_STR);
 
 			if ($stm->execute()) {
-				while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+				while ($result =  $stm->fetchObject($this::class)) {
 					$results[] = $result;
 				}
 			}

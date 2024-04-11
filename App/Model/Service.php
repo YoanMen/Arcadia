@@ -99,8 +99,12 @@ class Service extends Model
 
       $search .=  '%';
 
+      if ($orderBy == 'Nom') {
+        $orderBy = 'name';
+      }
+
       $allowedOrderBy = ['id', 'name'];
-      $allowedOrder = ['ASC', 'DESC'];
+      $allowedOrder = ['asc', 'desc'];
 
       $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
       $order = in_array($order, $allowedOrder) ? $order : 'ASC';
@@ -115,7 +119,7 @@ class Service extends Model
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
 
       if ($stm->execute()) {
-        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+        while ($result =  $stm->fetchObject($this::class)) {
           $results[] = $result;
         }
       }

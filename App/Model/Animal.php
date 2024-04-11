@@ -15,6 +15,8 @@ class Animal extends Model
   private string $race;
   private int $habitatID;
 
+  private ?string $habitat;
+
   private array $images;
 
   /**
@@ -74,6 +76,13 @@ class Animal extends Model
   /**
    * Get the value of habitatID
    */
+
+
+  public function getHabitat(): ?string
+  {
+    return $this->habitat;
+  }
+
   public function getHabitatID(): int
   {
     return $this->habitatID;
@@ -214,11 +223,18 @@ class Animal extends Model
 
       $search .=  '%';
 
+      $orderBy = strtolower($orderBy);
+
+      if ($orderBy == 'nom') {
+        $orderBy = 'name';
+      }
+
+
       $allowedOrderBy = ['id', 'name', 'race',  'habitat'];
-      $allowedOrder = ['ASC', 'DESC'];
+      $allowedOrder = ['asc', 'desc'];
 
       $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
-      $order = in_array($order, $allowedOrder) ? $order : 'ASC';
+      $order = in_array($order, $allowedOrder) ? $order : 'asc';
 
       $pdo = $this->connect();
       $query = "SELECT animal.id, animal.name, animal.race , habitat.name as habitat
@@ -231,7 +247,7 @@ class Animal extends Model
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
 
       if ($stm->execute()) {
-        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+        while ($result =  $stm->fetchObject($this::class)) {
           $results[] = $result;
         }
       }

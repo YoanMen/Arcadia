@@ -171,10 +171,12 @@ input[type="button"] {
   transition: background-color linear 0.2s;
 }
 
-input[type="time"] {
-  min-width: 80px;
+input[type="time"],
+input[type="date"] {
+  min-width: 150px;
   text-align: center;
 }
+
 textarea {
   border-style: none;
   border-radius: 5px;
@@ -349,6 +351,11 @@ input[type="button"]:hover {
     padding: 20px 10px;
     font-size: 1.2rem;
     height: 100%;
+  }
+
+  input[type="time"],
+  input[type="date"] {
+    min-width: auto;
   }
 
   .hidden--mobile {

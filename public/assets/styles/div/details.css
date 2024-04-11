@@ -27,22 +27,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.details__container--show {
-  animation: show 0.2s linear;
-}
-
-.details__top__buttons {
-  display: flex;
-  margin-left: auto;
-  gap: 4px;
-}
-
-.details__content {
-  padding: var(--padding);
-  overflow: scroll;
-  height: calc(100% - 40px);
-}
-
 .details__item {
   display: flex;
   flex-direction: row;
@@ -72,21 +56,14 @@
   width: 100%;
 }
 
-.details__textarea:nth-child(odd) {
-  background-color: white;
-}
-
 .details__input,
 .details__textarea {
   margin: 6px 0;
   width: 100%;
 }
 
-.details__item label:first-child,
-.details__item span:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0.5;
+.details__item label:not(:first-child) {
+  padding-left: var(--padding);
 }
 
 .details__item p:last-child {

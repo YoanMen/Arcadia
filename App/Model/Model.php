@@ -97,7 +97,7 @@ class Model extends Database
    * @param  $associative set to true for return a Associative Tab
    * @return array|null depending result
    */
-  public function fetchAll(bool $associative = false): array|null
+  public function fetchAll(): array|null
   {
 
     try {
@@ -110,7 +110,7 @@ class Model extends Database
       $stm = $pdo->prepare($query);
 
       if ($stm->execute()) {
-        while ($result =  $associative ? $stm->fetch(PDO::FETCH_ASSOC)  : $stm->fetchObject($this::class)) {
+        while ($result = $stm->fetchObject($this::class)) {
           $results[] = $result;
         }
       }

@@ -160,12 +160,17 @@ class ReportAnimal extends Model
       }
 
       $pdo = $this->connect();
-      $query = "SELECT COUNT(reportAnimal.id) AS total_count
-                FROM reportAnimal
-                INNER JOIN animal ON reportAnimal.animalID = animal.id
+      $query = "SELECT COUNT(*)
+                FROM ( SELECT reportAnimal.id, animal.name, animal.race as race,
+                user.email as email, habitat.name AS habitat, animal.name as animalName,
+                reportAnimal.date FROM $this->table
+                INNER JOIN animal on reportAnimal.animalID = animal.id
                 INNER JOIN user ON reportAnimal.userID = user.id
-                WHERE animal.name LIKE :search OR animal.race LIKE :search
-                AND :date IS NULL OR reportAnimal.date = :date;";
+                INNER JOIN habitat ON habitat.id = animal.habitatID
+                WHERE (:date IS NULL OR reportAnimal.date = :date)
+                AND (animal.name LIKE :search OR animal.race LIKE :search
+                OR user.email LIKE :search OR  habitat.name LIKE :search)) as subquery";
+
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
@@ -174,6 +179,8 @@ class ReportAnimal extends Model
       if ($stm->execute()) {
         $result = $stm->fetch();
       }
+
+
 
       return $result[0] != 0 ? $result[0] : null;
     } catch (PDOException $e) {
@@ -187,26 +194,42 @@ class ReportAnimal extends Model
 
       $search .=  '%';
 
+      $orderBy = strtolower($orderBy);
 
-      $allowedOrderBy = ['id', 'name', 'race', 'date'];
-      $allowedOrder = ['ASC', 'DESC'];
+      switch ($orderBy) {
+        case 'De':
+          $orderBy = "email";
+          break;
+        case 'animal':
+          $orderBy = "name";
+          break;
+        default:
+          break;
+      }
 
       if (empty($date)) {
         $date = null;
       }
+
+      $allowedOrderBy = ['id', 'name', 'race', 'date'];
+      $allowedOrder = ['asc', 'desc'];
+
       $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'date';
       $order = in_array($order, $allowedOrder) ? $order : 'DESC';
 
       $pdo = $this->connect();
-      $query = "SELECT reportAnimal.id, animal.name as animalName, animal.race as race,
-                user.email as userName, reportAnimal.food,
+      $query = "SELECT reportAnimal.id, animal.name as name, animal.race as race, habitat.name AS habitat,
+                user.email as email, reportAnimal.food,
                 reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
                 FROM $this->table
                 INNER JOIN animal on reportAnimal.animalID = animal.id
                 INNER JOIN user ON reportAnimal.userID = user.id
-                WHERE animal.name LIKE :search OR animal.race LIKE :search
-                AND :date IS NULL OR reportAnimal.date = :date
+                INNER JOIN habitat ON habitat.id = animal.habitatID
+                WHERE (:date IS NULL OR reportAnimal.date = :date)
+                AND ( animal.name LIKE :search OR user.email LIKE :search
+                OR animal.race LIKE :search OR  habitat.name LIKE :search)
                 ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset;";
+
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
@@ -221,6 +244,40 @@ class ReportAnimal extends Model
 
       return $results;
     } catch (PDOException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
+
+  public function fetchReportAnimalByID(int $id): array | null
+  {
+    try {
+
+      $results = null;
+
+      $pdo = $this->connect();
+      $query = "SELECT reportAnimal.id, animal.name as name, animal.race as race, habitat.name AS habitat,
+                user.email as email, reportAnimal.food,
+                reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
+                FROM $this->table
+                INNER JOIN animal on reportAnimal.animalID = animal.id
+                INNER JOIN user ON reportAnimal.userID = user.id
+                INNER JOIN habitat ON habitat.id = animal.habitatID
+                WHERE reportAnimal.id = :id ";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':id', $id, PDO::PARAM_INT);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $result['date'] = $this->formatDate($result['date']);
+
+          $results[] = $result;
+        }
+      }
+
+      return $results[0];
+    } catch (DatabaseException $e) {
       throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
     }
   }

@@ -27,7 +27,7 @@
       <?php include_once   '../App/View/partials/_error.php' ?>
 
       <div class="dashboard__container__top">
-        <h1 class="dashboard__title ">Modification utilisateur</h1>
+        <h1 class="dashboard__title ">Modification service</h1>
         <button form="edit" class="button max-width--mobile">
           <span>Modifier</span>
         </button>
@@ -37,19 +37,12 @@
           <input type="hidden" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
           <ul>
             <li class="details__item">
-              <label for='email'>adresse email</label>
-              <input name="email" required minlength="3" maxlength="60" class="details__input" type="text" id="email" value="<?= $data['user']->getEmail() ?>">
+              <label for='name'>nom</label>
+              <input name="name" required minlength="3" maxlength="60" class="details__input" type="text" id="name" value="<?= $data['service']->getName() ?>">
             </li>
             <li class="details__item">
-              <label for='password'>mot de passe</label>
-              <input name="password" minlength="8" maxlength="60" class="details__input" type="text" id="password" value="" placeholder="<?= $data['user']->getPassword() ?>">
-            </li>
-            <li class="details__item">
-              <label for='role'>type de compte</label>
-              <select name="role" id="role">
-                <option <?= $data['user']->getRole() === 'employee' ? 'selected' : '' ?> value="employee">employé</option>
-                <option <?= $data['user']->getRole() === 'veterinary' ? 'selected' : '' ?> value="veterinary">vétérinaire</option>
-              </select>
+              <label for='description'>description</label>
+              <textarea class="max-width" required name="description" id="description" cols="30" rows="10"><?= $data['service']->getDescription() ?></textarea>
             </li>
           </ul>
         </form>

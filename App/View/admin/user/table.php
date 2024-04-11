@@ -1,17 +1,3 @@
-<?php
-function strRole($string)
-{
-  switch ($string) {
-    case 'employee':
-      return 'employé';
-    case 'veterinary':
-      return 'vétérinaire';
-    default:
-      return 'erreur';
-  }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -26,7 +12,6 @@ function strRole($string)
 </head>
 
 <body>
-
   <?php require_once '../App/View/partials/admin/_adminPanel.php' ?>
   <?php require_once '../App/View/partials/admin/_adminTop.php' ?>
 
@@ -44,7 +29,7 @@ function strRole($string)
       </div>
       <form id="form" class="container__search" method="GET">
         <input class="max-width" type="search" name="search" placeholder="rechercher par email" value="<?= $data['params']['search']  ?>">
-        <input class="button" type="submit" value="Rechercher">
+        <input class="button max-width--mobile" type="submit" value="Rechercher">
       </form>
       <div class="dashboard__content">
         <table>
@@ -64,36 +49,38 @@ function strRole($string)
               <th>Supprimer</th>
             </tr>
           </thead>
-          <?php if (isset($data['users'])) {
-            foreach ($data['users'] as $user) : ?>
+          <tbody>
+            <?php if (isset($data['users'])) {
+              foreach ($data['users'] as $user) : ?>
+                <tr>
+                  <td>
+                    <?= $user->getEmail() ?>
+                  </td>
+                  <td><?= $user->getPassword() ?></td>
+                  <td> <?= $user->getRoleTranslated() ?></td>
+                  <td>
+                    <a href=" utilisateurs/<?= $user->getId() ?>/edit">
+                      <img height="32px" src="<?= ROOT ?>/assets/images/icons/pencil.svg" alt="edit icon">
+                    </a>
+                  </td>
+                  <td>
+                    <form id="deleteForm" method="POST" action="utilisateurs/<?= $user->getId() ?>/delete">
+                      <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                      <button class="dashboard__params delete-js" type="submit">
+                        <img height=" 32px" src="<?= ROOT ?>/assets/images/icons/delete.svg" alt="delete icon">
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <?php endforeach ?>
+            <?php } else { ?>
               <tr>
                 <td>
-                  <?= $user['email'] ?>
-                </td>
-                <td><?= $user['password'] ?></td>
-                <td> <?= strRole($user['role']) ?></td>
-                <td>
-                  <a href=" utilisateurs/<?= $user['id'] ?>/edit">
-                    <img height="32px" src="<?= ROOT ?>/assets/images/icons/pencil.svg" alt="edit icon">
-                  </a>
-                </td>
-                <td>
-                  <form id="deleteForm" method="POST" action="utilisateurs/<?= $user['id'] ?>/delete">
-                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-                    <button class="dashboard__params delete-js" type="submit">
-                      <img height=" 32px" src="<?= ROOT ?>/assets/images/icons/delete.svg" alt="delete icon">
-                    </button>
-                  </form>
-                </td>
+                  aucun résultat
               </tr>
-            <?php endforeach ?>
-          <?php } else { ?>
-            <tr>
-              <td>
-                aucun résultat
-            </tr>
-            </td>
-          <?php }  ?>
+              </td>
+            <?php }  ?>
+          </tbody>
         </table>
       </div>
       <?php

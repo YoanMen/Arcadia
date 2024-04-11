@@ -4,367 +4,370 @@ namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
 use App\Core\Exception\ValidatorException;
+use App\Core\Router;
 use App\Core\Security;
 use App\Core\UploadFile;
 use App\Core\Validator;
 use App\Model\Animal;
 use App\Model\Habitat;
 use App\Model\Image;
+use App\Model\ReportAnimal;
 use Exception;
 
 class AnimalController extends Controller
 {
-  public function getAnimalImages()
+  public function showAnimal($request)
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    try {
+      $name = htmlspecialchars($request['animalName']);
+      $name = str_replace('-', ' ', $name);
+      $habitatName = htmlspecialchars($request['name']);
+      $habitatName = str_replace('-', ' ', $habitatName);
 
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isAdmin()) {
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+      $habitatRepository = new Habitat();
+      $animalRepository = new Animal();
 
-        // get images for habitat
-        $id = htmlspecialchars($data['params']['id']);
 
-        Validator::strIsInt($id);
+      // find habitat of animal
+      $habitat = $habitatRepository->findOneBy(['name' => $habitatName]);
 
-        $animalRepo = new Animal();
-        $animalImages = $animalRepo->fetchImages($id);
+      // find animal with data
+      if (isset($habitat)) {
+        $animal = $animalRepository->findOneBy(['name' => $name, 'habitatId' => $habitat->getId()]);
 
-        echo json_encode(['data' => $animalImages]);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
+        if ($animal) {
+          $animal->findImages();
+          $reportRepository = new ReportAnimal();
+          $report =  $reportRepository->findOneBy(['animalId' => $animal->getId()]);
 
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
+          $this->show('animal', [
+            'animal' => $animal,
+            'habitat' => $habitatName,
+            'report' => $report
+          ]);
+        } else {
+          throw new DatabaseException('Animal not exist');
+        }
       } else {
-        echo json_encode(['error' => 'accès interdit']);
+        throw new DatabaseException('Habitat for animal not exist');
       }
+    } catch (Exception $e) {
+      Router::redirect('error');
     }
   }
 
+
   public function  deleteImage()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === "DELETE") {
+      $content = trim(file_get_contents('php://input'));
+      $data = json_decode($content, true);
 
+      $csrf = htmlspecialchars($data['csrf']);
 
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'DELETE' && Security::isAdmin()) {
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+      if (Security::verifyCsrf($csrf)) {
 
+        try {
+          // search image corresponding by id
+          $id = htmlspecialchars($data['id']);
+          $imageRepo = new Image();
+          $image = $imageRepo->findOneBy(['id' => $id]);
 
-        // search image corresponding by id
-        $id = htmlspecialchars($data['params']['id']);
-        $imageRepo = new Image();
-        $image = $imageRepo->findOneBy(['id' => $id]);
+          if ($image) {
 
-        if ($image) {
+            // remove image in folder and ddb
+            UploadFile::remove($image->getPath());
+            $imageRepo->delete(['id' => $id]);
 
-          // remove image in folder and ddb
-          UploadFile::remove($image->getPath());
-          $imageRepo->delete(['id' => $id]);
-
-          echo json_encode(['success' => 'image supprimé']);
-        } else {
-          throw new DatabaseException('impossible de récupéré l\'image ');
+            $_SESSION['success'] = "image supprimé";
+            echo json_encode(['success' => 'image supprimé']);
+          } else {
+            http_response_code(201);
+            $_SESSION['error'] = "impossible de récupéré l'image ";
+            throw new DatabaseException('impossible de récupéré l\'image ');
+          }
+        } catch (Exception $e) {
+          http_response_code(500);
+          $_SESSION['error'] = $e->getMessage();
+          echo json_encode(['error' => $e->getMessage()]);
         }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+      } else {
+        http_response_code(401);
+        echo json_encode(['error' => 'Clé CSRF non valide']);
       }
     } else {
       http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      echo json_encode(['error' => 'Vous n\'avez pas la permission']);
     }
   }
 
   public function uploadImage()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isAdmin()) {
-      try {
-        $id = $_POST['id'] ?? '';
-        $id = htmlspecialchars($id);
-
-        Validator::strIsInt($id);
-
-        $path =  UploadFile::upload();
-        $imageRepo = new Image();
-        $animalRepo = new Animal();
-
-        $imageRepo->insert(['path' => $path]);
-        $image = $imageRepo->findOneBy(['path' => $path]);
-
-        $animalRepo->insertImage($id, $image->getId());
-
-        echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-  public function getAnimals()
-  {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isAdmin()) {
-      try {
-
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
-
-        // get all params
-        $search = htmlspecialchars($data['params']['search']);
-        $order = htmlspecialchars($data['params']['order']);
-        $orderBy = htmlspecialchars($data['params']['orderBy']);
-        $count = htmlspecialchars($data['params']['count']);
-
-        $animalRepo = new Animal();
-        $habitatRepo = new Habitat();
-
-        $habitat = $habitatRepo->fetchAll(true);
-
-        $animalCount = $animalRepo->animalsCount($search);
-        $remainCount = $animalCount - $count;
-
-        // check if remaining data
-        if ($remainCount > 0) {
-          $animalRepo->setOffset($count);
-          $animals = $animalRepo->fetchAnimals($search, $order, $orderBy);
-
-          echo json_encode(['data' => $animals, 'totalCount' => $animalCount, 'habitat' => $habitat]);
-        } else {
-          throw new DatabaseException('aucun résultat');
-        }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-
-  public function getAnimalsByHabitat()
-  {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isEmployee()) {
-      try {
-
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === "POST") {
 
 
-        $id = htmlspecialchars($data['params']['id']);
+      $csrf = htmlspecialchars($_POST['csrf']);
+      if (Security::verifyCsrf($csrf)) {
 
-        if (isset($id) && is_int(intval($id))) {
+        try {
+          $id = htmlspecialchars($_POST['id']);
+
+
+          Validator::strIsInt($id);
+
+          $path =  UploadFile::upload();
+          $imageRepo = new Image();
           $animalRepo = new Animal();
-          $animals = $animalRepo->fetchAnimalsByHabitat($id);
 
-          echo json_encode(['data' => $animals]);
-        } else {
-          throw new ValidatorException('id n\'est pas valide');
+          $imageRepo->insert(['path' => $path]);
+          $image = $imageRepo->findOneBy(['path' => $path]);
+
+          $animalRepo->insertImage($id, $image->getId());
+
+          $_SESSION['success'] = 'Image ajouté';
+          echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
+        } catch (Exception $e) {
+          http_response_code(500);
+          $_SESSION['error'] = $e->getMessage();
+          echo json_encode(['error' => $e->getMessage()]);
         }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+      } else {
+        http_response_code(401);
+        $_SESSION['error'] = 'Clé CSRF non valide';
+        echo json_encode(['error' => 'Clé CSRF non valide']);
       }
     } else {
       http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      echo json_encode(['error' => 'Vous n\'avez pas la permission']);
     }
   }
 
-  public function createAnimal()
+
+  public function table()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? "";
+    if (Security::isLogged()) {
 
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isAdmin()) {
-      try {
-        $name = $_POST['name'];
-        $race = $_POST['race'];
-        $habitat = $_POST['habitat'];
+      if (Security::isAdmin()) {
+        $search = $_GET['search'] ?? '';
+        $orderBy = $_GET['orderBy'] ?? 'id';
+        $order = $_GET['order'] ?? 'asc';
 
-        $name = htmlspecialchars($name);
-        $race = htmlspecialchars($race);
-        $habitat = htmlspecialchars($habitat);
+        try {
+          $page = $_GET['page'] ?? 1;
+          $currentPage = $page;
 
-        $name = trim($name);
-        $race = trim($race);
+          $animalRepo = new Animal();
+          $nbUsers = $animalRepo->animalsCount($search);
 
-        $name = strtolower($name);
-        $name = ucfirst($name);
+          $animalRepo->setLimit(10);
+          $totalPage = ceil($nbUsers / $animalRepo->getLimit());
+          $first = ($currentPage - 1) * $animalRepo->getLimit();
 
-        $race = strtolower($race);
-        $race = ucfirst($race);
+          $animalRepo->setOffset($first);
+          $data = $animalRepo->fetchAnimals($search, $order, $orderBy);
 
-        $animalRepo = new Animal();
-
-        Validator::strLengthCorrect($name, 3, 40);
-        Validator::strWithoutSpecialCharacters($name);
-        Validator::strLengthCorrect($race, 3, 40);
-        Validator::strIsInt($habitat);
-
-        $animalRepo = new Animal();
-
-        $animal = $animalRepo->findOneBy(['name' => $name]);
-
-        if ($animal) {
-          throw new ValidatorException('un animal avec ce nom existe déjà');
+          $this->show('admin/animal/table', [
+            'params' => ['search' => $search, 'order' => $order],
+            'animals' => $data,
+            'totalPages' => ($totalPage != 0) ?  $totalPage : 1,
+            'currentPage' =>  $currentPage,
+          ]);
+        } catch (Exception $e) {
+          throw new DatabaseException($e);
         }
-
-        // upload file and return path
-        $path =  UploadFile::upload();
-        $imageRepo = new Image();
-
-        // insert on image table new image
-        $imageRepo->insert(['path' => $path]);
-        // get id of image
-        $image = $imageRepo->findOneBy(['path' => $path]);
-
-        // insert new animal on table
-        $animalRepo->insert(['name' => $name, 'race' => $race, 'habitatId' => $habitat]);
-        $animal = $animalRepo->findOneBy(['name' => $name]);
-
-        // send animal_id and image_id to animal_image
-        $animalRepo->insertImage($animal->getId(), $image->getId());
-
-        echo json_encode(['success' => 'l/`animal à été crée']);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
     } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
+      Router::redirect('login');
     }
   }
 
-  public function updateAnimal()
+  public function add()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if (Security::isLogged()) {
 
-    if (Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === "POST" && Security::isAdmin()) {
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
-
-        $id = htmlspecialchars($data['params']['id']);
-        $name = htmlspecialchars($data['params']['name']);
-        $race = htmlspecialchars($data['params']['race']);
-        $habitat =  htmlspecialchars($data['params']['habitat']);
-
-        $name = trim($name);
-        $race = trim($race);
-
-        $name = ucfirst($name);
-        $race = ucfirst($race);
-
-        Validator::strIsInt($id);
-        Validator::strIsInt($habitat);
-        Validator::strLengthCorrect($name, 3, 40);
-        Validator::strWithoutSpecialCharacters($name);
-        Validator::strLengthCorrect($race, 3, 40);
-
-        $animalRepo = new Animal();
-
-        $animal = $animalRepo->findOneBy(['name' => $name]);
-
-        if ($animal && $animal->getId() != $id) {
-          throw new ValidatorException('un animal avec ce nom existe déjà');
-        }
-
-        $animalRepo->update(['name' => $name, 'race' => $race, 'habitatId' => $habitat], $id);
-
-        echo json_encode(['success' => 'l/`animal à été modifié']);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-
-  public function deleteAnimal()
-  {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'];
-
-    if (Security::verifyCsrf($csrf) && Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-
-      try {
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
-
-        $id = htmlspecialchars($data['params']['id']);
-
-        $animalRepo = new Animal();
-        $animalImages = $animalRepo->fetchImages($id);
+      if (Security::isAdmin()) {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+          $csrf = $_POST['csrf_token'] ?? '';
+          if (Security::verifyCsrf($csrf)) {
+            try {
+              $name =  htmlspecialchars($_POST['name']);
+              $race = htmlspecialchars($_POST['race']);
+              $habitat = htmlspecialchars($_POST['habitat']);
 
 
-        // delete image of animal
-        if ($animalImages) {
-          foreach ($animalImages as $image) {
-            UploadFile::remove($image['path']);
+              $name = trim($name);
+              $race = trim($race);
+
+              $name = strtolower($name);
+              $name = ucfirst($name);
+
+              $race = strtolower($race);
+              $race = ucfirst($race);
+
+              Validator::strLengthCorrect($name, 3, 40);
+              Validator::strWithoutSpecialCharacters($name, 'Le nom ne doit pas contenir de caractère spéciales');
+              Validator::strLengthCorrect($race, 3, 40);
+              Validator::strIsInt($habitat);
+
+              $animalRepo = new Animal();
+
+              $animal = $animalRepo->findOneBy(['name' => $name]);
+
+              if ($animal) {
+                throw new ValidatorException('un animal avec ce nom existe déjà');
+              }
+
+              // upload file and return path
+              $path =  UploadFile::upload();
+              $imageRepo = new Image();
+
+              // insert on image table new image
+              $imageRepo->insert(['path' => $path]);
+              // get id of image
+              $image = $imageRepo->findOneBy(['path' => $path]);
+
+              // insert new animal on table
+              $animalRepo->insert(['name' => $name, 'race' => $race, 'habitatId' => $habitat]);
+              $animal = $animalRepo->findOneBy(['name' => $name]);
+
+              // send animal_id and image_id to animal_image
+              $animalRepo->insertImage($animal->getId(), $image->getId());
+
+              $_SESSION['success'] = 'L\'animal ' . $name . ' à été crée';
+              Router::redirect('dashboard/animaux');
+            } catch (Exception $e) {
+              $_SESSION['error'] =  $e->getMessage();
+            }
+          } else {
+
+            $_SESSION['error'] = 'Clé CSRF non valide';
           }
         }
 
-        // delete animal
-        $animalRepo->delete(['id' => $id]);
+        $habitaRepo = new Habitat();
+        $habitats = $habitaRepo->fetchAllHabitatsWithoutComment();
 
-        echo json_encode(['success' => 'l/`animal à été supprimé']);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+        $this->show('admin/animal/add', [
+          'name' => $name ?? '',
+          'race' => $race ?? '',
+          'habitat' => $habitat ?? '',
+          'habitats' => $habitats
+        ]);
+      } else {
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
     } else {
-      http_response_code(401);
+      Router::redirect('login');
+    }
+  }
 
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
+  public function edit($request)
+  {
+    if (Security::isLogged()) {
+      if (Security::isAdmin()) {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+          $csrf = $_POST['csrf_token'] ?? '';
+          if (Security::verifyCsrf($csrf)) {
+            try {
+
+              $id = htmlspecialchars($request['id']);
+              $name = htmlspecialchars($_POST['name']);
+              $race = htmlspecialchars($_POST['race']);
+              $habitat =  htmlspecialchars($_POST['habitat']);
+
+
+              $name = trim($name);
+              $race = trim($race);
+
+              $name = ucfirst($name);
+              $race = ucfirst($race);
+
+              Validator::strIsInt($id);
+              Validator::strIsInt($habitat);
+              Validator::strLengthCorrect($name, 3, 40);
+              Validator::strWithoutSpecialCharacters($name, 'Le nom ne doit pas contenir de caractère spéciales');
+              Validator::strLengthCorrect($race, 3, 40);
+
+              $animalRepo = new Animal();
+
+              $animal = $animalRepo->findOneBy(['name' => $name]);
+
+              if ($animal && $animal->getId() != $id) {
+                throw new ValidatorException('un animal avec ce nom existe déjà');
+              }
+
+              $animalRepo->update(['name' => $name, 'race' => $race, 'habitatId' => $habitat], $id);
+
+              $_SESSION['success'] =  'L\'animal ' . $name . ' à été modifié';
+
+              Router::redirect('dashboard/animaux');
+            } catch (Exception $e) {
+              $_SESSION['error'] =  $e->getMessage();
+            }
+          } else {
+
+            $_SESSION['error'] = 'Clé CSRF non valide';
+          }
+        }
+
+        $animalRepo = new Animal();
+        $animal = $animalRepo->findOneBy(['id' => $request['id']]);
+        $images = $animalRepo->fetchImages($request['id']);
+
+        $habitaRepo = new Habitat();
+        $habitats = $habitaRepo->fetchAllHabitatsWithoutComment();
+
+        $this->show('admin/animal/edit', [
+          'animal' => $animal,
+          'images' => $images,
+          'habitats' => $habitats,
+        ]);
       } else {
-        echo json_encode(['error' => 'accès interdit']);
+        $_SESSION['error'] = 'Vous n\'avez pas la permission';
+        Router::redirect('dashboard');
       }
+    } else {
+      Router::redirect('login');
+    }
+  }
+
+  public function delete($request)
+  {
+    if (Security::isAdmin() && $_SERVER['REQUEST_METHOD'] === "POST") {
+      $csrf = $_POST['csrf_token'] ?? '';
+      if (Security::verifyCsrf($csrf)) {
+        try {
+          $id =  htmlspecialchars($request['id']);
+          Validator::strIsInt($id);
+
+          $animalRepo = new Animal();
+          $animalImages = $animalRepo->fetchImages($id);
+
+          // delete image of animal
+          if ($animalImages) {
+            foreach ($animalImages as $image) {
+              UploadFile::remove($image['path']);
+            }
+          }
+
+          // delete animal
+          $animalRepo->delete(['id' => $id]);
+
+          $_SESSION['success'] = 'l\'animal à été supprimé';
+        } catch (Exception $e) {
+          $_SESSION['error'] =  $e->getMessage();
+        }
+      } else {
+        $_SESSION['error'] = 'Clé CSRF pas valide';
+      }
+      Router::redirect('dashboard/animaux');
+    } else {
+      $_SESSION['error'] = 'Vous n\'avez pas la permission';
+      Router::redirect('dashboard');
     }
   }
 }

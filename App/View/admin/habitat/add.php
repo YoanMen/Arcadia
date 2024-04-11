@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title><?= APP_NAME ?>
-    | Dashboard - utilisateurs</title>
+    | Dashboard - habitats</title>
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
@@ -27,29 +27,26 @@
       <?php include_once   '../App/View/partials/_error.php' ?>
 
       <div class="dashboard__container__top">
-        <h1 class="dashboard__title ">Ajouter un utilisateur</h1>
+        <h1 class="dashboard__title ">Ajouter un habitat</h1>
         <button form="add" class="button max-width--mobile">
           <span>Ajouter</span>
         </button>
       </div>
       <div class="dashboard__content">
-        <form id='add' method="post">
+        <form enctype="multipart/form-data" id='add' method="post">
           <input type="hidden" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
           <ul>
             <li class="details__item">
-              <label for='email'>adresse email</label>
-              <input name="email" required minlength="3" maxlength="60" class="details__input" type="text" id="email" value="">
+              <label for='name'>nom</label>
+              <input name="name" required minlength="3" maxlength="60" class="details__input" type="text" id="name" value="<?= $data['name'] ?>">
             </li>
             <li class="details__item">
-              <label for='password'>mot de passe</label>
-              <input name="password" required minlength="8" maxlength="60" class="details__input" type="text" id="password" value="">
+              <label for='description'>description</label>
+              <textarea class="max-width" required minlength="10" name="description" id="description" cols="30" rows="10"><?= $data['description'] ?></textarea>
             </li>
             <li class="details__item">
-              <label for='role'>type de compte</label>
-              <select name="role" id="role">
-                <option selected value="employee">employé</option>
-                <option value="veterinary">vétérinaire</option>
-              </select>
+              <label for="habitatImage">image</label>
+              <input required id="image-input" class="details__input" type="file" id="file" name="file" accept="image/png, image/jpeg, image/webp">
             </li>
           </ul>
         </form>

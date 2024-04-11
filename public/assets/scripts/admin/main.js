@@ -1,7 +1,7 @@
 const roles = document.querySelectorAll(".orderBy-js");
 const order = document.getElementById("order");
 
-confirmBtn = document.querySelectorAll(".delete-js");
+const confirmBtn = document.querySelectorAll(".delete-js");
 
 confirmBtn.forEach((btn) => {
   btn.addEventListener("click", (event) => {

@@ -31,7 +31,7 @@ class UserController extends Controller
           $nbUsers = $userRepo->userCount($search);
 
           $userRepo->setLimit(10);
-          $totalPage = ceil($nbUsers / $userRepo->getLimit());
+          $totalPages = ceil($nbUsers / $userRepo->getLimit());
           $first = ($currentPage - 1) * $userRepo->getLimit();
 
           $userRepo->setOffset($first);
@@ -40,7 +40,7 @@ class UserController extends Controller
           $this->show('admin/user/table', [
             'params' => ['search' => $search, 'order' => $order],
             'users' => $users,
-            'totalPages' => ($totalPage != 0) ?  $totalPage : 1,
+            'totalPages' => ($totalPages != 0) ?  $totalPages : 1,
             'currentPage' =>  $currentPage,
           ]);
         } catch (Exception $e) {
@@ -101,7 +101,14 @@ class UserController extends Controller
           }
         }
 
-        $this->show('admin/user/add');
+        $this->show(
+          'admin/user/add',
+          [
+            'email' => $email ?? '',
+            'password' => $password ?? '',
+            'role' => $role ?? ''
+          ]
+        );
       } else {
         $_SESSION['error'] = 'Vous n\'avez pas la permission';
         Router::redirect('dashboard');
@@ -150,7 +157,7 @@ class UserController extends Controller
                 $userRepo->update(['email' => $email,  'role' => $role], $id);
               }
 
-              $_SESSION['success'] = $user->getEmail() . ' à été modifié';
+              $_SESSION['success'] = 'L\'utilisateur ' . $user->getEmail() . ' à été modifié';
               Router::redirect('dashboard/utilisateurs');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();

@@ -88,6 +88,29 @@ class Advice extends Model
     return $this;
   }
 
+  public function adviceCount($search)
+  {
+    try {
+      $search .= '%';
+
+      $pdo = $this->connect();
+      $query = "SELECT COUNT(advice.id) as total_count
+                FROM advice
+                WHERE advice.pseudo LIKE :search";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        $result = $stm->fetch();
+      }
+
+      return ($result[0] != null) ? $result[0] : null;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException('Error count :' . $e->getMessage());
+    }
+  }
+
 
   public function getApprovedAdvices(): array | null
   {
@@ -100,7 +123,7 @@ class Advice extends Model
                 WHERE approved = 1
                 ORDER BY advice.id DESC
                 LIMIT 20;";
-                
+
       $stm = $pdo->prepare($query);
 
       if ($stm->execute()) {
@@ -114,30 +137,37 @@ class Advice extends Model
       throw new DatabaseException("Error get advices : " . $e->getMessage());
     }
   }
-  public function fetchAdvices($order, $orderBy): array | null
+  public function fetchAdvices(string $search, string $order, string $orderBy): array | null
   {
     try {
 
       $results = null;
 
+      $search .= '%';
 
-      $allowedOrderBy = ['approved'];
-      $allowedOrder = ['ASC', 'DESC'];
+      $orderBy = strtolower($orderBy);
 
-      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'approved';
-      $order = in_array($order, $allowedOrder) ? $order : 'ASC';
+      if ($orderBy == 'approuvé') {
+        $orderBy = 'approved';
+      }
+      $allowedOrderBy = ['id', 'approved', 'pseudo'];
+      $allowedOrder = ['asc', 'desc'];
 
+      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
+      $order = in_array($order, $allowedOrder) ? $order : 'asc';
 
       $pdo = $this->connect();
       $query = "SELECT * FROM $this->table
+                WHERE advice.pseudo LIKE :search
                 ORDER BY $orderBy  $order
                 LIMIT $this->limit
                 OFFSET $this->offset";
 
       $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
 
       if ($stm->execute()) {
-        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+        while ($result =  $stm->fetchObject($this::class)) {
           $results[] = $result;
         }
       }

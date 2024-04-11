@@ -9,36 +9,19 @@ use App\Core\Security;
   <nav>
 
     <ul class="dashboard-panel__list">
-      <?php
-      // VETERINARY
-      if (Security::isVeterinary()) { ?>
+      <?php if (Security::isEmployee() || Security::isVeterinary()) { ?>
         <li class="dashboard-panel__list__item">
-          <a id="menu-showFoodAnimal" href="#">
+          <a id="menu-foodAnimal" href="<?= ROOT ?>/dashboard/alimentation-animaux">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/food-drumstick.svg" alt="" srcset="">
-            <span for="">alimentation des animaux</span> </a>
+            <span>alimentation des animaux</span> </a>
         </li>
-        <li class="dashboard-panel__list__item">
-          <a id="menu-habitatComment" href="#">
-            <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
-            <span for="">état des habitats</span></a>
-        </li>
-        <li class="dashboard-panel__list__item">
-          <a id="menu-report" href="#">
-            <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
-            <span for="">rapport des animaux</span> </a>
-        </li>
+
       <?php }
-      // EMPLOYEE
       if (Security::isEmployee()) { ?>
         <li class="dashboard-panel__list__item">
-          <a id="menu-foodAnimal" href="#">
-            <img height="32px" src="<?= ROOT ?>/assets/images/icons/food-drumstick.svg" alt="" srcset="">
-            <span for="">alimentation</span> </a>
-        </li>
-        <li class="dashboard-panel__list__item">
-          <a href="#" id="menu-advice">
+          <a href="<?= ROOT ?>/dashboard/avis" id="menu-advice">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/star.svg" alt="" srcset="">
-            <span for="">avis</span></a>
+            <span>avis</span></a>
         </li>
       <?php }
       // ADMIN
@@ -46,35 +29,49 @@ use App\Core\Security;
         <li class="dashboard-panel__list__item">
           <a href="<?= ROOT ?>/dashboard" id="menu-dashboard">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/viewDashboard.svg" alt="dashboard icon" srcset="">
-            <span for="">dashboard</span></a>
+            <span>dashboard</span></a>
         </li>
         <li class="dashboard-panel__list__item">
           <a id="menu-user" href="<?= ROOT ?>/dashboard/utilisateurs">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/account-group.svg" alt="user icon" srcset="">
-            <span for="">utilisateurs</span> </a>
+            <span>utilisateurs</span> </a>
         </li>
         <li class="dashboard-panel__list__item">
           <a id='menu-habitat' href="<?= ROOT ?>/dashboard/habitats">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="house icon" srcset="">
-            <span for="">habitats</span>
+            <span>habitats</span>
           </a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a id='menu-animal' href="./animaux">
+          <a id='menu-animal' href="<?= ROOT ?>/dashboard/animaux">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="paw icon" srcset="">
-            <span for="">animaux</span> </a>
+            <span>animaux</span> </a>
         </li>
         <li class="dashboard-panel__list__item">
-          <a id='menu-schedule' href="./horaires">
+          <a id='menu-schedule' href="<?= ROOT ?>/dashboard/horaires">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/clock-outline.svg" alt="clock icon" srcset="">
-            <span for="">horaires</span> </a>
+            <span>horaires</span> </a>
         </li>
+        <?php
+        // VETERINARY
+        if (Security::isVeterinary() || Security::isAdmin()) { ?>
+          <li class="dashboard-panel__list__item">
+            <a id="menu-habitatComment" href="<?= ROOT ?>/dashboard/statut-habitats">
+              <img height="32px" src="<?= ROOT ?>/assets/images/icons/home.svg" alt="" srcset="">
+              <span>état des habitats</span></a>
+          </li>
+          <li class="dashboard-panel__list__item">
+            <a id="menu-report" href="<?= ROOT ?>/dashboard/rapport-animaux">
+              <img height="32px" src="<?= ROOT ?>/assets/images/icons/paw.svg" alt="" srcset="">
+              <span>rapport des animaux</span> </a>
+          </li>
+        <?php   } ?>
       <?php }
       if (Security::isEmployee() || Security::isAdmin()) { ?>
         <li class="dashboard-panel__list__item">
-          <a id="menu-service" href="./services">
+          <a id="menu-service" href="<?= ROOT ?>/dashboard/services">
             <img height="32px" src="<?= ROOT ?>/assets/images/icons/account-wrench.svg" alt="wrench icon" srcset="">
-            <span for="">services</span> </a>
+            <span>services</span> </a>
         </li>
       <?php  } ?>
 

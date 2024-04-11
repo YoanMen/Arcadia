@@ -63,6 +63,7 @@
       <?php  }
       } ?>
     </section>
+
   </main>
   <?php require_once '../App/View/partials/_footer.php' ?>
 

@@ -6,6 +6,14 @@ use App\Core\Exception\ValidatorException;
 
 class Validator
 {
+
+  public static function isNull($variable, $error = 'La valeur est nulle')
+  {
+    if (!$variable) {
+      http_response_code(400);
+      throw new ValidatorException($error);
+    }
+  }
   public static function strLengthCorrect(
     string $string,
     int $min,
@@ -75,11 +83,11 @@ class Validator
     }
   }
 
-  public static function strWithoutSpecialCharacters(string $string)
+  public static function strWithoutSpecialCharacters(string $string, string $error = 'Le text ne doit pas contenir de caractère spéciales')
   {
     if (preg_match('/[!@#$%^&*()_+\-=\[\]{};\'\\:"|,.<>\/?]+/', $string)) {
       http_response_code(400);
-      throw new ValidatorException('Le text ne doit pas contenir de caractère spéciales');
+      throw new ValidatorException($error);
     }
   }
 }

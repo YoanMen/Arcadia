@@ -14,7 +14,7 @@ class UploadFile
   {
 
     if (!isset($_FILES['file'])) {
-      throw new FileException("aucun fichier upload");
+      throw new FileException("aucun fichier à uploader");
     }
     $image_error = $_FILES['file']['error'];
 

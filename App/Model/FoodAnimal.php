@@ -10,7 +10,6 @@ class FoodAnimal extends Model
   protected string $table = 'foodAnimal';
   private int $id;
   private int $userID;
-
   private int $animalID;
 
   private string $food;
@@ -56,15 +55,15 @@ class FoodAnimal extends Model
 
   public function getAnimalID(): int
   {
-    return $this->userID;
+    return $this->animalID;
   }
 
   /**
    * Set the value of userID
    */
-  public function setAnimalID(int $userID): self
+  public function setAnimalID(int $animalID): self
   {
-    $this->userID = $userID;
+    $this->animalID = $animalID;
 
     return $this;
   }
@@ -141,20 +140,30 @@ class FoodAnimal extends Model
     return $this;
   }
 
-  public function foodAnimalsCount($search): int | null
+  public function foodAnimalsCount($search, $date): int | null
   {
     try {
       $search .= '%';
 
+      if (empty($date)) {
+        $date = null;
+      }
       $pdo = $this->connect();
-      $query = "SELECT COUNT(foodAnimal.id) AS total_count
+      $query = "SELECT COUNT(*)
+                FROM ( SELECT foodAnimal.id
                 FROM foodAnimal
                 INNER JOIN animal ON animal.id = foodAnimal.animalID
                 INNER JOIN habitat ON habitat.id = animal.habitatID
-                WHERE habitat.name LIKE :search OR animal.name LIKE :search;";
+                INNER JOIN user ON user.id = foodAnimal.userID
+                WHERE (:date IS NULL OR foodAnimal.date = :date)
+                AND (habitat.name LIKE :search OR animal.name LIKE :search
+                OR animal.race LIKE :search OR user.email LIKE :search)) AS subquery";
+
+
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
+      $stm->bindParam(':date', $date, PDO::PARAM_STR);
 
       if ($stm->execute()) {
         $result = $stm->fetch();
@@ -166,7 +175,9 @@ class FoodAnimal extends Model
     }
   }
 
-  public function fetchFoodAnimalsByUser(string $search, int $userId, string $order, string $orderBy): array | null
+
+
+  public function fetchFoodAnimals(string $search, string $date, string $order, string $orderBy): array | null
   {
     try {
 
@@ -174,28 +185,46 @@ class FoodAnimal extends Model
 
       $search .=  '%';
 
-      $allowedOrderBy = ['id', 'name', 'habitat', 'date'];
-      $allowedOrder = ['ASC', 'DESC'];
+      $orderBy = strtolower($orderBy);
+
+      switch ($orderBy) {
+        case 'De':
+          $orderBy = "email";
+          break;
+        case 'animal':
+          $orderBy = "name";
+          break;
+        default:
+          break;
+      }
+
+      if (empty($date)) {
+        $date = null;
+      }
+
+      $allowedOrderBy = ['id', 'name', 'email', 'habitat', 'date'];
+      $allowedOrder = ['asc', 'desc'];
 
       $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
-      $order = in_array($order, $allowedOrder) ? $order : 'ASC';
-
+      $order = in_array($order, $allowedOrder) ? $order : 'desc';
 
       $pdo = $this->connect();
-      $query = "SELECT foodAnimal.id, foodAnimal.userID, animal.name,
-                habitat.name AS habitat, foodAnimal.food, foodAnimal.quantity,
+      $query = "SELECT foodAnimal.id, foodAnimal.userID, animal.name ,
+                habitat.name AS habitat, user.email , foodAnimal.food, foodAnimal.quantity,
                 foodAnimal.time, foodAnimal.date
                 FROM foodAnimal
                 INNER JOIN animal ON animal.id = foodAnimal.animalID
                 INNER JOIN habitat ON habitat.id = animal.habitatID
-                WHERE  foodAnimal.userID = :userId AND habitat.name LIKE :search OR animal.name LIKE :search
-                AND foodAnimal.userID = :userId
+                INNER JOIN user ON user.id = foodAnimal.userID
+                WHERE (:date IS NULL OR foodAnimal.date = :date)
+                AND ( habitat.name LIKE :search OR animal.race LIKE :search OR animal.name LIKE :search OR user.email LIKE :search  )
                 ORDER BY $orderBy  $order
                 LIMIT $this->limit OFFSET $this->offset";
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
       $stm->bindParam(':userId', $userId, PDO::PARAM_INT);
+      $stm->bindParam(':date', $date, PDO::PARAM_STR);
 
       if ($stm->execute()) {
         while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
@@ -209,6 +238,42 @@ class FoodAnimal extends Model
       }
 
       return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
+  public function fetchFoodAnimalsByID(int $id): array | null
+  {
+    try {
+
+      $results = null;
+
+      $pdo = $this->connect();
+      $query = "SELECT foodAnimal.id, foodAnimal.userID, animal.name, animal.race,
+                habitat.name AS habitat, user.email , foodAnimal.food, foodAnimal.quantity,
+                foodAnimal.time, foodAnimal.date
+                FROM foodAnimal
+                INNER JOIN animal ON animal.id = foodAnimal.animalID
+                INNER JOIN habitat ON habitat.id = animal.habitatID
+                INNER JOIN user ON user.id = foodAnimal.userID
+                WHERE foodAnimal.id = :id";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':id', $id, PDO::PARAM_INT);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $result['date'] = $this->formatDate($result['date']);
+
+          $time = date_create($result['time']);
+          $result['time'] = date_format($time, "H\hi");
+
+          $results[] = $result;
+        }
+      }
+
+      return $results[0];
     } catch (DatabaseException $e) {
       throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
     }

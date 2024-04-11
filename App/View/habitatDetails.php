@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/carousel.css">
+  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
 
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/breadcrumbs.css">
 
@@ -73,6 +74,8 @@
       }
       ?>
     </section>
+    <?php require_once '../App/View/partials/_pagination.php' ?>
+
   </main>
   <?php require_once '../App/View/partials/_footer.php' ?>
 
