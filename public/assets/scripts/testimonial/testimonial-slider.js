@@ -9,20 +9,16 @@ function initializeTestimonialSlider() {
   ).content;
 
   let currentAdvice = 1;
-  let advices = null;
+  let totalAdvices = 0;
+  let advice = null;
   let disable = false;
 
   // get Advice
-  getAdvices().then((data) => {
-    advices = data.advices;
+  getAdvice(currentAdvice).then((data) => {
+    advice = data.advice;
+    totalAdvices = data.totalCount;
 
-    console.log(data.advices.length);
-
-    if (advices != null) {
-      showAdvice();
-    } else {
-      adviceCard.outerHTML = `<p class="testimonial__not">Aucun avis pour le moment</p>`;
-    }
+    loadAdvice();
   });
 
   if (leftButton != null) {
@@ -31,9 +27,14 @@ function initializeTestimonialSlider() {
       disable = true;
 
       adviceCard.style.transform = "translateX(1000px)";
-
       currentAdvice--;
-      showAdvice(true);
+
+      getAdvice(currentAdvice).then((data) => {
+        advice = data.advice;
+        totalAdvices = data.totalCount;
+
+        loadAdvice(true);
+      });
     });
   }
 
@@ -43,15 +44,20 @@ function initializeTestimonialSlider() {
       disable = true;
 
       adviceCard.style.transform = "translateX(-1000px)";
-
       currentAdvice++;
-      showAdvice();
+
+      getAdvice(currentAdvice).then((data) => {
+        advice = data.advice;
+        totalAdvices = data.totalCount;
+
+        loadAdvice(false);
+      });
     });
   }
 
   // set disabled for buttons
   function setButtonStatut() {
-    currentAdvice >= advices.length
+    currentAdvice >= totalAdvices
       ? (rightButton.disabled = true)
       : (rightButton.disabled = false);
 
@@ -69,8 +75,8 @@ function initializeTestimonialSlider() {
         adviceCard.style.transform = !reverse
           ? "translateX(1000px)"
           : "translateX(-1000px)";
-        text.innerText = advices[currentAdvice - 1].advice;
-        pseudo.innerText = advices[currentAdvice - 1].pseudo;
+        text.innerText = advice.advice;
+        pseudo.innerText = advice.pseudo;
         resolve();
       }, 200);
     }).then((resolve) => {
@@ -82,9 +88,17 @@ function initializeTestimonialSlider() {
     });
   }
 
-  // call back-end to get
-  async function getAdvices() {
-    const r = await fetch("/public/api/advices/approved", {
+  function loadAdvice(reverse) {
+    if (advice != null) {
+      showAdvice(reverse);
+    } else {
+      adviceCard.outerHTML = `<p class="testimonial__not">Aucun avis</p>`;
+    }
+  }
+
+  // call back-end to get advice
+  async function getAdvice(currentAdvice) {
+    const r = await fetch(`/public/api/advices/approved/${currentAdvice}`, {
       method: "GET",
       headers: {
         "X-CSRF-TOKEN": csrf_token,
@@ -95,10 +109,6 @@ function initializeTestimonialSlider() {
       return r.json();
     }
   }
-
-  async function getNextAdvice() {}
-
-  async function getPreviousAdvice() {}
 }
 
 initializeTestimonialSlider();

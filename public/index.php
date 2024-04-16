@@ -33,7 +33,8 @@ $router->addRoute('GET', ROOT . '/logout', 'AuthController', 'logout');
 //API
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
 $router->addRoute('POST', ROOT . '/api/advices/send', 'AdviceController', 'sendAdvice');
-$router->addRoute('GET', ROOT . '/api/advices/approved', 'AdviceController', 'getApprovedAdvices');
+$router->addRoute('GET', ROOT . '/api/advices/approved/{id}', 'AdviceController', 'getApprovedAdvice');
+
 $router->addRoute('PUT', ROOT . '/api/advices', 'AdviceController', 'updateAdvice');
 
 $router->addRoute('PUT', ROOT . '/api/schedules', 'ScheduleController', 'updateSchedule');

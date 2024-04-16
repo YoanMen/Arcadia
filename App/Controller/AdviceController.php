@@ -48,23 +48,22 @@ class AdviceController extends Controller
     }
   }
 
-  public function getApprovedAdvices()
+  public function getApprovedAdvice($request)
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
     if (Security::verifyCsrf($csrf)) {
-
+      $id = $request['id'];
       try {
         $adviceRepository = new Advice();
 
-        $advice = $adviceRepository->getApprovedAdvices();
+        $count = $adviceRepository->approvedAdviceCount();
+        $advice = $adviceRepository->getApprovedAdvice($id);
 
-        if (isset($advice)) {
-          header('Content-Type: application/json');
-          echo json_encode(['advices' => $advice]);
-        } else {
-          http_response_code(404);
-          echo json_encode(['error' => 'Advice not found']);
-        }
+        header('Content-Type: application/json');
+        echo json_encode([
+          'totalCount' => $count,
+          'advice' => boolval($advice) ? $advice : null
+        ]);
       } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);

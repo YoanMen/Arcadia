@@ -111,28 +111,47 @@ class Advice extends Model
     }
   }
 
-
-  public function getApprovedAdvices(): array | null
+  public function approvedAdviceCount()
   {
     try {
-      $results = null;
 
       $pdo = $this->connect();
-      $query = "SELECT advice.id, advice.pseudo, advice.advice
+      $query = "SELECT COUNT(advice.id) as total_count
                 FROM advice
-                WHERE approved = 1
-                ORDER BY advice.id DESC
-                LIMIT 20;";
+                WHERE advice.approved = 1";
 
       $stm = $pdo->prepare($query);
 
       if ($stm->execute()) {
-        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
-          $results[] = $result;
-        }
+        $result = $stm->fetch();
       }
 
-      return $results;
+      return ($result[0] != null) ? $result[0] : null;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException('Error count :' . $e->getMessage());
+    }
+  }
+
+
+  public function getApprovedAdvice(int $id): array | bool
+  {
+    try {
+      $result = null;
+
+      $pdo = $this->connect();
+      $query = "SELECT * FROM ( SELECT advice.pseudo, advice.advice,
+                ROW_NUMBER() OVER (ORDER BY advice.id DESC) AS id
+                FROM advice WHERE approved = 1) AS numbered_rows
+                WHERE id = :id;";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':id', $id, PDO::PARAM_INT);
+
+      if ($stm->execute()) {
+        $result =  $stm->fetch(PDO::FETCH_ASSOC);
+      }
+
+      return $result;
     } catch (DatabaseException $e) {
       throw new DatabaseException("Error get advices : " . $e->getMessage());
     }
