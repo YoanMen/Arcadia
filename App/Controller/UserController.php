@@ -1,19 +1,23 @@
 <?php
-
 namespace App\Controller;
 
 use App\Controller\Controller;
 use App\Core\Exception\DatabaseException;
-use App\Core\Exception\ValidatorException;
 use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;
+use App\Model\Admin;
 use App\Model\User;
 use Exception;
 
 class UserController extends Controller
 {
+  private User $user;
 
+  public function __construct()
+  {
+    $this->user = new User();
+  }
   public function table()
   {
     if (Security::isLogged()) {
@@ -27,15 +31,14 @@ class UserController extends Controller
           $page = $_GET['page'] ?? 1;
           $currentPage = $page;
 
-          $userRepo = new User();
-          $nbUsers = $userRepo->userCount($search);
+          $nbUsers = $this->user->userCount($search);
 
-          $userRepo->setLimit(10);
-          $totalPages = ceil($nbUsers / $userRepo->getLimit());
-          $first = ($currentPage - 1) * $userRepo->getLimit();
+          $this->user->setLimit(10);
+          $totalPages = ceil($nbUsers / $this->user->getLimit());
+          $first = ($currentPage - 1) * $this->user->getLimit();
 
-          $userRepo->setOffset($first);
-          $users = $userRepo->fetchUsers($search, $orderBy, $order);
+          $this->user->setOffset($first);
+          $users = $this->user->fetchUsers($search, $orderBy, $order);
 
           $this->show('admin/user/table', [
             'params' => ['search' => $search, 'order' => $order],
@@ -71,24 +74,14 @@ class UserController extends Controller
               $email = trim($email);
               $email = strtolower($email);
 
-              $userRepo = new User();
-
               // validate value from user
               Validator::strIsValideEmail($email);
               Validator::strLengthCorrect($password, 8, 60, 'Le mot de passe doit être en 8 et 60 caractères');
               Validator::strIsValidRole($role);
 
-              $userRepo = new User();
+              $admin = new Admin();
 
-              // Check if user already exists
-              $user = $userRepo->findOneBy(['email' => $email]);
-              if ($user) {
-                throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
-              }
-
-              $password =  Security::hashPassword($password);
-
-              $userRepo->insert(['email' => $email, 'password' => $password, 'role' => $role]);
+              $admin->createUser($email, $password, $role);
 
               $_SESSION['success'] = $email . ' à été crée';
               Router::redirect('dashboard/utilisateurs');
@@ -133,8 +126,6 @@ class UserController extends Controller
               $email = trim($email);
               $email = strtolower($email);
 
-              $userRepo = new User();
-
               Validator::strIsInt($id);
               Validator::strIsValideEmail($email);
               Validator::strIsValidRole($role);
@@ -143,21 +134,11 @@ class UserController extends Controller
                 Validator::strLengthCorrect($password, 8, 60, 'Le mot de passe doit être en 8 et 60 caractères');
               }
 
-              $user = $userRepo->findOneBy(['email' => $email]);
-              if ($user && $user->getId() != $id) {
-                throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
-              }
+              $admin = new Admin();
 
-              $user = $userRepo->findOneBy(['id' => $id]);
+              $admin->updateUser($id, $email, $password, $role);
 
-              if ($password != null) {
-                $password =  Security::hashPassword($password);
-                $userRepo->update(['email' => $email, 'password' => $password, 'role' => $role], $id);
-              } else {
-                $userRepo->update(['email' => $email,  'role' => $role], $id);
-              }
-
-              $_SESSION['success'] = 'L\'utilisateur ' . $user->getEmail() . ' à été modifié';
+              $_SESSION['success'] = 'L\'utilisateur à été modifié';
               Router::redirect('dashboard/utilisateurs');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
@@ -168,8 +149,7 @@ class UserController extends Controller
           }
         }
 
-        $userRepo = new User();
-        $user = $userRepo->findOneBy(['id' => $request['id']]);
+        $user = $this->user->findOneBy(['id' => $request['id']]);
         $this->show('admin/user/edit', [
           'user' => $user,
         ]);
@@ -191,8 +171,9 @@ class UserController extends Controller
           $id =  htmlspecialchars($request['id']);
           Validator::strIsInt($id);
 
-          $userRepo = new User();
-          $userRepo->delete(['id' => $id]);
+          $admin = new Admin();
+
+          $admin->deleteUser($id);
 
           $_SESSION['success'] = 'l\'utilisateur à été supprimé';
         } catch (Exception $e) {

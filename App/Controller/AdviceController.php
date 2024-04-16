@@ -8,11 +8,17 @@ use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;
 use App\Model\Advice;
+use App\Model\Employee;
 use Exception;
 
 class AdviceController extends Controller
 {
+  private Advice $advice;
 
+  public function __construct()
+  {
+    $this->advice = new Advice();
+  }
   public function sendAdvice()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
@@ -29,8 +35,7 @@ class AdviceController extends Controller
         Validator::strLengthCorrect($pseudo, 3, 20);
         Validator::strLengthCorrect($message, 3, 200);
 
-        $adviceRepository = new Advice();
-        $adviceRepository->insert(['pseudo' => $pseudo, 'advice' => $message]);
+        $this->advice->insert(['pseudo' => $pseudo, 'advice' => $message]);
 
         http_response_code(201);
       } catch (Exception $e) {
@@ -70,7 +75,6 @@ class AdviceController extends Controller
     }
   }
 
-
   public function table()
   {
     if (Security::isLogged()) {
@@ -78,20 +82,20 @@ class AdviceController extends Controller
       if (Security::isEmployee()) {
         $search = $_GET['search'] ?? '';
         $orderBy = $_GET['orderBy'] ?? 'id';
-        $order = $_GET['order'] ?? 'asc';
+        $order = $_GET['order'] ?? 'desc';
 
         try {
           $page = $_GET['page'] ?? 1;
           $currentPage = $page;
-          $adviceRepo = new Advice();
-          $nbAdvices = $adviceRepo->adviceCount($search);
 
-          $adviceRepo->setLimit(10);
-          $totalPages = ceil($nbAdvices / $adviceRepo->getLimit());
-          $first = ($currentPage - 1) * $adviceRepo->getLimit();
+          $nbAdvices = $this->advice->adviceCount($search);
 
-          $adviceRepo->setOffset($first);
-          $advices = $adviceRepo->fetchAdvices($search, $order, $orderBy);
+          $this->advice->setLimit(10);
+          $totalPages = ceil($nbAdvices / $this->advice->getLimit());
+          $first = ($currentPage - 1) * $this->advice->getLimit();
+
+          $this->advice->setOffset($first);
+          $advices = $this->advice->fetchAdvices($search, $order, $orderBy);
 
           $this->show('admin/advice/table', [
             'params' => ['search' => $search, 'order' => $order],
@@ -122,9 +126,7 @@ class AdviceController extends Controller
 
           Validator::strIsInt($id);
 
-          $adviceRepo = new Advice();
-
-          $advice = $adviceRepo->findOneBy(['id' => $id]);
+          $advice = $this->advice->findOneBy(['id' => $id]);
 
           $this->show('admin/advice/detail', [
             'advice' => $advice
@@ -161,9 +163,9 @@ class AdviceController extends Controller
         if (Security::verifyCsrf($csrf)) {
           try {
 
-            $adviceRepo = new Advice();
+            $employee = new Employee();
+            $employee->setAdvice($approved, $id);
 
-            $adviceRepo->update(['approved' => $approved], $id);
             echo json_encode(['success' =>  'avis modifié']);
           } catch (Exception $e) {
             http_response_code(500);

@@ -3,6 +3,8 @@
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
+use App\Core\Exception\ValidatorException;
+use App\Core\Security;
 use PDO;
 
 class User extends Model
@@ -179,5 +181,75 @@ class User extends Model
 		} catch (DatabaseException $e) {
 			throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
 		}
+	}
+
+	public function login(string $email, string $password): bool
+	{
+		$user = $this->findOneBy(['email' => $email]);
+
+		if ($user && Security::verifyPassword($password, $user->getPassword())) {
+			session_regenerate_id(true);
+			$_SESSION['user'] = [
+				'id' => $user->getId(),
+				'email' => $user->getEmail(),
+				'role' => $user->getRole(),
+			];
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public function logout()
+	{
+		$_SESSION = array();
+
+		if (ini_get("session.use_cookies")) {
+
+			$params = session_get_cookie_params();
+
+			setcookie(
+				session_name(),
+				'',
+				time() - 42000,
+				$params["path"],
+				$params["domain"],
+				$params["secure"],
+				$params["httponly"]
+			);
+		}
+	}
+
+	public function createService(string $name, string $description)
+	{
+		$serviceRepo = new Service();
+		$service = $serviceRepo->findOneBy(['name' => $name]);
+
+		if ($service) {
+			throw new ValidatorException('un service avec ce nom existe déjà');
+		}
+
+		$serviceRepo->insert(['name' => $name, 'description' => $description]);
+	}
+
+	public function updateService(string $name, string $description, int $id)
+	{
+		$serviceRepo = new Service();
+
+		$service = $serviceRepo->findOneBy(['name' => $name]);
+
+		if ($service && $service->getId() != $id) {
+			throw new ValidatorException('un service avec ce nom existe déjà');
+		}
+
+		$serviceRepo->update(['name' => $name, 'description' => $description], $id);
+	}
+
+	public function deleteService(int $id)
+	{
+		$serviceRepo = new Service();
+
+		$serviceRepo->delete(['id' => $id]);
 	}
 }

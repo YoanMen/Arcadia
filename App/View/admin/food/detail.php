@@ -13,14 +13,11 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
-
 </head>
 
 <body>
-
   <?php require_once '../App/View/partials/admin/_adminPanel.php' ?>
   <?php require_once '../App/View/partials/admin/_adminTop.php' ?>
-
   <main class="dashboard">
     <div class="dashboard__container">
       <?php include_once  '../App/View/partials/_success.php' ?>

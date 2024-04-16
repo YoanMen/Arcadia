@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Core\Exception\AuthenticationException;
 use App\Core\Router;
 use App\Core\Security;
+use App\Model\HabitatComment;
+use App\Model\ReportAnimal;
 use App\Model\Schedule;
 use App\Model\User;
 use Exception;
@@ -19,7 +21,23 @@ class AuthController extends Controller
       Router::redirect('login');
     } else {
       if (Security::isAdmin()) {
-        $this->show('admin/dashboard');
+        $reportAnimalRepo = new ReportAnimal();
+        $habitatCommentRepo = new HabitatComment();
+
+        $reportAnimalRepo->setLimit(5);
+        $habitatCommentRepo->setLimit(5);
+
+        $reportAnimals = $reportAnimalRepo->fetchReportAnimal('', '',   '', '');
+        $habitatComments = $habitatCommentRepo->fetchHabitatsComment('', '', '');
+        $famousAnimals = [];
+        $this->show(
+          'admin/dashboard/dashboard',
+          [
+            'reportAnimals' => $reportAnimals,
+            'habitatComments' => $habitatComments,
+            'famousAnimals' => $famousAnimals
+          ]
+        );
       }
       if (Security::isEmployee()) {
 
@@ -33,7 +51,6 @@ class AuthController extends Controller
 
   public function login()
   {
-
     $error = null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -43,18 +60,9 @@ class AuthController extends Controller
       $password = htmlspecialchars($_POST['password']);
 
       if (Security::verifyCsrf($_POST['csrf_token'])) {
-        $userRepository = new User();
-        $user = $userRepository->findOneBy(['email' => $email]);
+        $user = new User();
 
-        if ($user && Security::verifyPassword($password, $user->getPassword())) {
-
-          session_regenerate_id(true);
-          $_SESSION['user'] = [
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'role' => $user->getRole(),
-          ];
-
+        if ($user->login($email, $password)) {
           Router::redirect('dashboard');
         } else {
           $_SESSION['error'] = "adresse email ou mot de passe incorrecte";
@@ -71,22 +79,8 @@ class AuthController extends Controller
 
   public function logout()
   {
-    $_SESSION = array();
-
-    if (ini_get("session.use_cookies")) {
-
-      $params = session_get_cookie_params();
-
-      setcookie(
-        session_name(),
-        '',
-        time() - 42000,
-        $params["path"],
-        $params["domain"],
-        $params["secure"],
-        $params["httponly"]
-      );
-    }
+    $user = new User();
+    $user->logout();
 
     session_destroy();
 

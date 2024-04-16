@@ -5,6 +5,7 @@ namespace App\Model;
 use App\Core\Database;
 use PDO, PDOException;
 use App\Core\Exception\DatabaseException;
+use App\Core\UploadFile;
 
 class Habitat extends Model
 {
@@ -181,6 +182,27 @@ class Habitat extends Model
     }
   }
 
+  public function fetchMenuHabitat(): array
+  {
+    try {
+      $pdo = $this->connect();
+      $query = "SELECT habitat.name, habitat.id FROM $this->table
+                LIMIT 5";
+
+      $stm = $pdo->prepare($query);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
   public function fetchHabitats(string $search, string $order, string $orderBy): array | null
   {
     try {
@@ -192,6 +214,7 @@ class Habitat extends Model
       if ($orderBy == 'Nom') {
         $orderBy = 'name';
       }
+
       $allowedOrderBy = ['id', 'name'];
       $allowedOrder = ['asc', 'desc'];
 
@@ -260,5 +283,18 @@ class Habitat extends Model
     } catch (PDOException $e) {
       throw new DatabaseException("Error to fetch : " . $e->getMessage());
     }
+  }
+
+  public function addImage($id)
+  {
+    $path =  UploadFile::upload();
+    $imageRepo = new Image();
+
+    $imageRepo->insert(['path' => $path]);
+    $image = $imageRepo->findOneBy(['path' => $path]);
+
+    $this->insertImage($id, $image->getId());
+
+    echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
   }
 }

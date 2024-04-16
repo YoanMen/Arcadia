@@ -2,10 +2,10 @@
   display: flex;
   padding: 8px;
   gap: 6px;
-  background-color: var(--bg-color-light);
   width: 100%;
-  height: calc(100% - 60px);
+  min-height: 320px;
   padding-bottom: 30px;
+  background-color: white;
 }
 .chart__text {
   display: flex;
@@ -25,7 +25,6 @@
   width: 100%;
   max-width: 120px;
   height: 60%;
-  background-color: aqua;
 }
 
 .chart__item__bar {

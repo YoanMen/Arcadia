@@ -71,32 +71,6 @@ class HabitatComment extends Model
     return $this;
   }
 
-  public function habitatsCommentCount(string $search): int |null
-  {
-    try {
-      $search .= '%';
-
-      $pdo = $this->connect();
-
-      $query = "SELECT COUNT(habitatComment.habitatID) AS total_count
-                FROM habitatComment
-                LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
-                WHERE habitat.name LIKE :search";
-
-
-      $stm = $pdo->prepare($query);
-      $stm->bindParam(':search', $search, PDO::PARAM_STR);
-
-      if ($stm->execute()) {
-        $result = $stm->fetch();
-      }
-    } catch (PDOException $e) {
-      throw new DatabaseException("Error count : " . $e->getMessage());
-    }
-
-    return ($result[0] != 0 ? $result[0] : null);
-  }
-
   public function updateComment(int $habitatId, int $userId, string $comment)
   {
     try {
@@ -116,6 +90,34 @@ class HabitatComment extends Model
       throw new DatabaseException("Error update data: " . $e->getMessage());
     }
   }
+
+
+  public function countHabitatComment(string $search): int | null
+  {
+
+    try {
+      $search .= "%";
+
+      $pdo = $this->connect();
+      $query = "SELECT COUNT(*)
+                FROM ( SELECT habitat.name  as habitat, user.email , habitatComment.habitatID,
+                habitatComment.userID, habitatComment.comment FROM habitatComment
+                INNER JOIN habitat ON habitatComment.habitatID = habitat.id
+                INNER JOIN user ON habitatComment.userID = user.id
+                WHERE habitat.name LIKE :search OR user.email LIKE :search ) as subquery";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':search', $search, PDO::PARAM_STR);
+
+      if ($stm->execute()) {
+        $result = $stm->fetch();
+      }
+
+      return $result[0] != 0 ? $result[0] : null;
+    } catch (PDOException $e) {
+      throw new DatabaseException("Error count : " . $e->getMessage());
+    }
+  }
   public function fetchHabitatsComment(string $search, string $order, string $orderBy): array|null
   {
     try {
@@ -123,25 +125,30 @@ class HabitatComment extends Model
 
       $search .=  '%';
 
-      if ($order !== 'ASC' && $order !== 'DESC') {
-        $order = 'DESC';
+      if ($order !== 'asc' && $order !== 'desc') {
+        $order = 'desc';
       }
 
-      $allowedOrderBy = ['id', 'habitatName'];
-      $allowedOrder = ['ASC', 'DESC'];
+      $search = strtolower($search);
 
-      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'id';
-      $order = in_array($order, $allowedOrder) ? $order : 'ASC';
+      if ($search == 'de') {
+        $search = 'email';
+      }
+
+      $allowedOrderBy = ['habitat, email'];
+      $allowedOrder = ['asc', 'desc'];
+
+      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'habitat';
+      $order = in_array($order, $allowedOrder) ? $order : 'asc';
 
       $pdo = $this->connect();
       $query = "SELECT habitatComment.habitatID AS id,
                 habitatComment.comment,
-                habitat.name AS habitatName,
-                user.email AS userName
+                habitat.name AS habitat, user.email
                 FROM habitatComment
                 LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
                 LEFT JOIN user ON habitatComment.userID = user.id
-                WHERE habitat.name LIKE :search
+                WHERE habitat.name LIKE :search OR user.email LIKE :search
                 ORDER BY $orderBy  $order
                 LIMIT $this->limit OFFSET $this->offset";
 
@@ -157,6 +164,33 @@ class HabitatComment extends Model
       return $results;
     } catch (PDOException $e) {
       throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
+  public function findHabitatCommentById($id): array | null
+  {
+    try {
+
+      $result = null;
+
+      $pdo = $this->connect();
+
+      $query = "SELECT habitat.name as habitat, user.email, habitatComment.comment
+              FROM $this->table
+              INNER JOIN habitat ON habitat.id = habitatComment.habitatID
+              INNER JOIN user ON user.id = habitatComment.userID
+              WHERE habitatComment.habitatID = :id;";
+
+      $stm = $pdo->prepare($query);
+      $stm->bindParam(':id', $id, PDO::PARAM_INT);
+
+      if ($stm->execute()) {
+        $result = $stm->fetch();
+      }
+
+      return ($result != null ? $result : null);
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error count : " . $e->getMessage());
     }
   }
 }

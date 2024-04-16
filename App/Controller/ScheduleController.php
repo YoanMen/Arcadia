@@ -6,6 +6,7 @@ use App\Controller\Controller;
 use App\Core\Exception\DatabaseException;
 use App\Core\Router;
 use App\Core\Security;
+use App\Model\Admin;
 use App\Model\Schedule;
 use Exception;
 
@@ -18,9 +19,7 @@ class ScheduleController extends Controller
 
       if (Security::isAdmin()) {
         try {
-
           $scheduleRepo = new Schedule();
-
 
           $data = $scheduleRepo->fetchAll();
 
@@ -61,9 +60,10 @@ class ScheduleController extends Controller
               $open = null;
               $close = null;
             }
-            $scheduleRepo = new Schedule();
 
-            $scheduleRepo->update(['open' => $open, 'close' => $close], $id);
+            $admin = new Admin();
+            $admin->updateSchedule($id, $open, $close);
+
             echo json_encode(['success' =>  'horaire modifié']);
           } catch (Exception $e) {
             http_response_code(500);

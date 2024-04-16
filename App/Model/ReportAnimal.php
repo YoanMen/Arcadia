@@ -228,7 +228,7 @@ class ReportAnimal extends Model
                 WHERE (:date IS NULL OR reportAnimal.date = :date)
                 AND ( animal.name LIKE :search OR user.email LIKE :search
                 OR animal.race LIKE :search OR  habitat.name LIKE :search)
-                ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset;";
+                ORDER BY $orderBy $order, reportAnimal.id desc LIMIT $this->limit OFFSET $this->offset;";
 
 
       $stm = $pdo->prepare($query);

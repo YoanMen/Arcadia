@@ -36,12 +36,12 @@
         <?php } ?>
       </div>
       <form id="form" class="container__search" method="GET">
-        <input type="date" name="date" id="date" value="<?= $data['params']['date']  ?>">
+        <input class="container__search--date " type="date" name="date" id="date" value="<?= $data['params']['date']  ?>">
         <input class="max-width" type="search" name="search" placeholder="rechercher par nom de l'animal, race, habitat ou email" value="<?= $data['params']['search']  ?>">
         <input class="button  max-width--mobile" type="submit" value="Rechercher">
       </form>
       <div class="dashboard__content">
-        <table>
+        <table aria-describedby="food animal table">
           <thead>
             <tr>
               <th class="hidden--mobile">

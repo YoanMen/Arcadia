@@ -13,6 +13,9 @@ class UploadFile
   public static function upload(): string|null
   {
 
+    echo 'ok';
+
+
     if (!isset($_FILES['file'])) {
       throw new FileException("aucun fichier à uploader");
     }
@@ -28,14 +31,11 @@ class UploadFile
       $extension = explode('.', $fileName);
       $extension = end($extension);
       $extension = strtolower($extension);
-
       $fileName = rtrim($fileName, ". .$extension");
-
-
 
       // save image
       if ($fileSize > MAX_FILE_SIZE) {
-        throw new FileException("File exceeds upload_max_filesize");
+        throw new FileException("Le fichier dois faire moins de " . (MAX_FILE_SIZE / (1024 * 1024)) . "MB");
       } elseif (
         !in_array($extension, ALLOWED_EXTENSIONS_FILE)
         && !in_array($fileMimeType, ALLOWED_EXTENSIONS_FILE)
@@ -49,6 +49,10 @@ class UploadFile
       if (!file_exists($destination)) {
         move_uploaded_file($file_tmp_name, $destination);
 
+        if (!file_exists($destination)) {
+          throw new FileException("File not uploaded");
+        }
+
         return $fileName;
       } else {
         throw new FileException("File already exist");
@@ -57,16 +61,15 @@ class UploadFile
       if ($_FILES["file"]["error"] !== UPLOAD_ERR_OK) {
         switch ($_FILES["file"]["error"]) {
           case UPLOAD_ERR_PARTIAL:
-            throw new FileException("File only partially uploaded");
-
+            throw new FileException("image partiellement chargé");
           case UPLOAD_ERR_NO_FILE:
-            throw new FileException("No file was uploaded");
+            throw new FileException("Aucun fichier à upload");
           case UPLOAD_ERR_EXTENSION:
             throw new FileException("File upload stopped by a PHP extension");
           case UPLOAD_ERR_FORM_SIZE:
             throw new FileException("File exceeds MAX_FILE_SIZE in the HTML form");
           case UPLOAD_ERR_INI_SIZE:
-            throw new FileException("File exceeds upload_max_filesize");
+            throw new FileException("Le fichier dois faire moins de " . (MAX_FILE_SIZE / (1024 * 1024)) . "mb");
           case UPLOAD_ERR_NO_TMP_DIR:
             throw new FileException("Temporary folder not found");
           case UPLOAD_ERR_CANT_WRITE:

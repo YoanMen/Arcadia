@@ -33,7 +33,7 @@
         <input class="button max-width--mobile" type="submit" value="Rechercher">
       </form>
       <div class="dashboard__content">
-        <table>
+        <table aria-describedby="service table">
           <thead>
             <tr>
               <th>
@@ -84,7 +84,6 @@
       require_once '../App/View/partials/_pagination.php' ?>
     </div>
   </main>
-
 
   <script src="<?= ROOT ?>/assets/scripts/admin/main.js"></script>
 </body>

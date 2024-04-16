@@ -1,7 +1,7 @@
 <?php
 
+use App\Core\CouchDB;
 use App\Core\Router as Router;
-use App\Model\Animal;
 
 require_once "../App/Core/Autoloader.php";
 
@@ -14,9 +14,8 @@ if (!isset($_SESSION['csrf_token'])) {
 
 DEBUG ? ini_set('display_errors', 1) : ini_set('display_errors', 0);
 
-
-
 // ROUTING
+
 $router = new Router;
 $router->addRoute('GET', ROOT . '/error', 'PageNotFoundController', 'index');
 
@@ -43,7 +42,6 @@ $router->addRoute('GET', ROOT . '/api/habitats/{id}/animals', 'HabitatController
 $router->addRoute('POST', ROOT . '/api/habitats/images', 'HabitatController', 'uploadImage');
 $router->addRoute('POST', ROOT . '/api/animals/images', 'AnimalController', 'uploadImage');
 $router->addRoute('DELETE', ROOT . '/api/animals/images', 'AnimalController', 'deleteImage');
-
 
 $router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 
@@ -84,6 +82,11 @@ $router->addRoute('GET', ROOT . '/dashboard/rapport-animaux', 'ReportAnimalContr
 $router->addRoute('GET', ROOT . '/dashboard/rapport-animaux/{id}/detail', 'ReportAnimalController', 'detail');
 $router->addRoute('GET', ROOT . '/dashboard/rapport-animaux/add', 'ReportAnimalController', 'add');
 $router->addRoute('POST', ROOT . '/dashboard/rapport-animaux/add', 'ReportAnimalController', 'add');
+
+$router->addRoute('GET', ROOT . '/dashboard/commentaire-habitats', 'HabitatCommentController', 'table');
+$router->addRoute('GET', ROOT . '/dashboard/commentaire-habitats/{id}/detail', 'HabitatCommentController', 'detail');
+$router->addRoute('GET', ROOT . '/dashboard/commentaire-habitats/add', 'HabitatCommentController', 'add');
+$router->addRoute('POST', ROOT . '/dashboard/commentaire-habitats/add', 'HabitatCommentController', 'add');
 
 $router->addRoute('GET', ROOT . '/dashboard/avis', 'AdviceController', 'table');
 $router->addRoute('GET', ROOT . '/dashboard/avis/{id}/detail', 'AdviceController', 'detail');

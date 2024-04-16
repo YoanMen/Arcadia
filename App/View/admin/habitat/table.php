@@ -29,11 +29,11 @@
           </button> </a>
       </div>
       <form id="form" class="container__search" method="GET">
-        <input class="max-width" type="search" name="search" placeholder="rechercher par nom" value="<?= $data['params']['search']  ?>">
+        <input class="max-width" type="search" name="search" placeholder="rechercher par nom, race ou habitat" value="<?= $data['params']['search']  ?>">
         <input class="button max-width--mobile" type="submit" value="Rechercher">
       </form>
       <div class="dashboard__content">
-        <table>
+        <table aria-describedby="habitat table">
           <thead>
             <tr>
               <th>

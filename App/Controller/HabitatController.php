@@ -8,31 +8,34 @@ use App\Core\Router;
 use App\Core\Security;
 use App\Core\UploadFile;
 use App\Core\Validator;
+use App\Model\Admin;
 use App\Model\Animal;
 use App\Model\Habitat;
 use App\Model\Image;
-use App\Model\ReportAnimal;
 use Exception;
 
 class HabitatController extends Controller
 {
 
+  private Habitat $habitat;
+
+  public function __construct()
+  {
+    $this->habitat = new Habitat();
+  }
   // Page showing all habitats
   public function index()
   {
-
     $page = $_GET['page'] ?? 1;
     $currentPage = $page;
 
-
     // initialize data for habitat page
-    $habitatRepository = new Habitat;
-    $nbHabitats = $habitatRepository->count();
-    $habitatRepository->setLimit(10);
-    $totalPages = ceil($nbHabitats / $habitatRepository->getLimit());
-    $first = ($currentPage - 1) * $habitatRepository->getLimit();
-    $habitatRepository->setOffset($first);
-    $habitats = $habitatRepository->fetchAll();
+    $nbHabitats = $this->habitat->count();
+    $this->habitat->setLimit(10);
+    $totalPages = ceil($nbHabitats / $this->habitat->getLimit());
+    $first = ($currentPage - 1) * $this->habitat->getLimit();
+    $this->habitat->setOffset($first);
+    $habitats = $this->habitat->fetchAll();
 
     // search image for all habitat
     if ($habitats) {
@@ -48,7 +51,7 @@ class HabitatController extends Controller
     ]);
   }
 
-  // show habitat
+  // show habitat detail
   public function showHabitat($request)
   {
     try {
@@ -59,10 +62,9 @@ class HabitatController extends Controller
       $name = htmlspecialchars($request['name']);
       $name = str_replace('-', ' ', $name);
 
-      $habitatRepository = new Habitat();
       $animalRepository = new Animal();
 
-      $habitat = $habitatRepository->findOneBy(['name' => $name]);
+      $habitat = $this->habitat->findOneBy(['name' => $name]);
 
       if (!$habitat) {
         throw new DatabaseException('Habitat not exist');
@@ -111,26 +113,14 @@ class HabitatController extends Controller
       if (Security::verifyCsrf($csrf)) {
 
         try {
-          // search image corresponding by id
           $id = htmlspecialchars($data['id']);
-          $imageRepo = new Image();
-          $image = $imageRepo->findOneBy(['id' => $id]);
 
-          if ($image) {
-            // remove image in folder and ddb
-            UploadFile::remove($image->getPath());
-            $imageRepo->delete(['id' => $id]);
-
-            $_SESSION['success'] = "image supprimé";
-            echo json_encode(['success' => 'image supprimé']);
-          } else {
-            http_response_code(201);
-            $_SESSION['error'] = "impossible de récupéré l\'image ";
-            throw new DatabaseException('impossible de récupéré l\'image ');
-          }
+          $image = new Image();
+          $image->deleteImage($id);
         } catch (Exception $e) {
           http_response_code(500);
           $_SESSION['error'] = $e->getMessage();
+
           header('content-type:application/json');
           echo json_encode(['error' => $e->getMessage()]);
         }
@@ -159,14 +149,13 @@ class HabitatController extends Controller
 
           Validator::strIsInt($id);
 
-          $path =   UploadFile::upload();
+          $path = UploadFile::upload();
           $imageRepo = new Image();
-          $habitatRepo = new Habitat();
 
           $imageRepo->insert(['path' => $path]);
           $image = $imageRepo->findOneBy(['path' => $path]);
 
-          $habitatRepo->insertImage($id, $image->getId());
+          $this->habitat->insertImage($id, $image->getId());
 
           $_SESSION['success'] = 'Image ajouté';
           header('content-type:application/json');
@@ -204,15 +193,14 @@ class HabitatController extends Controller
           $page = $_GET['page'] ?? 1;
           $currentPage = $page;
 
-          $habitatRepo = new Habitat();
-          $nbUsers = $habitatRepo->habitatsCount($search);
+          $nbUsers = $this->habitat->habitatsCount($search);
 
-          $habitatRepo->setLimit(10);
-          $totalPage = ceil($nbUsers / $habitatRepo->getLimit());
-          $first = ($currentPage - 1) * $habitatRepo->getLimit();
+          $this->habitat->setLimit(10);
+          $totalPage = ceil($nbUsers / $this->habitat->getLimit());
+          $first = ($currentPage - 1) * $this->habitat->getLimit();
 
-          $habitatRepo->setOffset($first);
-          $data = $habitatRepo->fetchHabitats($search, $order, $orderBy);
+          $this->habitat->setOffset($first);
+          $data = $this->habitat->fetchHabitats($search, $order, $orderBy);
 
           $this->show('admin/habitat/table', [
             'params' => ['search' => $search, 'order' => $order],
@@ -255,29 +243,8 @@ class HabitatController extends Controller
               Validator::strWithoutSpecialCharacters($name, 'Le nom ne doit pas contenir de caractère spéciales');
               Validator::strMinLengthCorrect($description, 10);
 
-              $habitatRepo = new Habitat();
-
-              $habitat = $habitatRepo->findOneBy(['name' => $name]);
-
-              if ($habitat) {
-                throw new ValidatorException('un habitat avec ce nom existe déjà');
-              }
-
-              // upload file and return path
-              $path =  UploadFile::upload();
-              $imageRepo = new Image();
-
-              // insert on image table image
-              $imageRepo->insert(['path' => $path]);
-              // get id of image
-              $image = $imageRepo->findOneBy(['path' => $path]);
-
-              // insert new habitat on table
-              $habitatRepo->insert(['name' => $name, 'description' => $description]);
-              $habitat = $habitatRepo->findOneBy(['name' => $name]);
-
-              // send habitat_id and image_id to habitat_image
-              $habitatRepo->insertImage($habitat->getId(), $image->getId());
+              $admin = new Admin();
+              $admin->createHabitat($name, $description);
 
               $_SESSION['success'] =  'L\'habitat ' . $name . ' à été crée';
               Router::redirect('dashboard/habitats');
@@ -326,14 +293,15 @@ class HabitatController extends Controller
               Validator::strWithoutSpecialCharacters($name);
               Validator::strMinLengthCorrect($description, 10);
 
-              $habitatRepo = new Habitat();
 
-              $habitat = $habitatRepo->findOneBy(['name' => $name]);
+              $habitat = $this->habitat->findOneBy(['name' => $name]);
               if ($habitat && $habitat->getId() != $id) {
                 throw new ValidatorException('un habitat avec ce nom existe déjà');
               }
 
-              $habitatRepo->update(['name' => $name, 'description' => $description], $id);
+              $admin = new Admin();
+              $admin->updateHabitat($id, $name, $description);
+
               $_SESSION['success'] =  'L\'habitat ' . $name . ' à été modifié';
 
               Router::redirect('dashboard/habitats');
@@ -346,9 +314,8 @@ class HabitatController extends Controller
           }
         }
 
-        $habitatRepo = new Habitat();
-        $habitat = $habitatRepo->findOneBy(['id' => $request['id']]);
-        $images = $habitatRepo->fetchImages($request['id']);
+        $habitat = $this->habitat->findOneBy(['id' => $request['id']]);
+        $images = $this->habitat->fetchImages($request['id']);
         $this->show('admin/habitat/edit', [
           'habitat' => $habitat,
           'images' => $images
@@ -370,18 +337,9 @@ class HabitatController extends Controller
           $id =  htmlspecialchars($request['id']);
           Validator::strIsInt($id);
 
-          $habitatRepo = new Habitat();
+          $admin = new Admin();
+          $admin->deleteHabitat($id);
 
-          $habitatImages = $habitatRepo->fetchImages($id);
-
-          if ($habitatImages) {
-            foreach ($habitatImages as $image) {
-              UploadFile::remove($image['path']);
-            }
-          }
-
-          // delete habitat
-          $habitatRepo->delete(['id' => $id]);
           $_SESSION['success'] = 'l\'habitat à été supprimé';
         } catch (Exception $e) {
           $_SESSION['error'] =  $e->getMessage();
@@ -406,8 +364,8 @@ class HabitatController extends Controller
         Validator::strIsInt($id);
 
         $animalRepo = new Animal();
-
         $animals = $animalRepo->fetchAnimalsByHabitat($id);
+
         echo  json_encode($animals);
       } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();

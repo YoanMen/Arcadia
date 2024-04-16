@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title><?= APP_NAME ?>
     | Dashboard - habitats</title>
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
@@ -13,11 +12,9 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
-
 </head>
 
 <body>
-
   <?php require_once '../App/View/partials/admin/_adminPanel.php' ?>
   <?php require_once '../App/View/partials/admin/_adminTop.php' ?>
 
@@ -38,7 +35,7 @@
             <label for="animalImage">ajouter une image</label>
             <div class="max-width ">
               <form class="details__input-wrapper" id="form-image" enctype="multipart/form-data">
-                <input id="image-input" class="details__input" type="file" id="file" id="file" accept="image/png, image/jpeg, image/webp">
+                <input max-file-size="<?= MAX_FILE_SIZE ?>" id="image-input" class="details__input" type="file" id="file" id="file" accept="image/png, image/jpeg, image/webp">
                 <button data-animal-id='<?= $data['animal']->getId() ?>' id="add-image" disabled form="form-image" class="button max-width--mobile">ajouter</button>
               </form>
             </div>
@@ -81,11 +78,8 @@
                 } ?>
         </ul>
       </div>
-
     </div>
-
   </main>
-
   <script src="<?= ROOT ?>/assets/scripts/admin/animalImages.js"></script>
 </body>
 

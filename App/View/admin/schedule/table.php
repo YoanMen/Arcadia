@@ -37,7 +37,7 @@ function setSwitch(Schedule $schedule): bool
       <h1 class="dashboard__title ">Horaire</h1>
 
       <div class="dashboard__content">
-        <table>
+        <table aria-describedby="schedules table">
           <thead>
             <tr>
               <th>
@@ -79,7 +79,6 @@ function setSwitch(Schedule $schedule): bool
   </main>
 
   <script src="<?= ROOT ?>/assets/scripts/admin/schedules.js"></script>
-
   <script src="<?= ROOT ?>/assets/scripts/admin/main.js"></script>
 </body>
 

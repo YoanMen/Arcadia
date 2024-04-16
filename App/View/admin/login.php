@@ -23,7 +23,6 @@
   <?php require_once '../App/View/partials/_menu.php' ?>
 
   <main>
-
     <section class="login">
       <div class="login__container">
         <svg width="174.06268mm" height="128px" viewBox="0 0 174.06268 103.78361" version="1.1" id="svg1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
@@ -53,13 +52,18 @@
         </form>
       </div>
     </section>
-
-
   </main>
 
   <?php require_once '../App/View/partials/_footer.php' ?>
+
   <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
-  <script src="<?= ROOT ?>/assets/scripts/login.js"></script>
+  <script>
+    const formBtn = document.querySelector("#connect-button");
+
+    document.querySelector("#login-form").addEventListener("submit", () => {
+      formBtn.disabled = true;
+    });
+  </script>
 </body>
 
 </html>

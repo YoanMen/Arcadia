@@ -4,7 +4,6 @@
 use App\Core\Security;
 
 ?>
-
 <header class="menus">
   <!-- MOBILE MENU -->
   <div class="mobile-menu">

@@ -47,16 +47,13 @@
         mystique forêt de Brocéliande en Bretagne depuis 1960. Notre parc propose une expérience
         immersive où la diversité animale est harmonieusement répartie dans des habitats uniques
         tels que la savane, la jungle et le marais.
-        <br>
-        <br>
+
         La santé et le bien-être de nos précieux habitants sont au cœur de nos préoccupations.
-        <br>
-        <br>
+
         Notre engagement envers le bien-être animal se reflète non seulement dans les soins médicaux réguliers,
         mais aussi dans la gestion précise de leur alimentation. Chaque repas est minutieusement calculé, avec
         le grammage optimal spécifié dans les rapports détaillés des vétérinaires.
-        <br>
-        <br>
+
         Arcadia est bien plus qu'un zoo ; c'est un refuge écologique. Nous sommes fiers de notre indépendance
         énergétique, témoignant de notre engagement envers l'écologie.
       </p>
@@ -74,18 +71,16 @@
       </h2>
       <p class="section__text">
         Découvrez les habitats uniques qui abritent nos résidents exceptionnels.
-        Plongez dans un monde fascinant où chaque espace est soigneusement conçu pour
-        recréer l'environnement naturel de nos animaux. Explorez des habitats divers, de
-        la luxuriante jungle tropicale aux vastes plaines africaines. À travers nos installations,
-        nous nous engageons à offrir à chaque habitant un lieu sûr et confortable, où ils peuvent
-        s'épanouir et exprimer pleinement leur nature. Rejoignez-nous pour une immersion captivante
-        dans la vie de nos pensionnaires, tout en soutenant notre engagement envers le bien-être animal
-        et la conservation de la biodiversité.
+
+        Plongez dans un monde fascinant où chaque espace est soigneusement conçu pour recréer l'environnement naturel de nos animaux. Explorez des habitats divers, de la luxuriante jungle tropicale aux vastes plaines africaines.
+
+        À travers nos installations, nous nous engageons à offrir à chaque habitant un lieu sûr et confortable, où ils peuvent
+        s'épanouir et exprimer pleinement leur nature. Rejoignez-nous pour une immersion captivante dans la vie de nos pensionnaires, tout en soutenant notre engagement envers le bien-être animal et la conservation de la biodiversité.
       </p>
       <ul>
         <?php
         if (isset($data['habitats'])) {
-          // create interactive cards to show habitats 
+          // create interactive cards to show habitats
           foreach ($data['habitats'] as $habitat) {
             $haveImage = $habitat->getImage(0);
             $textBtn = "Découvrir cette habitat";
@@ -150,7 +145,6 @@
     <div class="dialog__top">
       <h3 class="dialog__title">Ajouter un Avis</h3>
       <div class="dialog__top__buttons">
-
         <button class='dialog__close button button--cube'>
           <svg fill='white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />

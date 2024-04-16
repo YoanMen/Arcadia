@@ -2,6 +2,10 @@
   padding: 16px 0;
 }
 
+.section__text {
+  white-space: pre-line;
+}
+
 .section__background {
   margin-top: 16px;
   background: var(--bg-color-dark);

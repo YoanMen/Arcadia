@@ -33,7 +33,7 @@
         <input class="button  max-width--mobile" type="submit" value="Rechercher">
       </form>
       <div class="dashboard__content">
-        <table>
+        <table aria-describedby="animal table">
           <thead>
             <tr>
               <th>

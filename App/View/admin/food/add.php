@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title><?= APP_NAME ?>
     | Dashboard - animaux</title>
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
@@ -13,11 +12,9 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
-
 </head>
 
 <body>
-
   <?php require_once '../App/View/partials/admin/_adminPanel.php' ?>
   <?php require_once '../App/View/partials/admin/_adminTop.php' ?>
 
@@ -25,7 +22,6 @@
     <div class="dashboard__container">
       <?php include_once  '../App/View/partials/_success.php' ?>
       <?php include_once   '../App/View/partials/_error.php' ?>
-
       <div class="dashboard__container__top">
         <h1 class="dashboard__title ">Ajouter alimentation pour un animal</h1>
         <button form="add" class="button max-width--mobile">
@@ -72,10 +68,7 @@
         </form>
       </div>
     </div>
-
   </main>
-
-
   <script>
     const habitatSelect = document.getElementById('habitat');
     const animalSelect = document.getElementById('animal');

@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title><?= APP_NAME ?>
     | Dashboard - habitats</title>
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
@@ -13,19 +12,15 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
-
 </head>
 
 <body>
-
   <?php require_once '../App/View/partials/admin/_adminPanel.php' ?>
   <?php require_once '../App/View/partials/admin/_adminTop.php' ?>
-
   <main class="dashboard">
     <div class="dashboard__container">
       <?php include_once  '../App/View/partials/_success.php' ?>
       <?php include_once   '../App/View/partials/_error.php' ?>
-
       <div class="dashboard__container__top">
         <h1 class="dashboard__title ">Ajouter un habitat</h1>
         <button form="add" class="button max-width--mobile">
@@ -46,17 +41,13 @@
             </li>
             <li class="details__item">
               <label for="habitatImage">image</label>
-              <input required id="image-input" class="details__input" type="file" id="file" name="file" accept="image/png, image/jpeg, image/webp">
+              <input required max-file-size="<?= MAX_FILE_SIZE ?>" id="image-input" class="details__input" type="file" id="file" name="file" accept="image/png, image/jpeg, image/webp">
             </li>
           </ul>
         </form>
       </div>
-
     </div>
-
   </main>
-
-
 </body>
 
 </html>

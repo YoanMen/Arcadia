@@ -38,7 +38,7 @@
               <th>
                 Adresse email
               </th>
-              <th>
+              <th class="hidden--mobile">
                 Mot de passe
               </th>
               <th>
@@ -53,10 +53,11 @@
             <?php if (isset($data['users'])) {
               foreach ($data['users'] as $user) : ?>
                 <tr>
+
                   <td>
                     <?= $user->getEmail() ?>
                   </td>
-                  <td><?= $user->getPassword() ?></td>
+                  <td class="hidden--mobile"><?= $user->getPassword() ?></td>
                   <td> <?= $user->getRoleTranslated() ?></td>
                   <td>
                     <a href=" utilisateurs/<?= $user->getId() ?>/edit">
@@ -65,8 +66,8 @@
                   </td>
                   <td>
                     <form id="deleteForm" method="POST" action="utilisateurs/<?= $user->getId() ?>/delete">
-                      <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                       <button class="dashboard__params delete-js" type="submit">
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">  
                         <img height=" 32px" src="<?= ROOT ?>/assets/images/icons/delete.svg" alt="delete icon">
                       </button>
                     </form>

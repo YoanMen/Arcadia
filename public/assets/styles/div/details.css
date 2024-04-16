@@ -47,6 +47,8 @@
   width: 30%;
   margin-right: 10px;
   opacity: 0.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .details__input-wrapper {

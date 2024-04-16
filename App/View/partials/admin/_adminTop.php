@@ -1,5 +1,5 @@
 <?php
-
+//top bar for admin page
 use App\Core\Security;
 ?>
 <header class="dashboard-top">

@@ -3,16 +3,23 @@
 namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
-use App\Core\Exception\ValidatorException;
 use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;
 use App\Model\Habitat;
 use App\Model\ReportAnimal;
+use App\Model\Veterinary;
 use Exception;
 
 class ReportAnimalController extends Controller
 {
+
+  private ReportAnimal $reportAnimals;
+
+  public function __construct()
+  {
+    $this->reportAnimals = new ReportAnimal();
+  }
   public function table()
   {
     if (Security::isLogged()) {
@@ -25,21 +32,20 @@ class ReportAnimalController extends Controller
         try {
           $page = $_GET['page'] ?? 1;
           $currentPage = $page;
-          $reportAnimalRepo = new ReportAnimal();
-          $nbFoodAnimal = $reportAnimalRepo->fetchReportAnimalCount($search, $date);
+          $nbFoodAnimal = $this->reportAnimals->fetchReportAnimalCount($search, $date);
 
-          $reportAnimalRepo->setLimit(10);
-          $totalPages = ceil($nbFoodAnimal / $reportAnimalRepo->getLimit());
-          $first = ($currentPage - 1) * $reportAnimalRepo->getLimit();
+          $this->reportAnimals->setLimit(10);
+          $totalPages = ceil($nbFoodAnimal / $this->reportAnimals->getLimit());
+          $first = ($currentPage - 1) * $this->reportAnimals->getLimit();
 
-          $reportAnimalRepo->setOffset($first);
+          $this->reportAnimals->setOffset($first);
 
 
-          $foodAnimals = $reportAnimalRepo->fetchReportAnimal($search, $date,   $order, $orderBy);
+          $reportAnimals = $this->reportAnimals->fetchReportAnimal($search, $date,   $order, $orderBy);
 
           $this->show('admin/report/table', [
             'params' => ['search' => $search, 'order' => $order, 'date' => $date],
-            'foodAnimals' => $foodAnimals,
+            'reportAnimals' => $reportAnimals,
             'totalPages' => ($totalPages != 0) ?  $totalPages : 1,
             'currentPage' =>  $currentPage,
           ]);
@@ -67,13 +73,17 @@ class ReportAnimalController extends Controller
 
           Validator::strIsInt($id);
 
-          $reportAnimalRepo = new ReportAnimal();
+          $reportAnimal = $this->reportAnimals->fetchReportAnimalByID($id);
 
-          $reportAnimal = $reportAnimalRepo->fetchReportAnimalByID($id);
+          if ($reportAnimal) {
 
-          $this->show('admin/report/detail', [
-            'reportAnimal' => $reportAnimal
-          ]);
+            $this->show('admin/report/detail', [
+              'reportAnimal' => $reportAnimal
+            ]);
+          } else {
+            $_SESSION['error'] = 'aucun rapport pour cette animal';
+            Router::redirect('dashboard/rapport-animaux');
+          }
         } catch (Exception $e) {
           throw new DatabaseException($e);
         }
@@ -97,7 +107,6 @@ class ReportAnimalController extends Controller
           if (Security::verifyCsrf($csrf)) {
             try {
 
-
               $userId = Security::getCurrentUserId();
 
               $animalId = htmlspecialchars($_POST['animal']);
@@ -105,7 +114,6 @@ class ReportAnimalController extends Controller
               $quantity = htmlspecialchars($_POST['quantity']);
               $details = htmlspecialchars($_POST['details']);
               $statut = htmlspecialchars($_POST['statut']);
-
               $date =  htmlspecialchars($_POST['date']);
 
               $food = trim($food);
@@ -124,18 +132,17 @@ class ReportAnimalController extends Controller
               Validator::strIsFloat($quantity);
               Validator::strIsDateOrTime($date);
 
-              if (empty($animalId)) {
-                throw new ValidatorException('Aucun animal sélectionné');
-              }
-              // insert to table
-              $reportAnimalRepo = new ReportAnimal();
+              $veterinary = new Veterinary();
 
-              $reportAnimalRepo->insert([
-                'userId' => $userId, 'animalId' => $animalId,
-                'food' => $food, 'weight' => $quantity,
-                'date' => $date, 'details' => $details,
-                'statut' => $statut
-              ]);
+              $veterinary->reportAnimal(
+                $userId,
+                $animalId,
+                $food,
+                $quantity,
+                $date,
+                $details,
+                $statut
+              );
 
               $_SESSION['success'] = 'Le rapport sur l\'animal à été crée';
               Router::redirect('dashboard/rapport-animaux');

@@ -324,7 +324,6 @@ input[type="button"]:hover {
 .max-width {
   width: 100%;
 }
-
 .clickable {
   cursor: pointer;
 }
@@ -355,7 +354,7 @@ input[type="button"]:hover {
 
   input[type="time"],
   input[type="date"] {
-    min-width: auto;
+    min-width: 60px;
   }
 
   .hidden--mobile {

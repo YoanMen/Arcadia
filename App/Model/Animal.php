@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
+use App\Core\UploadFile;
 use PDO, PDOException;
 
 class Animal extends Model
@@ -239,7 +240,8 @@ class Animal extends Model
       $pdo = $this->connect();
       $query = "SELECT animal.id, animal.name, animal.race , habitat.name as habitat
                 FROM animal INNER JOIN habitat ON habitat.id = animal.habitatID
-                WHERE animal.race LIKE :search OR animal.name LIKE :search
+                WHERE animal.race LIKE :search OR animal.name LIKE :search 
+                OR habitat.name LIKE :search
                 ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset";
 
 
@@ -283,5 +285,18 @@ class Animal extends Model
     } catch (DatabaseException $e) {
       throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
     }
+  }
+
+  public function addImage($id)
+  {
+    $path =  UploadFile::upload();
+    $imageRepo = new Image();
+
+    $imageRepo->insert(['path' => $path]);
+    $image = $imageRepo->findOneBy(['path' => $path]);
+
+    $this->insertImage($id, $image->getId());
+
+    echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
   }
 }

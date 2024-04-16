@@ -218,7 +218,7 @@ class FoodAnimal extends Model
                 INNER JOIN user ON user.id = foodAnimal.userID
                 WHERE (:date IS NULL OR foodAnimal.date = :date)
                 AND ( habitat.name LIKE :search OR animal.race LIKE :search OR animal.name LIKE :search OR user.email LIKE :search  )
-                ORDER BY $orderBy  $order
+                ORDER BY $orderBy  $order , foodAnimal.time asc
                 LIMIT $this->limit OFFSET $this->offset";
 
       $stm = $pdo->prepare($query);

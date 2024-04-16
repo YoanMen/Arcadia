@@ -3,41 +3,45 @@
 namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
-use App\Core\Exception\ValidatorException;
 use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;
+use App\Model\Employee;
 use App\Model\FoodAnimal;
 use App\Model\Habitat;
 use Exception;
 
 class FoodAnimalController extends Controller
 {
+  private FoodAnimal $foodAnimal;
 
+  public function __construct()
+  {
+    $this->foodAnimal = new FoodAnimal();
+  }
   public function table()
   {
     if (Security::isLogged()) {
 
       if (Security::isEmployee() || Security::isVeterinary()) {
+
         $search = $_GET['search'] ?? '';
         $orderBy = $_GET['orderBy'] ?? 'Date';
         $order = $_GET['order'] ?? 'desc';
         $date = $_GET['date'] ?? '';
+
         try {
           $page = $_GET['page'] ?? 1;
           $currentPage = $page;
-          $foodAnimalRepo = new FoodAnimal();
-          $nbFoodAnimal = $foodAnimalRepo->foodAnimalsCount($search, $date);
+          $nbFoodAnimal = $this->foodAnimal->foodAnimalsCount($search, $date);
 
+          $this->foodAnimal->setLimit(10);
+          $totalPages = ceil($nbFoodAnimal / $this->foodAnimal->getLimit());
+          $first = ($currentPage - 1) * $this->foodAnimal->getLimit();
 
-          $foodAnimalRepo->setLimit(10);
-          $totalPages = ceil($nbFoodAnimal / $foodAnimalRepo->getLimit());
-          $first = ($currentPage - 1) * $foodAnimalRepo->getLimit();
+          $this->foodAnimal->setOffset($first);
 
-          $foodAnimalRepo->setOffset($first);
-
-
-          $foodAnimals = $foodAnimalRepo->fetchFoodAnimals($search, $date,   $order, $orderBy);
+          $foodAnimals = $this->foodAnimal->fetchFoodAnimals($search, $date,   $order, $orderBy);
 
           $this->show('admin/food/table', [
             'params' => ['search' => $search, 'order' => $order, 'date' => $date],
@@ -68,9 +72,7 @@ class FoodAnimalController extends Controller
 
           Validator::strIsInt($id);
 
-          $foodAnimalRepo = new FoodAnimal();
-
-          $foodAnimal = $foodAnimalRepo->fetchFoodAnimalsByID($id);
+          $foodAnimal = $this->foodAnimal->fetchFoodAnimalsByID($id);
 
           $this->show('admin/food/detail', [
             'foodAnimal' => $foodAnimal
@@ -117,20 +119,18 @@ class FoodAnimalController extends Controller
               Validator::strIsDateOrTime($date);
               Validator::strIsDateOrTime($time);
 
-              if (empty($animalId)) {
-                throw new ValidatorException('Aucun animal sélectionné');
-              }
-              // insert to table
-              $foodRepo = new FoodAnimal();
-
-              $foodRepo->insert([
-                'userId' => $userId, 'animalId' => $animalId,
-                'food' => $food, 'quantity' => $quantity, 'time' => $time,
-                'date' => $date
-              ]);
+              $employee = new Employee();
+              $employee->giveFood(
+                $userId,
+                $animalId,
+                $food,
+                $quantity,
+                $time,
+                $date
+              );
 
               $_SESSION['success'] = 'Le rapport de nourrissage à été crée';
-              Router::redirect('dashboard/nourriture');
+              Router::redirect('dashboard/alimentation-animaux');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
             }

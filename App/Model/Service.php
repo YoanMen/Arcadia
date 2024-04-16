@@ -91,6 +91,27 @@ class Service extends Model
     }
   }
 
+  public function fetchMenuService()
+  {
+    try {
+      $pdo = $this->connect();
+      $query = "SELECT service.name, service.id FROM $this->table
+                LIMIT 5";
+
+      $stm = $pdo->prepare($query);
+
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
+  }
+
   public function fetchServices(string $search, string $order, string $orderBy)
   {
     try {

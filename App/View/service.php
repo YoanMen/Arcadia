@@ -35,9 +35,7 @@
       ];
       require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-      <p class="section__text">Explorez les divers services offerts au sein du Zoo Arcadia.
-        N'hésitez pas à découvrir l'ensemble de nos prestations.
-      </p>
+      <p class="section__text">Explorez les divers services offerts au sein du Zoo Arcadia. </p>
 
       <div class="section__background">
         <h1 class="section__title--secondary">Tout nos services</h1>

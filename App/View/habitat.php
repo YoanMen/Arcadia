@@ -36,9 +36,7 @@
       ];
       require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-      <p class="section__text">
-        Explorez les différents habitats du Zoo Arcadia.
-      </p>
+      <p class="section__text"> Explorez les différents habitats du Zoo Arcadia. </p>
 
       <ul>
         <?php

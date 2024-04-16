@@ -36,12 +36,12 @@
         <?php  } ?>
       </div>
       <form id="form" class="container__search" method="GET">
-        <input type="date" name="date" id="date" value="<?= $data['params']['date']  ?>">
+        <input class="container__search--date" type="date" name="date" id="date" value="<?= $data['params']['date']  ?>">
         <input class="max-width" type="search" name="search" placeholder="rechercher par nom de l'animal, race, habitat ou email" value="<?= $data['params']['search']  ?>">
         <input class="button  max-width--mobile" type="submit" value="Rechercher">
       </form>
       <div class="dashboard__content">
-        <table>
+        <table aria-describedby="report animal table">
           <thead>
             <tr>
               <th class="hidden--mobile">
@@ -62,38 +62,36 @@
               <th>
                 <input class="dashboard__params orderBy-js" type="submit" name="orderBy" value="Date" form="form">
               </th>
-
               <th>Détails</th>
             </tr>
           </thead>
           <tbody>
-            <?php if (isset($data['foodAnimals'])) {
-              foreach ($data['foodAnimals'] as $foodAnimal) : ?>
+            <?php if (isset($data['reportAnimals'])) {
+              foreach ($data['reportAnimals'] as $reportAnimal) : ?>
                 <tr>
                   <td class="hidden--mobile">
-                    <?= $foodAnimal['email'] ?>
+                    <?= $reportAnimal['email'] ?>
                   </td>
                   <td>
-                    <?= $foodAnimal['name'] ?>
+                    <?= $reportAnimal['name'] ?>
                   </td>
                   <td>
-                    <?= $foodAnimal['statut'] ?>
+                    <?= $reportAnimal['statut'] ?>
                   </td>
                   <td class="hidden--mobile">
-                    <?= $foodAnimal['habitat'] ?>
+                    <?= $reportAnimal['habitat'] ?>
                   </td>
                   <td class="hidden--mobile">
-                    <?= $foodAnimal['food'] ?>
+                    <?= $reportAnimal['food'] ?>
                   </td>
                   <td class="hidden--mobile">
-                    <?= $foodAnimal['weight'] ?>g
+                    <?= $reportAnimal['weight'] ?>g
                   </td>
                   <td>
-                    <?= $foodAnimal['date'] ?>
+                    <?= $reportAnimal['date'] ?>
                   </td>
-
                   <td>
-                    <a href="rapport-animaux/<?= $foodAnimal['id'] ?>/detail">
+                    <a href="rapport-animaux/<?= $reportAnimal['id'] ?>/detail">
                       <img height="32px" src="<?= ROOT ?>/assets/images/icons/dots-horizontal.svg" alt="edit icon">
                     </a>
                   </td>
@@ -107,7 +105,6 @@
               </td>
             <?php }  ?>
           </tbody>
-
         </table>
       </div>
       <?php

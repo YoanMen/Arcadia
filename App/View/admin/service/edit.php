@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title><?= APP_NAME ?>
     | Dashboard - utilisateurs</title>
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
@@ -13,7 +12,6 @@
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
   <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
-
 </head>
 
 <body>
@@ -47,9 +45,7 @@
           </ul>
         </form>
       </div>
-
     </div>
-
   </main>
 
 
