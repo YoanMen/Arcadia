@@ -13,9 +13,6 @@ class UploadFile
   public static function upload(): string|null
   {
 
-    echo 'ok';
-
-
     if (!isset($_FILES['file'])) {
       throw new FileException("aucun fichier à uploader");
     }

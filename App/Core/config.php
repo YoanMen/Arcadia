@@ -10,6 +10,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 
 	define('BASE_URL', 'http://localhost');
 	define('ROOT', 'http://localhost/public');
+	define('COUCHDB_URL', "http://admin:115225335@localhost:5984/arcadia");
 } else {
 	/** database config**/
 	define('DB_NAME', 'my_db');
@@ -20,6 +21,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 
 	define('BASE_URL', 'http://localhost');
 	define('ROOT', 'https://www.yourwebsite.com');
+	define('COUCHDB_URL', "http://admin:115225335@couchdb-yoanmen.alwaysdata.net:5984/yoanmen_arcadia");
 }
 
 define('APP_NAME', "Zoo Arcadia");

@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Core\Exception\AuthenticationException;
+use App\Core\CouchDB;
 use App\Core\Router;
 use App\Core\Security;
+use App\Model\Animal;
 use App\Model\HabitatComment;
 use App\Model\ReportAnimal;
-use App\Model\Schedule;
 use App\Model\User;
 use Exception;
 
@@ -23,19 +23,36 @@ class AuthController extends Controller
       if (Security::isAdmin()) {
         $reportAnimalRepo = new ReportAnimal();
         $habitatCommentRepo = new HabitatComment();
+        $animalRepo = new Animal();
+
+        $couchDb = new CouchDB();
+
 
         $reportAnimalRepo->setLimit(5);
         $habitatCommentRepo->setLimit(5);
 
         $reportAnimals = $reportAnimalRepo->fetchReportAnimal('', '',   '', '');
         $habitatComments = $habitatCommentRepo->fetchHabitatsComment('', '', '');
-        $famousAnimals = [];
+
+        $data = $couchDb->getFamousAnimals();
+
+        if ($data) {
+          foreach ($data as $animal) {
+            $name = $animalRepo->fetchAnimalNameById($animal['_id']);
+            $famousAnimals[] = [
+              'id' => $animal['_id'],
+              'click' => $animal['click'],
+              'name' => $name[0]
+            ];
+          }
+        }
+
         $this->show(
           'admin/dashboard/dashboard',
           [
             'reportAnimals' => $reportAnimals,
             'habitatComments' => $habitatComments,
-            'famousAnimals' => $famousAnimals
+            'famousAnimals' => $famousAnimals ?? null
           ]
         );
       }

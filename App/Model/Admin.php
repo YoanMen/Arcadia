@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Core\CouchDB;
 use App\Core\Exception\ValidatorException;
 use App\Core\Security;
 use App\Core\UploadFile;
@@ -115,9 +116,8 @@ class Admin extends User
 
 	public function createAnimal(string $name, string $race, int $habitat)
 	{
-		$animalRepo = new Animal();
 
-		$animal = $animalRepo->findOneBy(['name' => $name]);
+		$animal = $this->animal->findOneBy(['name' => $name]);
 
 		if ($animal) {
 			throw new ValidatorException('un animal avec ce nom existe déjà');
@@ -142,9 +142,7 @@ class Admin extends User
 
 	public function updateAnimal(string $name, string $race, int $habitat, int $id)
 	{
-		$animalRepo = new Animal();
-
-		$animal = $animalRepo->findOneBy(['name' => $name]);
+		$animal = $this->animal->findOneBy(['name' => $name]);
 
 		if ($animal && $animal->getId() != $id) {
 			throw new ValidatorException('un animal avec ce nom existe déjà');
@@ -155,8 +153,7 @@ class Admin extends User
 
 	public function deleteAnimal(int $id)
 	{
-		$animalRepo = new Animal();
-		$animalImages = $animalRepo->fetchImages($id);
+		$animalImages = $this->animal->fetchImages($id);
 
 		// delete image of animal
 		if ($animalImages) {
@@ -167,5 +164,8 @@ class Admin extends User
 
 		// delete animal
 		$animalRepo->delete(['id' => $id]);
+
+		$couchDB = new CouchDB();
+		$couchDB->deleteAnimalDocument($id);
 	}
 }

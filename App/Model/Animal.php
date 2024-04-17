@@ -299,4 +299,21 @@ class Animal extends Model
 
     echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
   }
+
+  public function fetchAnimalNameById(int $id): array | null
+  {
+    $pdo = $this->connect();
+
+    $query = "SELECT animal.name FROM $this->table
+              WHERE animal.id = :id";
+
+    $stm = $pdo->prepare($query);
+    $stm->bindParam(':id', $id, PDO::PARAM_INT);
+
+    if ($stm->execute()) {
+      $result = $stm->fetch();
+    }
+
+    return $result ?? null;
+  }
 }

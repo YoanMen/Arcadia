@@ -23,26 +23,28 @@
   <main class="dashboard">
     <div class="admin__container">
       <div class='admin__top'>
-        <div class="admin__element">
-          <h2 class="admin__title">Les animaux les plus consulté</h2>
-          <div class="chart" id="chart">
-            <div class="chart__text">
-              <p>30</p>
-              <p>15</p>
-              <p>0</p>
-            </div>
-            <div class="chart__items">
-              <article class="chart__item">
-                <div class="chart__item__bar"></div>
-                <p class="chart__item__text one-line">riko</p>
-              </article>
-              <article class="chart__item">
-                <div class="chart__item__bar"></div>
-                <p class="chart__item__text one-line">loadzdzqdzdzqdqzd</p>
-              </article>
+        <?php if (isset($data['famousAnimals'])) { ?>
+          <div class="admin__element">
+            <h2 class="admin__title">Les animaux les plus consulté</h2>
+            <div class="chart" id="chart">
+              <div class="chart__text">
+                <p id="hight-click"><?= $data['famousAnimals'][0]['click'] ?></p>
+                <p><?= round(($data['famousAnimals'][0]['click'] / 2)) ?> </p>
+                <p>0</p>
+              </div>
+              <div class="chart__items">
+                <?php
+                // create bars for animals
+                foreach ($data['famousAnimals'] as $animal) { ?>
+                  <article data-click="<?= $animal['click'] ?>" class="chart__item">
+                    <div class="chart__item__bar"></div>
+                    <p class="chart__item__text one-line"><?= $animal['name'] ?> </p>
+                  </article>
+                <?php }  ?>
+              </div>
             </div>
           </div>
-        </div>
+        <?php } ?>
         <div class="admin__element">
           <h2 class="admin__title">Les derniers commentaire sur les habitats</h2>
           <div class="dashboard__content">
@@ -88,7 +90,6 @@
                   </td>
                 <?php }  ?>
               </tbody>
-
             </table>
           </div>
         </div>
@@ -165,5 +166,20 @@
     </div>
   </main>
 </body>
+
+<script>
+  const hightClick = document.getElementById('hight-click').textContent
+  const bars = document.querySelectorAll('.chart__item');
+
+  if (bars) {
+
+    bars.forEach((bar) => {
+      click = bar.dataset.click;
+      bar.style.height = (click / hightClick) * 100 + '%';
+      console.log((click / hightClick) * 100);
+
+    })
+  }
+</script>
 
 </html>

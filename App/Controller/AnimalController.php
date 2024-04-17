@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use App\Core\CouchDB;
 use App\Core\Exception\DatabaseException;
 use App\Core\Router;
 use App\Core\Security;
-use App\Core\UploadFile;
 use App\Core\Validator;
 use App\Model\Admin;
 use App\Model\Animal;
@@ -42,6 +42,10 @@ class AnimalController extends Controller
           $animal->findImages();
           $reportRepository = new ReportAnimal();
           $report =  $reportRepository->findOneBy(['animalId' => $animal->getId()]);
+
+          $couchDb  = new CouchDB();
+
+          $couchDb->addClick($animal->getId());
 
           $this->show('animal', [
             'animal' => $animal,
@@ -303,6 +307,5 @@ class AnimalController extends Controller
       $_SESSION['error'] = 'Vous n\'avez pas la permission';
       Router::redirect('dashboard');
     }
-    
   }
 }
