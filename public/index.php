@@ -1,7 +1,9 @@
 <?php
 
+use App\Controller\ContactController;
 use App\Core\CouchDB;
 use App\Core\Router as Router;
+use App\Model\Admin;
 
 require_once "../App/Core/Autoloader.php";
 
@@ -29,6 +31,8 @@ $router->addRoute('GET', ROOT . '/habitats/{name}/{animalName}', 'AnimalControll
 $router->addRoute('GET', ROOT . '/login', 'AuthController', 'login');
 $router->addRoute('POST', ROOT . '/login', 'AuthController', 'login');
 $router->addRoute('GET', ROOT . '/logout', 'AuthController', 'logout');
+$router->addRoute('GET', ROOT . '/contact', 'ContactController', 'index');
+$router->addRoute('POST', ROOT . '/contact', 'ContactController', 'index');
 
 //API
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');

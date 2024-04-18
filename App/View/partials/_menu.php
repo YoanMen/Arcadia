@@ -40,7 +40,7 @@ use App\Core\Security;
             </ul>
           </li>
           <li class="mobile-menu__item">
-            <a href="">
+            <a href="<?= ROOT ?>/contact">
               Contact
             </a>
           </li>
@@ -85,7 +85,7 @@ use App\Core\Security;
           </ul>
         </li>
         <li>
-          <a href="#">
+          <a href="<?= ROOT ?>/contact">
             Contact
           </a>
         </li>

@@ -1,0 +1,23 @@
+.contact {
+  display: flex;
+  min-height: 600px;
+  height: 100vh;
+  margin-top: auto;
+  justify-items: center;
+  align-items: center;
+}
+
+.contact__container {
+  margin: 0 auto;
+  width: 460px;
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact__form__button {
+  margin-top: 32px;
+}

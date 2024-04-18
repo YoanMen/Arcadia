@@ -4,9 +4,10 @@ namespace App\Model;
 
 use App\Core\CouchDB;
 use App\Core\Exception\ValidatorException;
+use App\Core\Mail;
 use App\Core\Security;
 use App\Core\UploadFile;
-
+use Exception;
 
 class Admin extends User
 {
@@ -35,6 +36,9 @@ class Admin extends User
 		$password =  Security::hashPassword($password);
 
 		$this->insert(['email' => $email, 'password' => $password, 'role' => $role]);
+
+		$mail = new Mail();
+		$mail->sendMailToNewUser($email);
 	}
 
 	public function updateUser(
@@ -133,11 +137,11 @@ class Admin extends User
 		$image = $imageRepo->findOneBy(['path' => $path]);
 
 		// insert new animal on table
-		$animalRepo->insert(['name' => $name, 'race' => $race, 'habitatId' => $habitat]);
-		$animal = $animalRepo->findOneBy(['name' => $name]);
+		$this->animal->insert(['name' => $name, 'race' => $race, 'habitatId' => $habitat]);
+		$animal = $this->animal->findOneBy(['name' => $name]);
 
 		// send animal_id and image_id to animal_image
-		$animalRepo->insertImage($animal->getId(), $image->getId());
+		$this->animal->insertImage($animal->getId(), $image->getId());
 	}
 
 	public function updateAnimal(string $name, string $race, int $habitat, int $id)
@@ -148,7 +152,7 @@ class Admin extends User
 			throw new ValidatorException('un animal avec ce nom existe déjà');
 		}
 
-		$animalRepo->update(['name' => $name, 'race' => $race, 'habitatId' => $habitat], $id);
+		$this->animal->update(['name' => $name, 'race' => $race, 'habitatId' => $habitat], $id);
 	}
 
 	public function deleteAnimal(int $id)
@@ -163,7 +167,7 @@ class Admin extends User
 		}
 
 		// delete animal
-		$animalRepo->delete(['id' => $id]);
+		$this->animal->delete(['id' => $id]);
 
 		$couchDB = new CouchDB();
 		$couchDB->deleteAnimalDocument($id);

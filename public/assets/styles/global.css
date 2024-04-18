@@ -299,13 +299,16 @@ input[type="button"]:hover {
 
 .error {
   background-color: #f8d7da;
+  color: black;
   padding: 12px;
   border-radius: 5px;
 }
 
 .success {
   background-color: #d4edda;
+  color: black;
   padding: 12px;
+  border-radius: 5px;
 }
 
 .menus {

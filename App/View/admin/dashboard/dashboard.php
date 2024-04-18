@@ -22,6 +22,10 @@
 
   <main class="dashboard">
     <div class="admin__container">
+
+      <?php include_once  '../App/View/partials/_success.php' ?>
+      <?php include_once   '../App/View/partials/_error.php' ?>
+
       <div class='admin__top'>
         <?php if (isset($data['famousAnimals'])) { ?>
           <div class="admin__element">

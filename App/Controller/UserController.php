@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\Controller;
@@ -25,7 +26,7 @@ class UserController extends Controller
       if (Security::isAdmin()) {
         $search = $_GET['search'] ?? '';
         $orderBy = $_GET['orderBy'] ?? 'id';
-        $order = $_GET['order'] ?? 'asc';
+        $order = $_GET['order'] ?? 'desc';
 
         try {
           $page = $_GET['page'] ?? 1;
