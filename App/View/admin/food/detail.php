@@ -50,7 +50,7 @@
           </li>
           <li class="details__item">
             <span>quantité</span>
-            <p><?= $data['foodAnimal']['quantity'] ?> grammes</p>
+            <p><?= $data['foodAnimal']['quantity'] ?> kg</p>
           </li>
           <li class="details__item">
             <span>nourri le</span>

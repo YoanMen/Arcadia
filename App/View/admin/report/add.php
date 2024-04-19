@@ -57,7 +57,7 @@
               <input name="food" required minlength="3" maxlength="40" class="details__input" type="text" id="food" value="<?= $data['food'] ?>">
             </li>
             <li class="details__item">
-              <label for='quantity'>poids en grammes</label>
+              <label for='quantity'>poids en kilogramme</label>
               <input name="quantity" required step="0.01" class="details__input" type="number" id="quantity" value="<?= $data['quantity'] ?>">
             </li>
             <li class="details__item">

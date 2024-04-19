@@ -61,7 +61,7 @@
           </li>
           <li class="details__item">
             <span>poids de la nourriture</span>
-            <p><?= $data['reportAnimal']['weight'] ?> grammes</p>
+            <p><?= $data['reportAnimal']['weight'] ?> kg</p>
           </li>
           <li class="details__item">
             <span>commentaire </span>

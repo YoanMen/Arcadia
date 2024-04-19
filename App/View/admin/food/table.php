@@ -82,7 +82,7 @@
                     <?= $foodAnimal['food'] ?>
                   </td>
                   <td class="hidden--mobile">
-                    <?= $foodAnimal['quantity'] ?>g
+                    <?= $foodAnimal['quantity'] ?> kg
                   </td>
                   <td>
                     <?= $foodAnimal['date'] ?>
