@@ -7,13 +7,11 @@
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
   <title><?= APP_NAME ?>
     | Dashboard</title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/chart.css">
-  <link rel="import" href="component.html">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/public/assets/styles/dialog.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/details.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/chart.css">
 </head>
 
 <body>
@@ -80,8 +78,8 @@
                         <?= $habitatComment['comment'] ?>
                       </td>
                       <td>
-                        <a href="<?= ROOT ?>/dashboard/commentaire-habitats/<?= $habitatComment['id'] ?>/detail">
-                          <img height="32px" src="<?= ROOT ?>/assets/images/icons/dots-horizontal.svg" alt="edit icon">
+                        <a href="/public/dashboard/commentaire-habitats/<?= $habitatComment['id'] ?>/detail">
+                          <img height="32px" src="/public/assets/images/icons/dots-horizontal.svg" alt="edit icon">
                         </a>
                       </td>
                     </tr>
@@ -150,8 +148,8 @@
                       <?= $reportAnimal['date'] ?>
                     </td>
                     <td>
-                      <a href="<?= ROOT ?>/dashboard/rapport-animaux/<?= $reportAnimal['id'] ?>/detail">
-                        <img height="32px" src="<?= ROOT ?>/assets/images/icons/dots-horizontal.svg" alt="edit icon">
+                      <a href="/public/dashboard/rapport-animaux/<?= $reportAnimal['id'] ?>/detail">
+                        <img height="32px" src="/public/assets/images/icons/dots-horizontal.svg" alt="edit icon">
                       </a>
                     </td>
                   </tr>
@@ -176,12 +174,10 @@
   const bars = document.querySelectorAll('.chart__item');
 
   if (bars) {
-
+    // for all bars set height to correspond with clicks
     bars.forEach((bar) => {
       click = bar.dataset.click;
       bar.style.height = (click / hightClick) * 100 + '%';
-      console.log((click / hightClick) * 100);
-
     })
   }
 </script>

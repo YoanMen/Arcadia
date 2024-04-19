@@ -5,7 +5,7 @@
 // @param $textBtn text in button
 ?>
 
-<li class='interactive-card__item' style="background-image: url('<?= ROOT ?>/uploads/<?= $pathImg ?>');">
+<li class='interactive-card__item' style="background-image: url('/public/uploads/<?= $pathImg ?>');">
   <div class="interactive-card__content">
     <h3 class='interactive-card__title'><?= $title ?></h3>
     <div class='interactive-card__container'>

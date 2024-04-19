@@ -1,16 +1,13 @@
 :root {
-  --ROOT: "http://localhost/Arcadia/public";
-
   --bg-color-dark: #203c25;
   --bg-color-light: #fcf9f6;
   --btn-color: #ee9326ff;
-
   --font-kodchasan: "Kodchasan", sans-serif;
   --font-luciole: "Luciole", sans-serif;
-
   --padding: 32px;
 }
 
+/* Custom fonts */
 @font-face {
   font-family: "Luciole";
   src: url("../fonts/Luciole/Luciole-Regular.ttf");
@@ -35,10 +32,27 @@
   font-weight: bold;
 }
 
+/* reset style */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 ul,
@@ -58,25 +72,7 @@ body {
   scrollbar-color: var(--btn-color);
   scrollbar-base-color: antiquewhite;
 }
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: white;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 main {
   max-width: 1180px;
   margin: 0 auto;
@@ -111,16 +107,12 @@ h5 {
   font-family: var(--font-kodchasan);
   font-size: 1.5rem;
 }
+
 p,
 label,
 span {
   font-family: var(--font-kodchasan);
   font-size: 1.2rem;
-}
-
-td {
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 th,
@@ -137,19 +129,6 @@ tbody tr {
   display: table;
   width: 100%;
   table-layout: fixed;
-}
-.table__button {
-  cursor: pointer;
-  background-color: var(--btn-color);
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  font-family: var(--font-luciole);
-  border-radius: 5px;
-}
-
-.center {
-  margin: 0 auto;
 }
 
 input {
@@ -206,8 +185,23 @@ hr {
   opacity: 0.2;
 }
 
+/* global class */
 .mt {
   margin-top: 16px;
+}
+
+.table__button {
+  cursor: pointer;
+  background-color: var(--btn-color);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-family: var(--font-luciole);
+  border-radius: 5px;
+}
+
+.center {
+  margin: 0 auto;
 }
 
 .no-scroll {
@@ -331,14 +325,7 @@ input[type="button"]:hover {
   cursor: pointer;
 }
 
-@keyframes load {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* Media query */
 
 @media screen and (max-width: 762px) {
   .button:not(.button--cube) {

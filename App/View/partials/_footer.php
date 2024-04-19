@@ -1,29 +1,29 @@
 <footer class="footer">
-  <a href="<?= ROOT ?>/"><img class="footer__logo" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt=""></a>
+  <a href="/public/"><img class="footer__logo" src="/public/assets/images/icons/arcadia-logo.svg" alt=""></a>
   <hr class="footer__bar">
   <nav class="footer__nav">
     <ul class="footer__list">
       <li class="footer__item">
-        <a href="<?= ROOT ?>/">Accueil</a>
+        <a href="/public/">Accueil</a>
       </li>
       <li class="footer__item">
-        <a href="<?= ROOT ?>/services">Nos services</a>
+        <a href="/public/services">Nos services</a>
       </li>
       <li class="footer__item">
-        <a href="<?= ROOT ?>/habitats">
+        <a href="/public/habitats">
           Nos habitats</a>
       </li>
       <li class="footer__item">
-        <a href="">Contact</a>
+        <a href="/public/contact">Contact</a>
       </li>
       <li class="footer__item">
-        <a href="">Connexion</a>
+        <a href="/public/login">Connexion</a>
       </li>
       <li class="footer__item">
-        <a href="">A Propos</a>
+        <a href="#">A Propos</a>
       </li>
       <li class="footer__item">
-        <a href="">Mention légales</a>
+        <a href="#">Mention légales</a>
       </li>
     </ul>
   </nav>

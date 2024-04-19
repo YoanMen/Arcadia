@@ -6,12 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - animaux</title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/public/assets/styles/dialog.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/details.css">
+  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
@@ -69,47 +68,8 @@
       </div>
     </div>
   </main>
-  <script>
-    const habitatSelect = document.getElementById('habitat');
-    const animalSelect = document.getElementById('animal');
-
-    fetchAnimals();
-
-    habitatSelect.addEventListener('change', () => {
-
-      fetchAnimals();
-    })
-
-    async function fetchAnimals() {
-
-      const id = habitatSelect.value;
-
-      const r = await fetch(`/public/api/habitats/${id}/animals`, {
-        method: 'GET',
-        headers: {
-          Accept: "application/json",
-        },
-      }).then(async (data) => {
-        let animals = await data.json();
-        let animalsOption = '';
-
-        if (animals) {
-          if (animalSelect.disabled) {
-            animalSelect.disabled = false;
-          }
-          animals.forEach(animal => {
-            animalsOption += `<option value="${animal.id}">${animal.name} - ${animal.race}</option>`;
-          });
-
-          animalSelect.innerHTML = animalsOption;
-        } else {
-          animalSelect.disabled = true;
-          animalSelect.innerHTML = `<option>aucun animal</option>`;
-        }
-      })
-
-    }
-  </script>
+  
+  <script src="/public/assets/scripts/admin/getAnimalsByHabitat.js"></script>
 </body>
 
 </html>

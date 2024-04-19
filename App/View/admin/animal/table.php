@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - animaux</title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
@@ -24,7 +24,7 @@
         <h1 class="dashboard__title ">Animaux</h1>
         <a class=" max-width--mobile" href="animaux/add">
           <button class="button max-width--mobile">
-            <img height="32px" src="<?= ROOT ?>/assets/images/icons/plus.svg" alt="plus icon" srcset="">
+            <img height="32px" src="/public/assets/images/icons/plus.svg" alt="plus icon" srcset="">
             <span class="hidden--mobile">Ajouter</span>
           </button> </a>
       </div>
@@ -65,14 +65,14 @@
                   </td>
                   <td>
                     <a href=" animaux/<?= $animal->getId() ?>/edit">
-                      <img height="32px" src="<?= ROOT ?>/assets/images/icons/pencil.svg" alt="edit icon">
+                      <img height="32px" src="/public/assets/images/icons/pencil.svg" alt="edit icon">
                     </a>
                   </td>
                   <td>
                     <form id="deleteForm" method="POST" action="animaux/<?= $animal->getId() ?>/delete">
                       <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                       <button class="dashboard__params delete-js" type="submit">
-                        <img height=" 32px" src="<?= ROOT ?>/assets/images/icons/delete.svg" alt="delete icon">
+                        <img height=" 32px" src="/public/assets/images/icons/delete.svg" alt="delete icon">
                       </button>
                     </form>
                   </td>
@@ -95,7 +95,7 @@
   </main>
 
 
-  <script src="<?= ROOT ?>/assets/scripts/admin/main.js"></script>
+  <script src="/public/assets/scripts/admin/main.js"></script>
 </body>
 
 </html>

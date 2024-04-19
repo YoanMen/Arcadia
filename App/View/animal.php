@@ -11,15 +11,14 @@
     | <?= ucfirst($data['habitat'])  . ' - ' .  $data['animal']->getName()   ?>
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/carousel.css">
-
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/breadcrumbs.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/public/assets/styles/card/interactive-card.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/carousel.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/breadcrumbs.css">
 
 </head>
 
@@ -30,7 +29,7 @@
       <?php
       if (isset($data['animal']) && isset($data['habitat'])) {
         $elements = [
-          ['name' => "Habitats", 'path' =>  ROOT . '/habitats'],
+          ['name' => "Habitats", 'path' =>   '/public/habitats'],
           ['name' => ucfirst($data['habitat']), 'path' =>  ROOT . '/habitats/' . $data['habitat']],
           ['name' => $data['animal']->getName(), 'path' => '']
         ];
@@ -67,8 +66,8 @@
   </main>
   <?php require_once '../App/View/partials/_footer.php' ?>
 
-  <script src="<?= ROOT ?>/assets/scripts/carousel/carousel.js"></script>
-  <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
+  <script src="/public/assets/scripts/carousel/carousel.js"></script>
+  <script src="/public/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

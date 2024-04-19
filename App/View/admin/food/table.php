@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - alimentation des animaux</title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
@@ -26,10 +26,12 @@
       <?php include_once   '../App/View/partials/_error.php' ?>
       <div class="dashboard__container__top">
         <h1 class="dashboard__title ">Alimentation des animaux</h1>
-        <?php if (Security::isEmployee()) { ?>
+        <?php
+        // enable add button if user is a employee
+        if (Security::isEmployee()) { ?>
           <a class=" max-width--mobile" href="alimentation-animaux/add">
             <button class="button max-width--mobile">
-              <img height="32px" src="<?= ROOT ?>/assets/images/icons/plus.svg" alt="plus icon" srcset="">
+              <img height="32px" src="/public/assets/images/icons/plus.svg" alt="plus icon" srcset="">
               <span class="hidden--mobile">Ajouter</span>
             </button>
           </a>
@@ -92,7 +94,7 @@
                   </td>
                   <td>
                     <a href=" alimentation-animaux/<?= $foodAnimal['id'] ?>/detail">
-                      <img height="32px" src="<?= ROOT ?>/assets/images/icons/dots-horizontal.svg" alt="edit icon">
+                      <img height="32px" src="/public/assets/images/icons/dots-horizontal.svg" alt="edit icon">
                     </a>
                   </td>
                 </tr>
@@ -114,7 +116,7 @@
   </main>
 
 
-  <script src="<?= ROOT ?>/assets/scripts/admin/main.js"></script>
+  <script src="/public/assets/scripts/admin/main.js"></script>
 </body>
 
 </html>

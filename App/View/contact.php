@@ -11,15 +11,15 @@
   <meta name="description" content="<?= APP_DESC ?>">
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
-  <link rel="stylesheet" href="./assets/styles/global.css">
-  <link rel="stylesheet" href="./assets/styles/section/section.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
 
-  <link rel="stylesheet" href="./assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="./assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="./assets/styles/footer/footer.css">
-  <link rel="stylesheet" href="./assets/styles/div/contact.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/contact.css">
 
-  <link rel="stylesheet" href="./assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
 
 </head>
 
@@ -40,7 +40,7 @@
             <input class="max-width" type="email" id="email" name="email" required>
           </div>
           <div>
-            <label for="title">Titre</label>
+            <label for="title">Objet du message</label>
             <input class="max-width" minlength="2" maxlength="40" type="text" id="title" name="title" required>
           </div>
           <div>
@@ -56,7 +56,7 @@
   </main>
 
   <?php require_once '../App/View/partials/_footer.php' ?>
-  <script src="./assets/scripts/menu.js" type="module"></script>
+  <script src="/public/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

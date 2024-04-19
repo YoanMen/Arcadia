@@ -6,7 +6,5 @@
 ?>
 <div class="btn-card">
   <h3 class="btn-card__title"><?= $title; ?></h3>
-  <a class="btn-card__btn button" <?= isset($idName) ? 'id="'
-                                    . $idName . '"' : '' ?> <?= isset($path) ? 'href="' . $path .  '"'
-                                                              : '' ?>><?= $textBtn; ?></a>
+  <a class="btn-card__btn button" <?= isset($idName) ? 'id="' . $idName . '"' : '' ?> <?= isset($path) ? 'href="' . $path .  '"' : '' ?>><?= $textBtn; ?></a>
 </div>

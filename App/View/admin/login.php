@@ -9,13 +9,13 @@
     <?= APP_NAME ?>
     | Connexion
   </title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/login/login.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/login/login.css">
+  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
 
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 </head>
 
@@ -56,7 +56,7 @@
 
   <?php require_once '../App/View/partials/_footer.php' ?>
 
-  <script src="<?= ROOT ?>/assets/scripts/menu.js"></script>
+  <script src="/public/assets/scripts/menu.js"></script>
   <script>
     const formBtn = document.querySelector("#connect-button");
 

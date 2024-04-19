@@ -14,6 +14,8 @@
 }
 
 .interactive-card__item {
+  display: flex;
+  flex-direction: row;
   cursor: default;
   background-position: 50% 50%;
   height: 120px;
@@ -23,12 +25,13 @@
 }
 
 .interactive-card__content {
+  overflow: hidden;
   transition: background ease-in-out 0.3s;
   padding: var(--padding);
   background: rgba(0, 0, 0, 0.2);
-
   color: white;
   height: 100%;
+  width: 100%;
 }
 .interactive-card__title {
   text-transform: uppercase;
@@ -42,62 +45,43 @@
 }
 .interactive-card__container a {
   cursor: pointer;
+  min-width: 260px;
 }
 
 .interactive-card__text {
-  width: 70%;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* number of lines to show */
-  line-clamp: 5;
+  -webkit-line-clamp: 7;
+  line-clamp: 7;
   -webkit-box-orient: vertical;
 }
 
-@media screen and (min-width: 1180px) {
-  .interactive-card__item:hover {
-    height: 260px;
-    background-position: 50% 40%;
-  }
-
-  .interactive-card__item:hover .interactive-card__content {
-    background: rgba(0, 0, 0, 0.3);
-  }
-
-  .interactive-card__item:hover .interactive-card__container {
-    display: flex;
-    flex-direction: row;
-    animation: showContent ease-in-out 0.5s;
-  }
+.interactive-card__item:hover {
+  height: 300px;
+  background-position: 50% 40%;
 }
 
-@media screen and (max-width: 1180px) {
-  .interactive-card__item {
-    height: 320px;
-  }
+.interactive-card__item:hover .interactive-card__content {
+  background: rgba(0, 0, 0, 0.3);
+}
 
-  .interactive-card__item:first-child,
-  .interactive-card__item:last-child,
-  .interactive-card__content:first-child,
-  .interactive-card__content:last-child {
-    border-radius: 0;
-  }
-
-  .interactive-card__text {
-    width: 100%;
-  }
-
-  .interactive-card__container {
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .interactive-card__content {
-    background: rgba(0, 0, 0, 0.3);
-  }
+.interactive-card__item:hover .interactive-card__container {
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+  animation: showContent ease-in-out 0.5s;
 }
 
 @media screen and (max-width: 762px) {
+  .interactive-card__item:hover .interactive-card__container {
+    flex-direction: column;
+  }
+
+  .interactive-card__text {
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
+
   .interactive-card__container a {
     width: 100%;
   }

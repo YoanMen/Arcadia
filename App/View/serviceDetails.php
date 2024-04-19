@@ -11,14 +11,14 @@
   <meta name="description" content="<?= APP_DESC ?>">
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/section/section.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/card/interactive-card.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/public/assets/styles/card/interactive-card.css">
 
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/footer/footer.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/breadcrumbs.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/breadcrumbs.css">
 
 </head>
 
@@ -29,7 +29,7 @@
       <?php
       if (isset($data['service'])) {
         $elements = [
-          ['name' => "Services", 'path' =>  ROOT . '/services'],
+          ['name' => "Services", 'path' =>   '/public/services'],
           ['name' => $data['service']->getName(), 'path' => '']
         ];
         require_once '../App/View/partials/_breadcrumbs.php' ?>
@@ -44,7 +44,7 @@
   </main>
   <?php require '../App/View/partials/_footer.php' ?>
 
-  <script src="<?= ROOT ?>/assets/scripts/menu.js" type="module"></script>
+  <script src="/public/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

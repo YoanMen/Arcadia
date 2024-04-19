@@ -147,7 +147,7 @@ button span {
 
 .dashboard__container__top {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
 }
 
@@ -257,6 +257,8 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* media query */
 @media screen and (max-width: 762px) {
   .dashboard-panel__list__item span {
     display: none;

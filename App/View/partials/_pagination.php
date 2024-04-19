@@ -19,19 +19,17 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
     <ul class="pagination__container">
       <li class="pagination__btn--navigation  <?= $data['currentPage'] > 1 ? '' : 'pagination__btn--disabled' ?> ">
         <a aria-label="btn go to previous page" class=" button button--cube" href="<?= $baseUrl ?><?= $data['currentPage'] - 1 ?>">
-          <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
+          <img src="/public/assets/images/icons/chevron-left.svg" alt="">
         </a>
       </li>
       <?php
-
       // if totalPages is < 5 create button for pages
       if ($data['totalPages'] <= 5) {
         for ($i = 1; $i <= $data['totalPages']; $i++) { ?>
           <li class="pagination__btn <?= $data['currentPage'] == $i ? 'pagination__btn--current' : '' ?>  ">
             <a aria-label="btn go to page <?= $i ?> " href="<?= $baseUrl ?><?= $i ?>" class="button button--cube"><?= $i ?></a>
           </li>
-        <?php }
-        ?>
+        <?php }  ?>
         <?php
         // if totalPages is > 5 add '...' and lastPage button
       } else {
@@ -74,7 +72,7 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
       <li class="pagination__btn--navigation   <?= $data['currentPage'] >= $data['totalPages'] ?
                                                   'pagination__btn--disabled' : '' ?> ">
         <a aria-label="go to next page" class="button button--cube" href="<?= $baseUrl ?><?= $data['currentPage'] + 1 ?>">
-          <img src="<?= ROOT ?>/assets/images/icons/chevron-left.svg" alt="">
+          <img src="/public/assets/images/icons/chevron-left.svg" alt="">
         </a>
       </li>
 

@@ -67,6 +67,7 @@ dialog {
   gap: 4px;
 }
 
+/* media query  */
 @media screen and (max-width: 762px) {
   dialog {
     width: 100%;

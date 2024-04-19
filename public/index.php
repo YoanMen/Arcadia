@@ -1,9 +1,6 @@
 <?php
 
-use App\Controller\ContactController;
-use App\Core\CouchDB;
 use App\Core\Router as Router;
-use App\Model\Admin;
 
 require_once "../App/Core/Autoloader.php";
 

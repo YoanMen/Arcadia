@@ -20,9 +20,9 @@ function setSwitch(Schedule $schedule): bool
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - horaire</title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
@@ -78,8 +78,8 @@ function setSwitch(Schedule $schedule): bool
     </div>
   </main>
 
-  <script src="<?= ROOT ?>/assets/scripts/admin/schedules.js"></script>
-  <script src="<?= ROOT ?>/assets/scripts/admin/main.js"></script>
+  <script src="/public/assets/scripts/admin/schedules.js"></script>
+  <script src="/public/assets/scripts/admin/main.js"></script>
 </body>
 
 </html>

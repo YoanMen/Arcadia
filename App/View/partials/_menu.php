@@ -7,32 +7,32 @@ use App\Core\Security;
 <header class="menus">
   <!-- MOBILE MENU -->
   <div class="mobile-menu">
-    <a href="<?= ROOT ?>/">
-      <img class='mobile-menu__logo' src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt="">
+    <a href="/public/">
+      <img class='mobile-menu__logo' src="/public/assets/images/icons/arcadia-logo.svg" alt="zoo icon">
     </a>
     <div class='mobile-menu__btn'>
-      <img src="<?= ROOT ?>/assets/images/icons/menu.svg" alt="">
+      <img src="/public/assets/images/icons/menu.svg" alt="">
     </div>
     <aside class="mobile-menu__tab">
       <div class='mobile-menu__btn-close'>
-        <img src="<?= ROOT ?>/assets/images/icons/close.svg" alt="">
+        <img src="/public/assets/images/icons/close.svg" alt="">
       </div>
       <nav class="mobile-menu__nav" aria-label="mobile menu">
         <ul class="mobile-menu__list">
           <li class="mobile-menu__item">
-            <a href="<?= ROOT ?>/">
+            <a href="/public/">
               Accueil
             </a>
           </li>
           <li class="mobile-menu__item">
-            <a href="<?= ROOT ?>/services">
+            <a href="/public/services">
               Nos Service
             </a>
             <ul class="mobile-menu__submenu" name='menu-services'>
             </ul>
           </li>
           <li class="mobile-menu__item">
-            <a href="<?= ROOT ?>/habitats">
+            <a href="/public/habitats">
               Nos habitats
             </a>
             <ul class="mobile-menu__submenu" name='menu-habitats'>
@@ -40,17 +40,17 @@ use App\Core\Security;
             </ul>
           </li>
           <li class="mobile-menu__item">
-            <a href="<?= ROOT ?>/contact">
+            <a href="/public/contact">
               Contact
             </a>
           </li>
           <li>
             <?php if (Security::isLogged()) { ?>
-              <a href="<?= ROOT ?>/dashboard">
+              <a href="/public/dashboard">
                 Dashboard
               </a>
             <?php } else { ?>
-              <a href="<?= ROOT ?>/login">
+              <a href="/public/login">
                 Connexion
               </a>
             <?php  } ?>
@@ -66,36 +66,36 @@ use App\Core\Security;
     <nav class="desktop-menu__nav" aria-label="desktop menu">
       <ul class="desktop-menu__list">
         <li>
-          <a href="<?= ROOT ?>">
+          <a href="/public/">
             <img class="desktop-menu__logo" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt="arcadia logo">
           </a>
         </li>
         <li>
-          <a href="<?= ROOT ?>/services">
+          <a href="/public/services">
             Nos services
           </a>
           <ul class="desktop-menu__submenu" name='menu-services'>
           </ul>
         </li>
         <li>
-          <a href="<?= ROOT ?>/habitats">
+          <a href="/public/habitats">
             Nos habitats
           </a>
           <ul class="desktop-menu__submenu" name='menu-habitats'>
           </ul>
         </li>
         <li>
-          <a href="<?= ROOT ?>/contact">
+          <a href="/public/contact">
             Contact
           </a>
         </li>
         <li>
           <?php if (Security::isLogged()) { ?>
-            <a href="<?= ROOT ?>/dashboard">
+            <a href="/public/dashboard">
               Dashboard
             </a>
           <?php } else { ?>
-            <a href="<?= ROOT ?>/login">
+            <a href="/public/login">
               Connexion
             </a>
           <?php  } ?>

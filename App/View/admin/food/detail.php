@@ -7,12 +7,12 @@
 
   <title><?= APP_NAME ?>
     | Dashboard - nourriture</title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dialog.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/alert.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/div/details.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/public/assets/styles/global.css">
+  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/public/assets/styles/dialog.css">
+  <link rel="stylesheet" href="/public/assets/styles/alert.css">
+  <link rel="stylesheet" href="/public/assets/styles/div/details.css">
+  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
