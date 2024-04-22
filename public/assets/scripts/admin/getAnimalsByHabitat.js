@@ -11,7 +11,7 @@ habitatSelect.addEventListener("change", () => {
 async function fetchAnimals() {
   const id = habitatSelect.value;
 
-  const r = await fetch(`/public/api/habitats/${id}/animals`, {
+  await fetch(`/api/habitats/${id}/animals`, {
     method: "GET",
     headers: {
       Accept: "application/json",

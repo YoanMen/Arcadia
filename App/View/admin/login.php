@@ -9,12 +9,12 @@
     <?= APP_NAME ?>
     | Connexion
   </title>
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/login/login.css">
-  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/login/login.css">
+  <link rel="stylesheet" href="/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/assets/styles/footer/footer.css">
 
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 </head>
@@ -56,7 +56,7 @@
 
   <?php require_once '../App/View/partials/_footer.php' ?>
 
-  <script src="/public/assets/scripts/menu.js"></script>
+  <script src="/assets/scripts/menu.js"></script>
   <script>
     const formBtn = document.querySelector("#connect-button");
 

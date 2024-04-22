@@ -9,7 +9,6 @@ use App\Model\Animal;
 use App\Model\HabitatComment;
 use App\Model\ReportAnimal;
 use App\Model\User;
-use Exception;
 
 class AuthController extends Controller
 {

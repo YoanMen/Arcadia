@@ -13,6 +13,7 @@ class Router
 
   public static function redirect($path = '')
   {
+
     header("Location: " . ROOT . "/" . $path);
     die;
   }
@@ -20,7 +21,7 @@ class Router
   {
     // Get the HTTP method and URI
     $method = $_SERVER['REQUEST_METHOD'];
-    $uri = BASE_URL . $_SERVER['REQUEST_URI'];
+    $uri = ROOT . $_SERVER['REQUEST_URI'];
 
     // Find the appropriate route for the given HTTP method and URI
     $getRoute = $router->getRoute($method, $uri);

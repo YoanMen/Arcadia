@@ -117,9 +117,9 @@ class Habitat extends Model
       $stm = $pdo->prepare($query);
       $stm = $this->bindParams($stm, [':habitatID' => $this->getId()]);
       if ($stm->execute()) {
-        while ($result = $stm->fetchObject(Image::class)) {
+        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
 
-          $this->setImage($result);
+          $this->setImage(new Image($result['id'], $result['path']));
           $results[] = $result;
         }
       }

@@ -7,11 +7,11 @@
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
   <title><?= APP_NAME ?>
     | Dashboard</title>
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="/public/assets/styles/dialog.css">
-  <link rel="stylesheet" href="/public/assets/styles/div/details.css">
-  <link rel="stylesheet" href="/public/assets/styles/div/chart.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/assets/styles/dialog.css">
+  <link rel="stylesheet" href="/assets/styles/div/details.css">
+  <link rel="stylesheet" href="/assets/styles/div/chart.css">
 </head>
 
 <body>
@@ -78,8 +78,8 @@
                         <?= $habitatComment['comment'] ?>
                       </td>
                       <td>
-                        <a href="/public/dashboard/commentaire-habitats/<?= $habitatComment['id'] ?>/detail">
-                          <img height="32px" src="/public/assets/images/icons/dots-horizontal.svg" alt="edit icon">
+                        <a href="/dashboard/commentaire-habitats/<?= $habitatComment['id'] ?>/detail">
+                          <img height="32px" src="/assets/images/icons/dots-horizontal.svg" alt="edit icon">
                         </a>
                       </td>
                     </tr>
@@ -148,8 +148,8 @@
                       <?= $reportAnimal['date'] ?>
                     </td>
                     <td>
-                      <a href="/public/dashboard/rapport-animaux/<?= $reportAnimal['id'] ?>/detail">
-                        <img height="32px" src="/public/assets/images/icons/dots-horizontal.svg" alt="edit icon">
+                      <a href="/dashboard/rapport-animaux/<?= $reportAnimal['id'] ?>/detail">
+                        <img height="32px" src="/assets/images/icons/dots-horizontal.svg" alt="edit icon">
                       </a>
                     </td>
                   </tr>

@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - services</title>
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
@@ -85,7 +85,7 @@
     </div>
   </main>
 
-  <script src="/public/assets/scripts/admin/main.js"></script>
+  <script src="/assets/scripts/admin/main.js"></script>
 </body>
 
 </html>

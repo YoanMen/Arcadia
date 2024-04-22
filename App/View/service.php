@@ -12,13 +12,13 @@
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
 
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
-  <link rel="stylesheet" href="/public/assets/styles/div/breadcrumbs.css">
-  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/assets/styles/div/breadcrumbs.css">
+  <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
 
 </head>
 
@@ -30,7 +30,7 @@
     <section class="section" name="services">
       <?php
       $elements = [
-        ['name' => "Services", 'path' =>  '/public/services'],
+        ['name' => "Services", 'path' =>  '/services'],
       ];
       require_once '../App/View/partials/_breadcrumbs.php' ?>
 
@@ -43,7 +43,7 @@
           <?php
           if ($data["services"]) {
             foreach ($data["services"] as $service) { ?>
-              <li><a href="./services/<?= setURLWithName($service->getName()); ?>">
+              <li><a href="/services/<?= setURLWithName($service->getName()); ?>">
                   <?= $service->getName() ?>
                 </a></li>
           <?php }
@@ -60,7 +60,7 @@
   </main>
 
   <?php require_once '../App/View/partials/_footer.php' ?>
-  <script src="/public/assets/scripts/menu.js" type="module"></script>
+  <script src="/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

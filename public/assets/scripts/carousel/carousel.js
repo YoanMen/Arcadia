@@ -3,6 +3,7 @@ const button = `<button id="" type="button" class="carousel__element"></button>`
 const offset = 150;
 const delay = 6;
 
+// get all carousels
 carousels.forEach((carousel) => {
   const select = carousel.getElementsByClassName("carousel__select");
   const container = carousel.getElementsByClassName("carousel__container");
@@ -11,6 +12,7 @@ carousels.forEach((carousel) => {
   let autoplay = carousel.hasAttribute("autoplay");
   let animationAutoplay;
   let currentImage;
+
   if (autoplay) {
     startAutoplay();
     carousel.addEventListener("touchstart", () => {
@@ -21,6 +23,9 @@ carousels.forEach((carousel) => {
     });
   }
 
+  createSelectButton();
+
+  // autoplay carousel
   function startAutoplay() {
     animationAutoplay = setTimeout(() => {
       currentImage++;
@@ -33,12 +38,12 @@ carousels.forEach((carousel) => {
     }, delay * 1000);
   }
 
+  // stop autoplay
   function stopAutoplay() {
     clearTimeout(animationAutoplay);
   }
 
-  createSelectButton();
-
+  // create button to select image
   function createSelectButton() {
     if (img.length > 1) {
       for (let i = 0; i < img.length; i++) {
@@ -76,6 +81,7 @@ carousels.forEach((carousel) => {
     }
   }
 
+  // show current active button
   function setActiveButton(buttons, id) {
     buttons.forEach((button) => {
       button.classList.remove("carousel__element--active");
@@ -83,6 +89,7 @@ carousels.forEach((carousel) => {
     });
   }
 
+  // detect scroll position to active correct button
   function detectScrollPosition(button, buttons) {
     if (
       container[0].scrollLeft >= img[button.id].offsetLeft - offset &&

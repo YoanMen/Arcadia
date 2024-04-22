@@ -12,17 +12,17 @@
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
 
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
-  <link rel="stylesheet" href="/public/assets/styles/card/interactive-card.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/assets/styles/card/interactive-card.css">
 
-  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
-  <link rel="stylesheet" href="/public/assets/styles/div/carousel.css">
-  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/assets/styles/div/carousel.css">
+  <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
 
-  <link rel="stylesheet" href="/public/assets/styles/div/breadcrumbs.css">
+  <link rel="stylesheet" href="/assets/styles/div/breadcrumbs.css">
 
 </head>
 
@@ -79,8 +79,8 @@
   </main>
   <?php require_once '../App/View/partials/_footer.php' ?>
 
-  <script src="/public/assets/scripts/carousel/carousel.js"></script>
-  <script src="/public/assets/scripts/menu.js" type="module"></script>
+  <script src="/assets/scripts/carousel/carousel.js"></script>
+  <script src="/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

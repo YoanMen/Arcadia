@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
-use App\Core\Exception\ValidatorException;
 use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;
@@ -19,6 +18,8 @@ class AdviceController extends Controller
   {
     $this->advice = new Advice();
   }
+
+  // adivice send by visitor
   public function sendAdvice()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';

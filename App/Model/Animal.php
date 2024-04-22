@@ -134,8 +134,9 @@ class Animal extends Model
       $stm = $pdo->prepare($query);
       $stm = $this->bindParams($stm, [':animalID' => $this->getId()]);
       if ($stm->execute()) {
-        while ($result = $stm->fetchObject(Image::class)) {
-          $this->setImage($result);
+        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
+
+          $this->setImage(new Image($result['id'], $result['path']));
           $results[] = $result;
         }
       }

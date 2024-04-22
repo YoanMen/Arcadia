@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - rapport sur les animaux</title>
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
@@ -92,7 +92,7 @@
                   </td>
                   <td>
                     <a href="rapport-animaux/<?= $reportAnimal['id'] ?>/detail">
-                      <img height="32px" src="/public/assets/images/icons/dots-horizontal.svg" alt="edit icon">
+                      <img height="32px" src="/assets/images/icons/dots-horizontal.svg" alt="edit icon">
                     </a>
                   </td>
                 </tr>
@@ -111,7 +111,7 @@
       require_once '../App/View/partials/_pagination.php' ?>
     </div>
   </main>
-  <script src="/public/assets/scripts/admin/main.js"></script>
+  <script src="/assets/scripts/admin/main.js"></script>
 </body>
 
 </html>

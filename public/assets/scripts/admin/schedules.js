@@ -42,7 +42,7 @@ schedules.forEach((schedule) => {
     const id = slider.dataset.scheduleId;
 
     // send to backend for update
-    const r = await fetch("/public/api/schedules", {
+    const r = await fetch("/api/schedules", {
       method: "PUT",
       headers: {
         Accept: "application/json",

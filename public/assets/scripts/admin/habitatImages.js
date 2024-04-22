@@ -17,7 +17,7 @@ addImageBtn.addEventListener("click", async (event) => {
   formData.append("csrf", csrf_token);
   formData.append("file", ImageInput.files[0]);
 
-  await fetch("/public/api/habitats/images", {
+  await fetch("/api/habitats/images", {
     headers: {
       Accept: "application/json",
     },
@@ -34,7 +34,7 @@ deleteBtn.forEach((button) => {
     const id = button.dataset.imageId;
 
     if (window.confirm("Voulez vous vraiment supprimer l'image ?")) {
-      await fetch("/public/api/habitats/images", {
+      await fetch("/api/habitats/images", {
         headers: {
           Accept: "application/json",
         },

@@ -12,18 +12,18 @@
   <meta name="description" content="<?= APP_DESC ?>">
 
 
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/hero/hero.css">
-  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
-  <link rel="stylesheet" href="/public/assets/styles/section/schedule.css">
-  <link rel="stylesheet" href="/public/assets/styles/card/btn-card.css">
-  <link rel="stylesheet" href="/public/assets/styles/card/interactive-card.css">
-  <link rel="stylesheet" href="/public/assets/styles/div/testimonial.css">
-  <link rel="stylesheet" href="/public/assets/styles/div/carousel.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/dialog.css">
-  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/hero/hero.css">
+  <link rel="stylesheet" href="/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/assets/styles/section/schedule.css">
+  <link rel="stylesheet" href="/assets/styles/card/btn-card.css">
+  <link rel="stylesheet" href="/assets/styles/card/interactive-card.css">
+  <link rel="stylesheet" href="/assets/styles/div/testimonial.css">
+  <link rel="stylesheet" href="/assets/styles/div/carousel.css">
+  <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/assets/styles/dialog.css">
+  <link rel="stylesheet" href="/assets/styles/footer/footer.css">
 </head>
 
 <body>
@@ -57,10 +57,10 @@
         Arcadia est bien plus qu'un zoo ; c'est un refuge écologique. Nous sommes fiers de notre indépendance
         énergétique, témoignant de notre engagement envers l'écologie.
       </p>
-      <img class="image" src="./assets/images/1548643.webp" alt="">
+      <img class="image" src="/assets/images/1548643.webp" alt="">
       <?php
       $title = 'Découvrez nos Services';
-      $path = '/public/services';
+      $path = '/services';
       $textBtn = 'Voir les services';
       require '../App/View/partials/_buttonCard.php' ?>
     </section>
@@ -96,11 +96,11 @@
 
       <?php
       $title = "D'autres habitats à découvrir";
-      $path =  '/public/habitats';
+      $path =  '/habitats';
       $textBtn = 'Voir les habitats';
       require '../App/View/partials/_buttonCard.php' ?>
 
-      <img class="image image--bottom" src="/public/assets/images/88484611.webp" alt="">
+      <img class="image image--bottom" src="/assets/images/88484611.webp" alt="">
     </section>
 
     <section class="section" id="testimonial">
@@ -110,7 +110,7 @@
       <div class="testimonial__container">
         <div class="testimonial__hidden">
           <button id="left-btn" disabled class="button button--cube" type="button">
-            <img src="./assets/images/icons/chevron-left.svg" alt="">
+            <img src="/assets/images/icons/chevron-left.svg" alt="">
           </button>
         </div>
         <div id="testimonial-card" class="testimonial__card">
@@ -120,7 +120,7 @@
         </div>
         <div class="testimonial__hidden ">
           <button disabled id="right-btn" class="button  button--cube" type="button">
-            <img src="./assets/images/icons/chevron-left.svg" alt="">
+            <img src="/assets/images/icons/chevron-left.svg" alt="">
           </button>
         </div>
       </div>
@@ -164,10 +164,10 @@
   </dialog>
 
   <?php require_once '../App/View/partials/_footer.php' ?>
-  <script src="/public/assets/scripts/menu.js" type="module"></script>
-  <script src="/public/assets/scripts/carousel/carousel.js"></script>
-  <script src="/public/assets/scripts/testimonial/testimonial-slider.js"> </script>
-  <script src="/public/assets/scripts/testimonial/dialogTestimonial.js"></script>
+  <script src="/assets/scripts/menu.js" type="module"></script>
+  <script src="/assets/scripts/carousel/carousel.js"></script>
+  <script src="/assets/scripts/testimonial/testimonial-slider.js"> </script>
+  <script src="/assets/scripts/testimonial/dialogTestimonial.js"></script>
 
 </body>
 

@@ -23,6 +23,8 @@ class AnimalController extends Controller
     $this->animal = new Animal();
     $this->habitat = new Habitat();
   }
+
+  // animal detail page
   public function showAnimal($request)
   {
     try {
@@ -39,10 +41,14 @@ class AnimalController extends Controller
         $animal = $this->animal->findOneBy(['name' => $name, 'habitatId' => $habitat->getId()]);
 
         if ($animal) {
+          // get images of this animal
           $animal->findImages();
+
+          // get report detail by veterinary
           $reportRepository = new ReportAnimal();
           $report =  $reportRepository->findOneBy(['animalId' => $animal->getId()]);
 
+          // add click for animal
           $couchDb  = new CouchDB();
 
           $couchDb->addClick($animal->getId());

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Core\Exception\DatabaseException;
-use App\Core\Exception\ValidatorException;
 use App\Core\Router;
 use App\Core\Security;
 use App\Core\Validator;

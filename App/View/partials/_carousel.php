@@ -13,7 +13,7 @@
     <?php
     foreach ($images as $image) { ?>
       <div class="carousel__item">
-        <img src="/public/uploads/<?= $image ?>" alt="carousel" loading="eager">
+        <img src="/uploads/<?= $image ?>" alt="carousel" loading="eager">
       </div>
     <?php } ?>
   </div>

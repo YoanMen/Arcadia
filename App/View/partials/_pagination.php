@@ -19,7 +19,7 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
     <ul class="pagination__container">
       <li class="pagination__btn--navigation  <?= $data['currentPage'] > 1 ? '' : 'pagination__btn--disabled' ?> ">
         <a aria-label="btn go to previous page" class=" button button--cube" href="<?= $baseUrl ?><?= $data['currentPage'] - 1 ?>">
-          <img src="/public/assets/images/icons/chevron-left.svg" alt="">
+          <img src="/assets/images/icons/chevron-left.svg" alt="">
         </a>
       </li>
       <?php
@@ -72,11 +72,9 @@ if (isset($data['currentPage']) && $data['totalPages']) { ?>
       <li class="pagination__btn--navigation   <?= $data['currentPage'] >= $data['totalPages'] ?
                                                   'pagination__btn--disabled' : '' ?> ">
         <a aria-label="go to next page" class="button button--cube" href="<?= $baseUrl ?><?= $data['currentPage'] + 1 ?>">
-          <img src="/public/assets/images/icons/chevron-left.svg" alt="">
+          <img src="/assets/images/icons/chevron-left.svg" alt="">
         </a>
       </li>
-
-
     </ul>
   </nav>
 

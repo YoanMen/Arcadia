@@ -1,3 +1,5 @@
+initializeTestimonialSlider();
+
 function initializeTestimonialSlider() {
   const leftButton = document.getElementById("left-btn");
   const rightButton = document.getElementById("right-btn");
@@ -56,19 +58,14 @@ function initializeTestimonialSlider() {
   }
 
   // set disabled for buttons
-  function setButtonStatut() {
-    currentAdvice >= totalAdvices
-      ? (rightButton.disabled = true)
-      : (rightButton.disabled = false);
-
-    currentAdvice <= 1
-      ? (leftButton.disabled = true)
-      : (leftButton.disabled = false);
+  function setButtonStatus() {
+    rightButton.disabled = currentAdvice >= totalAdvices;
+    leftButton.disabled = currentAdvice <= 1;
   }
 
   // show advice with animation and replace text
   async function showAdvice(reverse = false) {
-    setButtonStatut();
+    setButtonStatus();
     await new Promise((resolve, reject) => {
       setTimeout(() => {
         adviceCard.style.visibility = "hidden";
@@ -98,7 +95,7 @@ function initializeTestimonialSlider() {
 
   // call back-end to get advice
   async function getAdvice(currentAdvice) {
-    const r = await fetch(`/public/api/advices/approved/${currentAdvice}`, {
+    const r = await fetch(`/api/advices/approved/${currentAdvice}`, {
       method: "GET",
       headers: {
         "X-CSRF-TOKEN": csrf_token,
@@ -110,5 +107,3 @@ function initializeTestimonialSlider() {
     }
   }
 }
-
-initializeTestimonialSlider();

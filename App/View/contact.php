@@ -11,22 +11,20 @@
   <meta name="description" content="<?= APP_DESC ?>">
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
-  <link rel="stylesheet" href="/public/assets/styles/global.css">
-  <link rel="stylesheet" href="/public/assets/styles/section/section.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/section/section.css">
 
-  <link rel="stylesheet" href="/public/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="/public/assets/styles/footer/footer.css">
-  <link rel="stylesheet" href="/public/assets/styles/div/contact.css">
+  <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/assets/styles/footer/footer.css">
+  <link rel="stylesheet" href="/assets/styles/div/contact.css">
 
-  <link rel="stylesheet" href="/public/assets/styles/pagination/pagination.css">
+  <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
 
 </head>
 
 <body>
-
   <?php require_once '../App/View/partials/_menu.php' ?>
-
   <main>
     <section class="section contact">
       <div class="section__background contact__container">
@@ -54,9 +52,8 @@
       </div>
     </section>
   </main>
-
   <?php require_once '../App/View/partials/_footer.php' ?>
-  <script src="/public/assets/scripts/menu.js" type="module"></script>
+  <script src="/assets/scripts/menu.js" type="module"></script>
 </body>
 
 </html>

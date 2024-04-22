@@ -368,6 +368,10 @@ class Model extends Database
     return $keysValue;
   }
 
+  /**
+   * @param  $date string date
+   * @return string date format 'd/m/Y'
+   */
   public function formatDate(string $date): string
   {
     $date = new DateTimeImmutable($date);

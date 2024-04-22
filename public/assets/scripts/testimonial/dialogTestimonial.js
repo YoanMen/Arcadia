@@ -41,7 +41,7 @@ function CanSend() {
 }
 
 async function sendAdvice() {
-  const r = await fetch("/public/api/advices/send", {
+  const r = await fetch("/api/advices/send", {
     method: "POST",
     headers: {
       "X-CSRF-TOKEN": csrf_token,

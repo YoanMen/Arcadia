@@ -6,10 +6,9 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('DB_HOST', 'localhost');
 	define('DB_USER', 'root');
 	define('DB_PASSWORD', '');
-	define('DB_DRIVER', '');
 
-	define('BASE_URL', 'http://localhost');
-	define('ROOT', 'http://localhost/public');
+	define('ROOT', 'http://localhost');
+
 	define('COUCHDB_URL', "http://admin:115225335@localhost:5984/arcadia");
 } else {
 	/** database config**/
@@ -19,8 +18,8 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('DB_PASSWORD', '');
 	define('DB_DRIVER', '');
 
-	define('BASE_URL', 'https://yoanmen.alwaysdata.net');
-	define('ROOT', 'https://yoanmen.alwaysdata.net/public');
+	define('ROOT', 'https://yoanmen.alwaysdata.net');
+
 	define('COUCHDB_URL', "http://admin:115225335@couchdb-yoanmen.alwaysdata.net:5984/yoanmen_arcadia");
 }
 

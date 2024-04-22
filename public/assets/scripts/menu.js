@@ -12,7 +12,7 @@ const servicesMenu = document.getElementsByName("menu-services");
 setMenuType();
 
 async function getDataMenu() {
-  const r = await fetch("/public/api/initmenu", {
+  const r = await fetch("/api/initmenu", {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -33,7 +33,7 @@ getDataMenu().then(async (data) => {
   data.services.forEach((service) => {
     const urlName = service.name.replaceAll(" ", "-").toLowerCase();
     serviceList += `  <li>
-    <a href="/public/services/${urlName} ">
+    <a href="/services/${urlName} ">
       ${service.name} 
     </a>
   </li>`;
@@ -42,7 +42,7 @@ getDataMenu().then(async (data) => {
   data.habitats.forEach((habitat) => {
     const urlName = habitat.name.replaceAll(" ", "-").toLowerCase();
     habitatList += `  <li>
-    <a href="/public/habitats/${urlName} ">
+    <a href="/habitats/${urlName} ">
       ${habitat.name} 
     </a>
   </li>`;
@@ -76,7 +76,7 @@ function setMenuType() {
   const scrollPosition = window.scrollY;
   if (
     (scrollPosition >= 0 && scrollPosition != 0) ||
-    window.location.pathname != "/public/"
+    window.location.pathname != "/"
   ) {
     desktopMenu.classList.remove("desktop-menu");
     desktopMenu.classList.add("desktop-menu--fixed");

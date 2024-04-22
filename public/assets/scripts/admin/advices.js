@@ -12,7 +12,7 @@ advices.forEach((advice) => {
     const id = slider.dataset.adviceId;
 
     // send to backend for update
-    const r = await fetch("/public/api/advices", {
+    const r = await fetch("/api/advices", {
       method: "PUT",
       headers: {
         Accept: "application/json",

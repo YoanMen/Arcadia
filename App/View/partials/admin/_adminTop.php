@@ -8,8 +8,8 @@ use App\Core\Security;
       <p> <?= Security::getUsername() ?></p>
     </li>
     <li>
-      <a href="/public/logout">
-        <img height="32px" src="/public/assets/images/icons/logout.svg" alt="" srcset="">
+      <a href="/logout">
+        <img height="32px" src="/assets/images/icons/logout.svg" alt="logout icon">
       </a>
     </li>
   </ul>

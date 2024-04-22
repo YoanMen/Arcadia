@@ -12,18 +12,22 @@ class HomeController extends Controller
 	public function index()
 	{
 
+		// fetch habitat to display on home page
+		// limit to 5 habitats
 		$habitatRepository = new Habitat;
 		$habitatRepository->setLimit(5);
 
 		$habitats = $habitatRepository->fetchAll();
 
 		if ($habitats) {
-			// add image to habitats
+			// add image to habitats to display on cards
 			for ($i = 0; $i < count($habitats); $i++) {
 				$habitats[$i]->findImages();
 			}
 		}
 
+
+		// get schedules for home page
 		$schedulesRepository = new Schedule();
 		$schedules = $schedulesRepository->fetchAll();
 
@@ -33,6 +37,8 @@ class HomeController extends Controller
 		]);
 	}
 
+
+	// call to get services/habitats for menu
 	public function initMenu()
 	{
 
