@@ -12,12 +12,6 @@ class Image extends Model
   private int $id;
   private string $path;
 
-  public function __construct(?int $id = null, ?string $path = null)
-  {
-    $this->id = $id;
-    $this->path = $path;
-  }
-
   /**
    * Get the value of id
    */

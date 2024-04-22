@@ -31,7 +31,7 @@ define('DEBUG', true);
 
 /** Upload files config**/
 define('DESTINATION_IMAGE_FOLDER', 'uploads/');
-define('MAX_FILE_SIZE', 8388608);
+define('MAX_FILE_SIZE', 3048576);
 define('ALLOWED_EXTENSIONS_FILE', ['png', 'jpeg', 'jpg', 'webp']);
 define('ALLOWED_MIME_TYPES', [
 	'image/jpeg',

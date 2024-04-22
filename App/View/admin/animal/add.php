@@ -24,7 +24,7 @@
 
       <div class="dashboard__container__top">
         <h1 class="dashboard__title ">Ajouter un animal</h1>
-        <button form="add" class="button max-width--mobile">
+        <button id="add-button" form="add" class="button max-width--mobile">
           <span>Ajouter</span>
         </button>
       </div>
@@ -59,6 +59,8 @@
       </div>
     </div>
   </main>
+
+  <script src="/assets/scripts/admin/add-element.js"></script>
 </body>
 
 </html>

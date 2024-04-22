@@ -10,7 +10,6 @@ ImageInput.addEventListener("change", () => {
 addImageBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   const id = addImageBtn.dataset.animalId;
-  console.log(ImageInput.files[0]);
 
   const formData = new FormData();
   formData.append("id", id);

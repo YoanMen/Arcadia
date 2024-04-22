@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/assets/styles/div/details.css">
   <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
 </head>
+
 <body>
 
   <?php require_once '../App/View/partials/admin/_adminPanel.php' ?>
@@ -26,7 +27,7 @@
 
       <div class="dashboard__container__top">
         <h1 class="dashboard__title ">Ajouter un rapport sur un animal</h1>
-        <button form="add" class="button max-width--mobile">
+        <button id="add-button" form="add" class="button max-width--mobile">
           <span>Ajouter</span>
         </button>
       </div>
@@ -77,6 +78,7 @@
   </main>
 
   <script src="/assets/scripts/admin/getAnimalsByHabitat.js"></script>
+  <script src="/assets/scripts/admin/add-element.js"></script>
 </body>
 
 </html>

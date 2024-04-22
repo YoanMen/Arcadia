@@ -32,7 +32,7 @@ class UploadFile
 
       // save image
       if ($fileSize > MAX_FILE_SIZE) {
-        throw new FileException("Le fichier dois faire moins de " . (MAX_FILE_SIZE / (1024 * 1024)) . "MB");
+        throw new FileException("Le fichier doit faire moins de " . (round(MAX_FILE_SIZE / (1024 * 1024))) . " mb");
       } elseif (
         !in_array($extension, ALLOWED_EXTENSIONS_FILE)
         && !in_array($fileMimeType, ALLOWED_EXTENSIONS_FILE)
