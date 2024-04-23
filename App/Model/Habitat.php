@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\Core\Database;
 use PDO, PDOException;
 use App\Core\Exception\DatabaseException;
 use App\Core\UploadFile;

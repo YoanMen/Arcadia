@@ -35,7 +35,7 @@
         ];
         require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-        <h1 class="section__title--secondary"><?= $data['animal']->getName() ?>
+        <h1 class="section__title"><?= strtoupper($data['animal']->getName())  ?>
           (<?= $data['animal']->getRace() ?>) </h1>
         <div class='image'>
           <?php
@@ -50,12 +50,12 @@
         <?php if (isset($data['report'])) { ?>
 
           <div class="section__background">
-            <h3>Rapport du vétérinaire : </h3>
-
             <p>État : <?= strtoupper($data['report']->getStatut()) ?> </p>
+
             <?php
             $details = $data['report']->getDetails();
             if (!empty($details)) { ?>
+              <h3>Rapport du vétérinaire : </h3>
               <p class="section__text mt"> <?= $details ?> </p>
             <?php  }  ?>
           </div>

@@ -31,7 +31,7 @@ class HabitatController extends Controller
 
     // initialize data for habitat page
     $nbHabitats = $this->habitat->count();
-    $this->habitat->setLimit(10);
+    $this->habitat->setLimit(4);
     $totalPages = ceil($nbHabitats / $this->habitat->getLimit());
     $first = ($currentPage - 1) * $this->habitat->getLimit();
     $this->habitat->setOffset($first);
@@ -76,8 +76,7 @@ class HabitatController extends Controller
       // find all animals and images corresponding habitat
 
       $nbAnimals = $animalRepository->count(['habitatId' => $habitat->getId()]);
-
-      $animalRepository->setLimit(10);
+      $animalRepository->setLimit(4);
       $totalPages = ceil($nbAnimals / $animalRepository->getLimit());
       $first = ($currentPage - 1) * $animalRepository->getLimit();
 

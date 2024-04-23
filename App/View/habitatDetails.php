@@ -38,7 +38,7 @@
         ];
         require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-        <h1 class="section__title--secondary"><?= $data['habitat']->getName() ?></h1>
+        <h1 class="section__title"><?= $data['habitat']->getName() ?></h1>
 
         <div class='image'>
           <?php
@@ -61,7 +61,7 @@
                 . setURLWithName($animal->getName());
 
               $pathImg = isset($haveImage) ?  $animal->getImage(0)->getPath() : '';
-              $title = $animal->getRace() . " " . $animal->getName();
+              $title = $animal->getRace() . " | " . $animal->getName();
               $text = '';
 
               require '../App/View/partials/_interactiveCard.php' ?>

@@ -33,8 +33,8 @@ class AdviceController extends Controller
         $pseudo = htmlspecialchars($data['pseudo']);
         $message =  htmlspecialchars($data['message']);
 
-        Validator::strLengthCorrect($pseudo, 3, 20);
-        Validator::strLengthCorrect($message, 3, 200);
+        Validator::strLengthCorrect($pseudo, 3, 20, 'Le pseudo doit être entre 3 et 20 caractères');
+        Validator::strLengthCorrect($message, 3, 300, 'Le commentaire doit être entre 3 et 300 caractères');
 
         $this->advice->insert(['pseudo' => $pseudo, 'advice' => $message]);
 

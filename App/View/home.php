@@ -32,7 +32,7 @@
 
   <div class="hero">
     <?php
-    $images = ['792358.webp', '248314-5fdccad0f507.webp',  '1548643.webp'];
+    $images = ['792358.webp', 'pandaroux.webp', '248314-5fdccad0f507.webp', '6739327.jpg'];
     $autoplay = true;
     require_once '../App/View/partials/_carousel.php' ?>
   </div>
@@ -157,7 +157,7 @@
         <label for="pseudo">Pseudo </label>
         <input required type="text" name="pseudo" id="pseudo" minlength="3" maxlength="20">
         <label for="message">Message</label>
-        <textarea required name="message" id="message" cols="30" rows="10" minlength="3" maxlength="200"></textarea>
+        <textarea required name="message" id="message" cols="30" rows="10" minlength="3" maxlength="300"></textarea>
         <button disabled id="send-button" class="button max-width">Envoyer mon avis</button>
       </form>
     </div>
