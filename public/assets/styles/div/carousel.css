@@ -61,6 +61,39 @@
   opacity: 0.2;
 }
 
+.carousel__container_buttons {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.5;
+  width: 120px;
+  height: 100%;
+  transition: opacity linear 0.2s;
+}
+
+.carousel__button:last-child {
+  transform: rotate(180deg);
+}
+
+.carousel__button:hover {
+  opacity: 1;
+}
+
 @media screen and (max-width: 762px) {
   .carousel__container {
     overflow-x: scroll;

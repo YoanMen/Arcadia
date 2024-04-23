@@ -27,6 +27,11 @@
 .section__background a:hover {
   color: var(--btn-color);
 }
+
+.section__center {
+  display: flex;
+  justify-content: center;
+}
 @media screen and (max-width: 1180px) {
   .section__text,
   .section__title {

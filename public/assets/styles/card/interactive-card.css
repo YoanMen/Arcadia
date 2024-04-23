@@ -69,7 +69,7 @@
   display: flex;
   gap: 16px;
   flex-direction: row;
-  animation: showContent ease-in-out 0.5s;
+  animation: showContent linear 0.5s;
 }
 
 @media screen and (max-width: 762px) {
@@ -84,6 +84,10 @@
 
   .interactive-card__container a {
     width: 100%;
+  }
+
+  .carousel__container_buttons {
+    visibility: hidden;
   }
 }
 

@@ -8,10 +8,25 @@ carousels.forEach((carousel) => {
   const select = carousel.getElementsByClassName("carousel__select");
   const container = carousel.getElementsByClassName("carousel__container");
   const img = container[0].getElementsByTagName("img");
+  const buttonRight = carousel.getElementsByClassName("right-carousel-js");
+  const buttonLeft = carousel.getElementsByClassName("left-carousel-js");
 
   let autoplay = carousel.hasAttribute("autoplay");
   let animationAutoplay;
   let currentImage;
+
+  if (buttonRight[0]) {
+    buttonRight[0].addEventListener("click", () => {
+      currentImage++;
+      goToImage();
+    });
+  }
+  if (buttonLeft[0]) {
+    buttonLeft[0].addEventListener("click", () => {
+      currentImage--;
+      goToImage();
+    });
+  }
 
   if (autoplay) {
     startAutoplay();
@@ -29,18 +44,23 @@ carousels.forEach((carousel) => {
   function startAutoplay() {
     animationAutoplay = setTimeout(() => {
       currentImage++;
-      if (currentImage >= img.length) currentImage = 0;
-      container[0].scrollTo({
-        behavior: "smooth",
-        left: img[currentImage].offsetLeft,
-      });
-      startAutoplay();
+      goToImage();
     }, delay * 1000);
   }
 
   // stop autoplay
   function stopAutoplay() {
     clearTimeout(animationAutoplay);
+  }
+
+  function goToImage() {
+    stopAutoplay();
+    if (currentImage >= img.length) currentImage = 0;
+    container[0].scrollTo({
+      behavior: "smooth",
+      left: img[currentImage].offsetLeft,
+    });
+    startAutoplay();
   }
 
   // create button to select image

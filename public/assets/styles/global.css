@@ -208,6 +208,15 @@ hr {
   overflow: hidden;
 }
 
+.one-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .two-line {
   display: -webkit-box;
   -webkit-line-clamp: 2;
