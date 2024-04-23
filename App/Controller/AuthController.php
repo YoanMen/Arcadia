@@ -90,7 +90,12 @@ class AuthController extends Controller
       sleep(1);
     }
 
-    $this->show('admin/login', ['error' => $error]);
+    if (Security::isLogged()) {
+      Router::redirect('dashboard');
+    } else {
+
+      $this->show('admin/login', ['error' => $error]);
+    }
   }
 
   public function logout()

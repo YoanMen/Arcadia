@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - utilisateurs</title>
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/global.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/dashboard.css">
-  <link rel="stylesheet" href="<?= ROOT ?>/assets/styles/pagination/pagination.css">
+  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/dashboard.css">
+  <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
 </head>
 
 <body>
@@ -67,7 +68,7 @@
                   <td>
                     <form id="deleteForm" method="POST" action="utilisateurs/<?= $user->getId() ?>/delete">
                       <button class="dashboard__params delete-js" type="submit">
-                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">  
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                         <img height=" 32px" src="<?= ROOT ?>/assets/images/icons/delete.svg" alt="delete icon">
                       </button>
                     </form>

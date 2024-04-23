@@ -10,7 +10,7 @@
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
-
+  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/section/section.css">
 
@@ -28,7 +28,7 @@
   <main>
     <section class="section contact">
       <div class="section__background contact__container">
-        <form class="contact__form" method="post">
+        <form id="form" class="contact__form" method="post">
           <input type="hidden" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
           <h2>Nous contacter</h2>
           <?php include_once  '../App/View/partials/_success.php' ?>
@@ -54,6 +54,16 @@
   </main>
   <?php require_once '../App/View/partials/_footer.php' ?>
   <script src="/assets/scripts/menu.js" type="module"></script>
+  <script>
+    form = document.querySelector('#form');
+    button = document.querySelector('input[type="submit"]');
+
+    form.addEventListener('submit', (e) => {
+      if (form.checkValidity()) {
+        button.disabled = true;
+      }
+    });
+  </script>
 </body>
 
 </html>
