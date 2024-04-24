@@ -60,7 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // change scroll position to match with image selected
     function goToImage() {
       stopAutoplay();
-      if (currentImage >= img.length) currentImage = 0;
+
+      if (currentImage >= img.length) {
+        currentImage = 0;
+      } else if (currentImage <= -1) {
+        currentImage = img.length - 1;
+      }
+
       container[0].scrollTo({
         behavior: "smooth",
         left: img[currentImage].offsetLeft,
