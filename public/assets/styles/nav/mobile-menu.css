@@ -24,7 +24,7 @@
   float: right;
   padding-right: 16px;
 }
-.mobile-menu__btn img {
+.mobile-menu__btn svg {
   height: 100%;
 }
 
@@ -35,7 +35,7 @@
   padding: 8px;
 }
 
-.mobile-menu__btn-close img {
+.mobile-menu__btn-close svg {
   height: 100%;
 }
 

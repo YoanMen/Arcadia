@@ -51,7 +51,7 @@
 
         Arcadia est bien plus qu'un zoo ; c'est un refuge écologique. Nous sommes fiers de notre indépendance énergétique, témoignant de notre engagement envers l'écologie.
       </p>
-      <img class="image" src="/assets/images/1548643.webp" alt="">
+      <img class="image" src="/assets/images/1548643.webp" alt="" loading="lazy">
       <?php
       $title = 'Découvrez nos Services';
       $path = '/services';
@@ -92,7 +92,7 @@
       $textBtn = 'Voir tous les habitats';
       require '../App/View/partials/_buttonCard.php' ?>
 
-      <img class="image image--bottom" src="/assets/images/88484611.webp" alt="">
+      <img class="image image--bottom" src="/assets/images/88484611.webp" alt="a panda eating bamboo" loading="lazy">
     </section>
 
     <section class="section" id="testimonial">
@@ -102,7 +102,9 @@
       <div class="testimonial__container">
         <div class="testimonial__hidden">
           <button aria-label="previous advice" id="left-btn" disabled class="button button--cube" type="button">
-            <img src="/assets/images/icons/chevron-left.svg" alt="">
+            <svg fill='black' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+            </svg>
           </button>
         </div>
         <div id="testimonial-card" class="testimonial__card">
@@ -112,7 +114,9 @@
         </div>
         <div class="testimonial__hidden ">
           <button aria-label="next advice" disabled id="right-btn" class="button  button--cube" type="button">
-            <img src="/assets/images/icons/chevron-left.svg" alt="">
+            <svg fill='black' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+            </svg>
           </button>
         </div>
       </div>

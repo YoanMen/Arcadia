@@ -25,7 +25,7 @@
     <?php
     foreach ($images as $image) { ?>
       <div class="carousel__item">
-        <img src="/uploads/<?= $image ?>" alt="carousel">
+        <img src="/uploads/<?= $image ?>" alt="carousel" loading="lazy">
       </div>
     <?php } ?>
   </div>
