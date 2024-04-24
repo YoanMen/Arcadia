@@ -10,11 +10,7 @@
 }
 
 .mobile-menu__logo {
-  position: relative;
-  left: 50%;
-  top: 0;
-  transform: translate(-50%, 0%);
-  padding: 6px;
+  padding: 12px;
   height: 100%;
 }
 
