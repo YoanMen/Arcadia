@@ -12,16 +12,16 @@
   <meta name="description" content="<?= APP_DESC ?>">
 
   <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
-  <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/hero/hero.css">
+  <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
+  <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/div/carousel.css">
   <link rel="stylesheet" href="/assets/styles/section/section.css">
   <link rel="stylesheet" href="/assets/styles/section/schedule.css">
   <link rel="stylesheet" href="/assets/styles/card/btn-card.css">
   <link rel="stylesheet" href="/assets/styles/card/interactive-card.css">
   <link rel="stylesheet" href="/assets/styles/div/testimonial.css">
-  <link rel="stylesheet" href="/assets/styles/div/carousel.css">
-  <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
-  <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
   <link rel="stylesheet" href="/assets/styles/dialog.css">
   <link rel="stylesheet" href="/assets/styles/footer/footer.css">
 </head>
