@@ -6,9 +6,13 @@
 .interactive-card__content:first-child {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 .interactive-card__item:last-child,
 .interactive-card__content:last-child {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -17,81 +21,58 @@
   display: flex;
   flex-direction: row;
   cursor: default;
-  background-position: 50% 50%;
-  height: 120px;
+  background-position: center;
+  background-size: 100%;
   width: 100%;
-  background-size: cover;
-  transition: all ease-in-out 0.2s;
 }
 
 .interactive-card__content {
-  overflow: hidden;
-  transition: background ease-in-out 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: var(--padding);
-  background: rgba(0, 0, 0, 0.2);
   color: white;
-  height: 100%;
   width: 100%;
+  transition: background ease-in-out 0.2s;
 }
 .interactive-card__title {
   text-transform: uppercase;
+  user-select: none;
 }
 
-.interactive-card__container {
-  display: none;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 150px;
-}
-.interactive-card__container a {
-  cursor: pointer;
+.interactive-card__button {
   min-width: 260px;
+  opacity: 0;
 }
 
-.interactive-card__text {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 7;
-  line-clamp: 7;
-  -webkit-box-orient: vertical;
-}
-
-.interactive-card__item:hover {
-  height: 300px;
-  background-position: 50% 40%;
-}
-
-.interactive-card__item:hover .interactive-card__content {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.interactive-card__item:hover .interactive-card__container {
-  display: flex;
-  gap: 16px;
-  flex-direction: row;
-  animation: showContent linear 0.5s;
+@media screen and (min-width: 762px) {
+  .interactive-card__item:hover {
+    height: 100%;
+  }
+  .interactive-card__item:hover .interactive-card__button {
+    animation: showButton linear 0.2s;
+    opacity: 1;
+  }
+  .interactive-card__item:hover .interactive-card__content {
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 @media screen and (max-width: 762px) {
-  .interactive-card__item:hover .interactive-card__container {
+  .interactive-card__content {
     flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
   }
 
-  .interactive-card__text {
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
-  }
-
-  .interactive-card__container a {
+  .interactive-card__button {
     width: 100%;
-  }
-
-  .carousel__container_buttons {
-    visibility: hidden;
+    opacity: 1;
   }
 }
 
-@keyframes showContent {
+@keyframes showButton {
   from {
     opacity: 0;
   }

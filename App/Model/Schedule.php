@@ -52,7 +52,11 @@ class Schedule extends Model
    */
   public function getOpen(): ?string
   {
-    return   substr($this->open, 0, -3);
+    if ($this->open) {
+      return   substr($this->open, 0, -3);
+    }
+
+    return null;
   }
 
   /**
@@ -68,7 +72,11 @@ class Schedule extends Model
    */
   public function getClose(): ?string
   {
-    return   substr($this->close, 0, -3);
+    if ($this->close) {
+      return   substr($this->close, 0, -3);
+    }
+
+    return null;
   }
 
   /**

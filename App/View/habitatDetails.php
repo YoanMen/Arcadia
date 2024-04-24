@@ -37,19 +37,22 @@
         ];
         require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-        <h1 class="section__title"><?= $data['habitat']->getName() ?></h1>
+        <?php if ($data['currentPage'] == 1) { ?>
+          <h1 class="section__title"><?= $data['habitat']->getName() ?></h1>
 
-        <div class='image'>
-          <?php
-          if ($data['habitat']->getImage(0) != null) {
-            $images = $data['habitat']->getAllImagePath();
-            $autoplay = false;
+          <div class='image'>
+            <?php
+            if ($data['habitat']->getImage(0) != null) {
+              $images = $data['habitat']->getAllImagePath();
+              $autoplay = false;
 
-            require_once '../App/View/partials/_carousel.php';
-          }
-          ?>
-        </div>
-        <p class="section__text"><?= $data['habitat']->getDescription() ?> </p>
+              require_once '../App/View/partials/_carousel.php';
+            }
+            ?>
+          </div>
+          <p class="section__text"><?= $data['habitat']->getDescription() ?> </p>
+        <?php } ?>
+
         <ul>
           <?php
           if (isset($data['animals'])) {
@@ -61,7 +64,7 @@
 
               $pathImg = isset($haveImage) ?  $animal->getImage(0)->getPath() : '';
               $title = $animal->getRace() . " | " . $animal->getName();
-              $text = '';
+
 
               require '../App/View/partials/_interactiveCard.php' ?>
           <?php     }

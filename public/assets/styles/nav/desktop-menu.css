@@ -56,7 +56,7 @@
 .desktop-menu__list li a:visited {
   display: block;
   color: var(--bg-color-light);
-  padding: 6px 10px;
+  padding: 0 10px;
   text-align: center;
   text-decoration: none;
 }
@@ -83,6 +83,10 @@
   float: none;
   margin: 0;
   padding: 0;
+}
+
+.desktop-menu__list li:first-child {
+  margin-top: 16px;
 }
 
 .desktop-menu__list li a:hover {
@@ -121,7 +125,7 @@
 
 .desktop-menu--fixed .desktop-menu__logo {
   width: 68px;
-  top: 0;
+  top: -8px;
 }
 
 .desktop-menu--fixed .desktop-menu__list {

@@ -67,8 +67,7 @@ use App\Core\Security;
       <ul class="desktop-menu__list">
         <li>
           <a href="/">
-            <img class="desktop-menu__logo" src="<?= ROOT ?>/assets/images/icons/arcadia-logo.svg" alt="arcadia logo">
-          </a>
+            <img class="desktop-menu__logo" src="/assets/images/icons/arcadia-logo.svg" alt="arcadia logo" </a>
         </li>
         <li>
           <a href="/services">

@@ -87,8 +87,6 @@
             $redirection =   'habitats/' . setURLWithName($habitat->getName());
             $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
             $title = $habitat->getName();
-            $text = $habitat->getDescription();
-
             require '../App/View/partials/_interactiveCard.php' ?>
         <?php     }
         } ?>
@@ -97,7 +95,7 @@
       <?php
       $title = "D'autres habitats à découvrir";
       $path =  '/habitats';
-      $textBtn = 'Voir les habitats';
+      $textBtn = 'Voir tout les habitats';
       require '../App/View/partials/_buttonCard.php' ?>
 
       <img class="image image--bottom" src="/assets/images/88484611.webp" alt="">

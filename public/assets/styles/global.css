@@ -260,6 +260,7 @@ hr {
   font-weight: 400;
   font-family: var(--font-luciole);
   font-size: 1rem;
+  user-select: none;
 }
 
 .button:not(:disabled) {

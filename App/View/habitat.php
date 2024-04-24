@@ -35,8 +35,9 @@
         ['name' => "Habitats", 'path' => '/habitats'],
       ];
       require_once '../App/View/partials/_breadcrumbs.php' ?>
-
-      <p class="section__text"> Explorez les différents habitats du Zoo Arcadia. </p>
+      <?php if ($data['currentPage'] == 1) { ?>
+        <p class="section__text"> Explorez les différents habitats du Zoo Arcadia. </p>
+      <?php } ?>
 
       <ul>
         <?php
@@ -47,7 +48,6 @@
             $redirection =  'habitats/' . setURLWithName($habitat->getName());
             $pathImg = isset($haveImage) ?  $habitat->getImage(0)->getPath() : '';
             $title = $habitat->getName();
-            $text = $habitat->getDescription();
 
             require '../App/View/partials/_interactiveCard.php' ?>
         <?php     }

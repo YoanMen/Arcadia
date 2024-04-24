@@ -1,4 +1,4 @@
-initializeTestimonialSlider();
+document.addEventListener("DOMContentLoaded", initializeTestimonialSlider);
 
 function initializeTestimonialSlider() {
   const leftButton = document.getElementById("left-btn");
