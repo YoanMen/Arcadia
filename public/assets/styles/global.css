@@ -12,24 +12,28 @@
   font-family: "Luciole";
   src: url("../fonts/Luciole/Luciole-Regular.ttf");
   font-weight: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Luciole";
   src: url("../fonts/Luciole/Luciole-Bold.ttf");
   font-weight: bold;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Kodchasan";
   src: url("../fonts/Kodchasan/Kodchasan-Regular.ttf");
   font-weight: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Kodchasan";
   src: url("../fonts/Kodchasan/Kodchasan-Bold.ttf");
   font-weight: bold;
+  font-display: swap;
 }
 
 /* reset style */
@@ -254,7 +258,7 @@ hr {
 
   border-radius: 5px;
   background-color: var(--btn-color);
-  color: white;
+  color: black;
   text-decoration: none;
   border: none;
   font-weight: 400;

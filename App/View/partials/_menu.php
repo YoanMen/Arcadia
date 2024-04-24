@@ -7,7 +7,7 @@ use App\Core\Security;
 <header class="menus">
   <!-- MOBILE MENU -->
   <div class="mobile-menu">
-    <a href="/">
+    <a aria-label="home" href="/">
       <img class='mobile-menu__logo' src="/assets/images/icons/arcadia-logo.svg" alt="zoo icon">
     </a>
     <div class='mobile-menu__btn'>
@@ -20,7 +20,7 @@ use App\Core\Security;
       <nav class="mobile-menu__nav" aria-label="mobile menu">
         <ul class="mobile-menu__list">
           <li class="mobile-menu__item">
-            <a href="/">
+            <a aria-label="home" href="/">
               Accueil
             </a>
           </li>
@@ -66,8 +66,9 @@ use App\Core\Security;
     <nav class="desktop-menu__nav" aria-label="desktop menu">
       <ul class="desktop-menu__list">
         <li>
-          <a href="/">
-            <img class="desktop-menu__logo" src="/assets/images/icons/arcadia-logo.svg" alt="arcadia logo" </a>
+          <a aria-label="home" href="/">
+            <img class="desktop-menu__logo" src="/assets/images/icons/arcadia-logo.svg" alt="arcadia logo">
+          </a>
         </li>
         <li>
           <a href="/services">

@@ -98,4 +98,8 @@
   .carousel__container {
     overflow-x: scroll;
   }
+
+  .carousel__container_buttons {
+    visibility: collapse;
+  }
 }

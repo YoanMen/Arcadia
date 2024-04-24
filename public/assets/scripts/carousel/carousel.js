@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const offset = 150;
   const delay = 6;
 
-  // get all carousels
+  // get all carousels on the page
   carousels.forEach((carousel) => {
     const select = carousel.getElementsByClassName("carousel__select");
     const container = carousel.getElementsByClassName("carousel__container");
@@ -15,12 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let animationAutoplay;
     let currentImage;
 
+    // click on button right
     if (buttonRight[0]) {
       buttonRight[0].addEventListener("click", () => {
         currentImage++;
         goToImage();
       });
     }
+
+    // click on button left
     if (buttonLeft[0]) {
       buttonLeft[0].addEventListener("click", () => {
         currentImage--;
@@ -28,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    // disable or enable autoplay when users touch carousel
     if (autoplay) {
       startAutoplay();
       carousel.addEventListener("touchstart", () => {
@@ -53,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearTimeout(animationAutoplay);
     }
 
+    // change scroll position to match with image selected
     function goToImage() {
       stopAutoplay();
       if (currentImage >= img.length) currentImage = 0;
@@ -71,9 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           button.classList.add("carousel__element");
           button.type = "button";
+          button.name = `slider-button-${i}`;
           button.id = i;
           select[0].appendChild(button);
-          img[i].id = i;
         }
 
         const buttons = select[0].querySelectorAll(".carousel__element");
@@ -83,12 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
           detectScrollPosition(button, buttons);
         });
 
+        // listening clicks for buttons
         buttons.forEach((button) => {
           button.addEventListener("click", () => {
             currentImage = button.id;
             goToImage();
           });
 
+          // listening scroll
           container[0].addEventListener("scroll", () =>
             detectScrollPosition(button, buttons)
           );

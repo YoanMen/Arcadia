@@ -6,6 +6,7 @@
   min-height: 320px;
   padding-bottom: 30px;
   background-color: white;
+  overflow: scroll;
 }
 .chart__text {
   display: flex;
@@ -23,8 +24,6 @@
 
 .chart__item {
   width: 100%;
-  max-width: 120px;
-  height: 60%;
 }
 
 .chart__item__bar {

@@ -12,10 +12,10 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('COUCHDB_URL', "http://admin:115225335@localhost:5984/arcadia");
 } else {
 	/** database config**/
-	define('DB_NAME', 'my_db');
-	define('DB_HOST', 'localhost');
-	define('DB_USER', 'root');
-	define('DB_PASSWORD', '');
+	define('DB_NAME', 'yoanmen_arcadia');
+	define('DB_HOST', 'mysql-yoanmen.alwaysdata.net');
+	define('DB_USER', 'yoanmen');
+	define('DB_PASSWORD', '115225335');
 
 	define('ROOT', 'https://yoanmen.alwaysdata.net');
 
@@ -26,7 +26,7 @@ define('APP_NAME', "Zoo Arcadia");
 define('APP_DESC', "Arcadia Zoo official website");
 
 /** true means show errors **/
-define('DEBUG', true);
+define('DEBUG', false);
 
 /** Upload files config**/
 define('DESTINATION_IMAGE_FOLDER', 'uploads/');

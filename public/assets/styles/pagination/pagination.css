@@ -38,6 +38,7 @@
 .pagination__btn--current a {
   background-color: var(--bg-color-dark);
   border: 1px solid var(--btn-color);
+  color: white;
 }
 
 @media screen and (max-width: 1180px) {

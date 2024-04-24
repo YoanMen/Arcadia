@@ -43,19 +43,13 @@
         Le Zoo Arcadia
       </h1>
       <p class="section__text">
-        Explorez la magie d'Arcadia, un zoo enchanteur niché près de la
-        mystique forêt de Brocéliande en Bretagne depuis 1960. Notre parc propose une expérience
-        immersive où la diversité animale est harmonieusement répartie dans des habitats uniques
-        tels que la savane, la jungle et le marais.
+        Explorez la magie d'Arcadia, un zoo enchanteur niché près de la mystique forêt de Brocéliande en Bretagne depuis 1960. Notre parc propose une expérience immersive où la diversité animale est harmonieusement répartie dans des habitats uniques tels que la savane, la jungle et le marais.
 
         La santé et le bien-être de nos précieux habitants sont au cœur de nos préoccupations.
 
-        Notre engagement envers le bien-être animal se reflète non seulement dans les soins médicaux réguliers,
-        mais aussi dans la gestion précise de leur alimentation. Chaque repas est minutieusement calculé, avec
-        le grammage optimal spécifié dans les rapports détaillés des vétérinaires.
+        Notre engagement envers le bien-être animal se reflète non seulement dans les soins médicaux réguliers, mais aussi dans la gestion précise de leur alimentation. Chaque repas est minutieusement calculé, avec le grammage optimal spécifié dans les rapports détaillés des vétérinaires.
 
-        Arcadia est bien plus qu'un zoo ; c'est un refuge écologique. Nous sommes fiers de notre indépendance
-        énergétique, témoignant de notre engagement envers l'écologie.
+        Arcadia est bien plus qu'un zoo ; c'est un refuge écologique. Nous sommes fiers de notre indépendance énergétique, témoignant de notre engagement envers l'écologie.
       </p>
       <img class="image" src="/assets/images/1548643.webp" alt="">
       <?php
@@ -95,7 +89,7 @@
       <?php
       $title = "D'autres habitats à découvrir";
       $path =  '/habitats';
-      $textBtn = 'Voir tout les habitats';
+      $textBtn = 'Voir tous les habitats';
       require '../App/View/partials/_buttonCard.php' ?>
 
       <img class="image image--bottom" src="/assets/images/88484611.webp" alt="">
@@ -107,7 +101,7 @@
       </h2>
       <div class="testimonial__container">
         <div class="testimonial__hidden">
-          <button id="left-btn" disabled class="button button--cube" type="button">
+          <button aria-label="previous advice" id="left-btn" disabled class="button button--cube" type="button">
             <img src="/assets/images/icons/chevron-left.svg" alt="">
           </button>
         </div>
@@ -117,7 +111,7 @@
           <p id="testimonial-pseudo" class="testimonial__pseudo"></p>
         </div>
         <div class="testimonial__hidden ">
-          <button disabled id="right-btn" class="button  button--cube" type="button">
+          <button aria-label="next advice" disabled id="right-btn" class="button  button--cube" type="button">
             <img src="/assets/images/icons/chevron-left.svg" alt="">
           </button>
         </div>

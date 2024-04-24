@@ -1,5 +1,5 @@
 <footer class="footer">
-  <a href="/"><img class="footer__logo" src="/assets/images/icons/arcadia-logo.svg" alt=""></a>
+  <a aria-label="back to home" href="/"><img class="footer__logo" src="/assets/images/icons/arcadia-logo.svg" alt="zoo icon"></a>
   <hr class="footer__bar">
   <nav class="footer__nav">
     <ul class="footer__list">
@@ -27,5 +27,5 @@
       </li>
     </ul>
   </nav>
-  <p class="footer__copyright">© Copyright 2024 Y.Menard</p>
+  <p class="footer__copyright">© Copyright 2024 Arcadia</p>
 </footer>

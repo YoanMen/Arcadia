@@ -19,7 +19,7 @@ class AdviceController extends Controller
     $this->advice = new Advice();
   }
 
-  // adivice send by visitor
+  // advice send by visitor
   public function sendAdvice()
   {
     $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
