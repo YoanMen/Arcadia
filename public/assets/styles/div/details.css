@@ -44,7 +44,8 @@
 
 .details__item label,
 .details__item span {
-  width: 30%;
+  width: 200px;
+  min-width: 200px;
   margin-right: 10px;
   opacity: 0.5;
   text-overflow: ellipsis;
@@ -93,5 +94,11 @@
 
   .details__container {
     width: calc(100% - 60px);
+  }
+
+  .details__item label,
+  .details__item span {
+    width: 60px;
+    min-width: 60px;
   }
 }

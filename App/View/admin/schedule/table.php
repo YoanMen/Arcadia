@@ -41,7 +41,7 @@ function setSwitch(Schedule $schedule): bool
         <table aria-describedby="schedules table">
           <thead>
             <tr>
-              <th>
+              <th class="hidden--mobile">
                 Jours
               </th>
               <th>
@@ -58,7 +58,7 @@ function setSwitch(Schedule $schedule): bool
             if (isset($data['schedules'])) {
               foreach ($data['schedules'] as $schedule) { ?>
                 <tr class="schedule-js">
-                  <td><?= $schedule->getDay() ?></td>
+                  <td class="hidden--mobile"><?= $schedule->getDay() ?></td>
                   <td>
                     <input type="hidden" id="csrf_token" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
                     <input type="time" name="" id="time-open" value="<?= $schedule->getOpen() ?>">

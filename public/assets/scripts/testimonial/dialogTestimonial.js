@@ -57,13 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (r.status == 201) {
       form.innerHTML = `<div class="success">
-                        <p>Votre avis à été envoyé, il sera visible après validation</p>
+                        <p>Votre avis a été envoyé. Il sera visible après validation.</p>
                      </div>`;
     } else {
       r.json().then((data) => {
         let div = document.createElement("div");
         div.innerHTML = ` <div class="error">
-                          <p >Erreur : ${data.error} </p>
+                          <p >${data.error} </p>
                         </div>`;
 
         form.insertBefore(div, form.firstChild);
