@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
           button.classList.add("carousel__element");
           button.type = "button";
           button.name = `slider-button-${i}`;
+          button.ariaLabel = "selectable button for carousel";
           button.id = i;
           select[0].appendChild(button);
         }
