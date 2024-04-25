@@ -11,7 +11,7 @@
   <meta name="description" content="<?= APP_DESC ?>">
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/section/section.css">
   <link rel="stylesheet" href="/assets/styles/card/interactive-card.css">
@@ -27,6 +27,7 @@
 
 <body>
   <?php require_once '../App/View/partials/_menu.php' ?>
+
   <main>
     <section class="section" name="habitat-details">
       <?php
@@ -50,7 +51,7 @@
             }
             ?>
           </div>
-          <p class="section__text"><?= $data['habitat']->getDescription() ?> </p>
+          <p class="section__background"><?= $data['habitat']->getDescription() ?> </p>
         <?php } ?>
 
         <ul>

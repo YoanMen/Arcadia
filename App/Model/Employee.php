@@ -14,6 +14,9 @@ class Employee extends User
     $adviceRepo->update(['approved' => $approved], $id);
   }
 
+  /**
+   * function to give food for animal
+   */
   public function giveFood(
     int $userId,
     int $animalId,

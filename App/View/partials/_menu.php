@@ -52,8 +52,8 @@ use App\Core\Security;
             </ul>
           </li>
           <li class="mobile-menu__item">
-            <a href="/contact">
-              Contact
+            <a href="/nous-contacter">
+              Nous contacter
             </a>
           </li>
           <li>
@@ -105,8 +105,8 @@ use App\Core\Security;
           </ul>
         </li>
         <li>
-          <a href="/contact">
-            Contact
+          <a href="/nous-contacter">
+            Nous contacter
           </a>
         </li>
         <li>

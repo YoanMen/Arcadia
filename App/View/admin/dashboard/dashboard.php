@@ -8,7 +8,7 @@
   <title><?= APP_NAME ?>
     | Dashboard</title>
 
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/dashboard.css">
   <link rel="stylesheet" href="/assets/styles/dialog.css">
@@ -90,8 +90,8 @@
                   <tr>
                     <td>
                       aucun résultat
+                    </td>
                   </tr>
-                  </td>
                 <?php }  ?>
               </tbody>
             </table>
@@ -160,8 +160,8 @@
                 <tr>
                   <td>
                     aucun résultat
+                  </td>
                 </tr>
-                </td>
               <?php }  ?>
             </tbody>
           </table>
@@ -171,26 +171,6 @@
   </main>
 </body>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-
-    const hightClick = document.getElementById('hight-click').textContent
-    const bars = document.querySelectorAll('.chart__item');
-
-    if (bars) {
-      // for all bars set height to correspond with clicks
-      bars.forEach((bar) => {
-        bar.style.height = '0%';
-        bar.style.transition = 'height 0.5s ease-in-out';
-
-        // timeout to play transition
-        setTimeout(() => {
-          click = bar.dataset.click;
-          bar.style.height = (click / hightClick) * 100 + '%';
-        }, 100);
-      })
-    }
-  });
-</script>
+<script src="/assets/scripts/admin/chart.js"></script>
 
 </html>

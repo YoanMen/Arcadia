@@ -7,7 +7,8 @@
 
   <title><?= APP_NAME ?>
     | Dashboard - nourriture</title>
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/dashboard.css">
   <link rel="stylesheet" href="/assets/styles/dialog.css">
@@ -31,7 +32,7 @@
         <ul>
           <li class="details__item">
             <span>de</span>
-            <p><?= $data['foodAnimal']['email'] ?></p>
+            <p><?= $data['foodAnimal']['email'] ?? 'utilisateur supprimé' ?></p>
           </li>
           <li class="details__item">
             <span>animal</span>
@@ -43,7 +44,7 @@
           </li>
           <li class="details__item">
             <span>habitat</span>
-            <p><?= $data['foodAnimal']['habitat'] ?></p>
+            <p><?= $data['foodAnimal']['habitat'] ?? 'aucun habitat' ?></p>
           </li>
           <li class="details__item">
             <span>nourriture</span>

@@ -6,6 +6,7 @@ use App\Core\CouchDB;
 use App\Core\Exception\DatabaseException;
 use App\Core\Router;
 use App\Core\Security;
+use App\Core\UploadFile;
 use App\Core\Validator;
 use App\Model\Admin;
 use App\Model\Animal;
@@ -42,7 +43,7 @@ class AnimalController extends Controller
 
         if ($animal) {
           // get images of this animal
-          $animal->findImages();
+          $animal->findImagesForThisAnimal();
 
           // get report detail by veterinary
           $reportRepository = new ReportAnimal();
@@ -112,7 +113,13 @@ class AnimalController extends Controller
 
           Validator::strIsInt($id);
 
-          $this->animal->addImage($id);
+          $path = UploadFile::upload();
+          $imageRepo = new Image();
+
+          $imageRepo->insert(['path' => $path]);
+          $image = $imageRepo->findOneBy(['path' => $path]);
+
+          $this->animal->insertImage($id, $image->getId());
 
           $_SESSION['success'] = 'Image ajouté';
         } catch (Exception $e) {
@@ -312,6 +319,32 @@ class AnimalController extends Controller
     } else {
       $_SESSION['error'] = 'Vous n\'avez pas la permission';
       Router::redirect('dashboard');
+    }
+  }
+
+  public function addClick($request)
+  {
+
+    if ($_SERVER['REQUEST_METHOD'] === "POST") {
+      $csrf = $_POST['csrf_token'] ?? '';
+      if (Security::verifyCsrf($csrf)) {
+        try {
+          $id =  htmlspecialchars($request['id']);
+          Validator::strIsInt($id);
+
+          // add click to animal
+          http_response_code(200);
+        } catch (Exception $e) {
+          http_response_code(500);
+          echo json_encode(['error' => 'impossible de comptabiliser le click']);
+        }
+      } else {
+        http_response_code(401);
+        echo json_encode(['error' => 'la clef csrf n\'est pas valide']);
+      }
+    } else {
+      http_response_code(405);
+      echo json_encode(['error' => 'la méthode n\est pas valide']);
     }
   }
 }

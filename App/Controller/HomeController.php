@@ -22,7 +22,7 @@ class HomeController extends Controller
 		if ($habitats) {
 			// add image to habitats to display on cards
 			for ($i = 0; $i < count($habitats); $i++) {
-				$habitats[$i]->findImages();
+				$habitats[$i]->findImagesForThisHabitat();
 			}
 		}
 

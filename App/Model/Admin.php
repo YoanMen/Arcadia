@@ -7,7 +7,6 @@ use App\Core\Exception\ValidatorException;
 use App\Core\Mail;
 use App\Core\Security;
 use App\Core\UploadFile;
-use Exception;
 
 class Admin extends User
 {

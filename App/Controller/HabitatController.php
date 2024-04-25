@@ -40,7 +40,7 @@ class HabitatController extends Controller
     // search image for all habitat
     if ($habitats) {
       foreach ($habitats as $habitat) {
-        $habitat->findImages();
+        $habitat->findImagesForThisHabitat();
       }
     }
 
@@ -70,11 +70,10 @@ class HabitatController extends Controller
         throw new DatabaseException('Habitat not exist');
       }
 
-      // find image for habitat
-      $habitat->findImages();
+      // find images for this habitat
+      $habitat->findImagesForThisHabitat();
 
       // find all animals and images corresponding habitat
-
       $nbAnimals = $animalRepository->count(['habitatId' => $habitat->getId()]);
       $animalRepository->setLimit(4);
       $totalPages = ceil($nbAnimals / $animalRepository->getLimit());
@@ -83,9 +82,10 @@ class HabitatController extends Controller
       $animalRepository->setOffset($first);
       $animals = $animalRepository->find(['habitatId' => $habitat->getId()]);
 
+      // if habitat has animals, fetch images
       if ($animals) {
         foreach ($animals as $animal) {
-          $animal->findImages();
+          $animal->findImagesForThisAnimal();
         }
       }
 

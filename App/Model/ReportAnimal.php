@@ -3,8 +3,6 @@
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
-use DateTimeImmutable;
-use Exception;
 use PDO;
 use PDOException;
 
@@ -223,8 +221,8 @@ class ReportAnimal extends Model
                 reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
                 FROM $this->table
                 INNER JOIN animal on reportAnimal.animalID = animal.id
-                INNER JOIN user ON reportAnimal.userID = user.id
-                INNER JOIN habitat ON habitat.id = animal.habitatID
+                LEFT JOIN user ON reportAnimal.userID = user.id
+                LEFT JOIN habitat ON habitat.id = animal.habitatID
                 WHERE (:date IS NULL OR reportAnimal.date = :date)
                 AND ( animal.name LIKE :search OR user.email LIKE :search
                 OR animal.race LIKE :search OR  habitat.name LIKE :search)
@@ -261,8 +259,8 @@ class ReportAnimal extends Model
                 reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
                 FROM $this->table
                 INNER JOIN animal on reportAnimal.animalID = animal.id
-                INNER JOIN user ON reportAnimal.userID = user.id
-                INNER JOIN habitat ON habitat.id = animal.habitatID
+                LEFT JOIN user ON reportAnimal.userID = user.id
+                LEFT JOIN habitat ON habitat.id = animal.habitatID
                 WHERE reportAnimal.id = :id ";
 
       $stm = $pdo->prepare($query);
