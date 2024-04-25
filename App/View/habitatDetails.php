@@ -65,7 +65,7 @@
 
               $pathImg = isset($haveImage) ?  $animal->getImage(0)->getPath() : '';
               $title = $animal->getRace() . " | " . $animal->getName();
-
+              $dataId = "data-animal-id='" . $animal->getId() . "'";
 
               require '../App/View/partials/_interactiveCard.php' ?>
           <?php     }
@@ -84,6 +84,7 @@
 
   <script src="/assets/scripts/carousel/carousel.js"></script>
   <script src="/assets/scripts/menu.js" type="module"></script>
+  <script src="/assets/scripts/clickAnimal.js"></script>
 </body>
 
 </html>

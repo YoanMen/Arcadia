@@ -49,10 +49,7 @@ class AnimalController extends Controller
           $reportRepository = new ReportAnimal();
           $report =  $reportRepository->findOneBy(['animalId' => $animal->getId()]);
 
-          // add click for animal
-          $couchDb  = new CouchDB();
 
-          $couchDb->addClick($animal->getId());
 
           $this->show('animal', [
             'animal' => $animal,
@@ -325,18 +322,21 @@ class AnimalController extends Controller
   public function addClick($request)
   {
 
-    if ($_SERVER['REQUEST_METHOD'] === "POST") {
-      $csrf = $_POST['csrf_token'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] === "GET") {
+      $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+
       if (Security::verifyCsrf($csrf)) {
         try {
           $id =  htmlspecialchars($request['id']);
           Validator::strIsInt($id);
 
-          // add click to animal
-          http_response_code(200);
+          // add click for animal
+          $couchDb  = new CouchDB();
+
+          $couchDb->addClick($id);
         } catch (Exception $e) {
           http_response_code(500);
-          echo json_encode(['error' => 'impossible de comptabiliser le click']);
+          echo json_encode(['error' => 'impossible de comptabiliser le click ' . $e->getMessage()]);
         }
       } else {
         http_response_code(401);
