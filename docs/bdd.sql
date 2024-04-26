@@ -80,7 +80,7 @@ CREATE TABLE advice(
   id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, 
   pseudo VARCHAR(20) NOT NULL, 
   advice TEXT NOT NULL, 
-  approved BOOL NOT NULL DEFAULT false);
+  approved TINYINT NOT NULL DEFAULT 0);
 
 -- création table service
 
@@ -106,25 +106,31 @@ INSERT INTO user (email , password, role)
 INSERT INTO habitat (name, description) 
   VALUES ('Jungle', 'En explorant notre jungle, vous pénétrerez dans un royaume aussi luxuriant que mystérieux, plongeant profondément au cœur de la nature sauvage. Découvrez nos majestueux tigres, imposants alligators, redoutables piranhas et impressionnants gorilles évoluant dans cet écosystème exotique. Chaque pas vous rapprochera de la splendeur captivante de cette jungle, où la vie sauvage prospère dans toute sa diversité. Bienvenue dans une expérience immersive, où la beauté et la majesté de la nature prennent vie sous vos yeux émerveillés.');
 
-
--- ajout d'un rapport de nourrisage
-INSERT INTO foodAnimal (userID, animalID, food, quantity, time, date)
-  VALUE (2, 1, 'viande', 4.800, '10:20:00', '2024-04-03');
-
 -- ajout d'un commentaire sur un habitat
 
 INSERT INTO habitatComment (habitatID, userID, comment)
-  VALUE (1, 3, 'L\'habitat est propre, rien à redire.')
+  VALUE (1, 3, 'L\'habitat est propre, rien à redire.');
 
 -- ajout d'un animal 
 INSERT INTO animal (name, race, habitatID) 
   VALUE ('Riki', 'Tigre', 1);
 
+
+-- ajout d'un rapport de nourrisage
+INSERT INTO foodAnimal (userID, animalID, food, quantity, time, date)
+  VALUE (2, 1, 'viande', 4.800, "10:20:0", "2024-04-03");
+
+
 -- ajout des horaire
 	
 INSERT INTO schedule (day, open, close) 
-  VALUE ("lundi", "08:30:00", "18:30:00"),("mardi", "08:30:00", "18:30:00"),("mercredi", "08:30:00", "18:30:00"),("jeudi", "08:30:00", "18:30:00"),
-	("vendredi", "08:30:00", "18:30:00"),("samedi", "08:30:00", "18:30:00"),("dimanche", NULL, NULL);
+  VALUE ("lundi", "08:30:00", "18:30:00"),
+  ("mardi", "08:30:00", "18:30:00"),
+  ("mercredi", "08:30:00", "18:30:00"),
+  ("jeudi", "08:30:00", "18:30:00"),
+	("vendredi", "08:30:00", "18:30:00"),
+  ("samedi", "08:30:00", "18:30:00"),
+  ("dimanche", NULL, NULL);
 
 -- ajout d'un rapport sur un animal
 

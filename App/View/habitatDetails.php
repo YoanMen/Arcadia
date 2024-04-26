@@ -51,7 +51,7 @@
             }
             ?>
           </div>
-          <p class="section__background"><?= $data['habitat']->getDescription() ?> </p>
+          <p class="section__background section__text"><?= $data['habitat']->getDescription() ?> </p>
         <?php } ?>
 
         <ul>
