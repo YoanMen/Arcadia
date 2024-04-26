@@ -13,6 +13,8 @@ class ReportAnimal extends Model
 
   private string $statut;
   private int $animalID;
+  private int $userID;
+
   private string $food;
   private float $weight;
   private string $date;
@@ -70,6 +72,21 @@ class ReportAnimal extends Model
   public function setAnimalID(int $animalID): self
   {
     $this->animalID = $animalID;
+
+    return $this;
+  }
+
+  public function getUserID(): int
+  {
+    return $this->userID;
+  }
+
+  /**
+   * Set the value of animalID
+   */
+  public function setUserID(int $userID): self
+  {
+    $this->userID = $userID;
 
     return $this;
   }
