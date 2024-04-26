@@ -43,7 +43,7 @@ function setSwitch(Schedule $schedule): bool
           <thead>
             <tr>
               <th class="hidden--mobile">
-                Jours
+                Jour
               </th>
               <th>
                 Heure d'ouverture
