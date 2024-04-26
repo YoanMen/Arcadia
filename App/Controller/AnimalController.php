@@ -332,12 +332,18 @@ class AnimalController extends Controller
       if (Security::verifyCsrf($csrf)) {
         try {
           Validator::strIsInt($id);
+          $animal = $this->animal->findOneBy(['id' => $id]);
 
-          // add click for animal
-          $couchDb  = new CouchDB();
+          if ($animal) {
+            // add click for animal
+            $couchDb  = new CouchDB();
 
-          $couchDb->addClick($id);
-          http_response_code(201);
+            $couchDb->addClick($id);
+            http_response_code(201);
+            return;
+          }
+
+          http_response_code(404);
         } catch (Exception $e) {
           http_response_code(500);
         }
