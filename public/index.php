@@ -41,7 +41,7 @@ $router->addRoute('GET', ROOT . '/api/habitats/{id}/animals', 'HabitatController
 $router->addRoute('POST', ROOT . '/api/habitats/images', 'HabitatController', 'uploadImage');
 $router->addRoute('POST', ROOT . '/api/animals/images', 'AnimalController', 'uploadImage');
 $router->addRoute('DELETE', ROOT . '/api/animals/images', 'AnimalController', 'deleteImage');
-$router->addRoute('GET', ROOT . '/api/animals/{id}/click', 'AnimalController', 'addClick');
+$router->addRoute('POST', ROOT . '/api/animals/clicks', 'AnimalController', 'addClick');
 
 $router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 

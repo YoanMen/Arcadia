@@ -67,6 +67,9 @@ class Service extends Model
     return $this;
   }
 
+  /**
+   * function to get services count depending search param
+   */
   public function servicesCount(string $search)
   {
     try {
@@ -91,6 +94,9 @@ class Service extends Model
     }
   }
 
+  /**
+   * function using to add 5 service on menu
+   */
   public function fetchMenuService()
   {
     try {
@@ -112,6 +118,9 @@ class Service extends Model
     }
   }
 
+  /**
+   * function to fetch services depending search params
+   */
   public function fetchServices(string $search, string $order, string $orderBy)
   {
     try {

@@ -71,7 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
         behavior: "smooth",
         left: img[currentImage].offsetLeft,
       });
-      startAutoplay();
+      if (autoplay) {
+        startAutoplay();
+      }
     }
 
     // create button to select image

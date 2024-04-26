@@ -140,6 +140,9 @@ class FoodAnimal extends Model
     return $this;
   }
 
+  /**
+   * function to food animal count with search params
+   */
   public function foodAnimalsCount($search, $date): int | null
   {
     try {
@@ -176,7 +179,9 @@ class FoodAnimal extends Model
   }
 
 
-
+  /**
+   * fetch food animals with search params
+   */
   public function fetchFoodAnimals(string $search, string $date, string $order, string $orderBy): array | null
   {
     try {
@@ -242,6 +247,9 @@ class FoodAnimal extends Model
     }
   }
 
+  /**
+   * fetch food animals depending id
+   */
   public function fetchFoodAnimalsByID(int $id): array | null
   {
     try {

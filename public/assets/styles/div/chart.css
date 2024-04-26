@@ -19,11 +19,12 @@
   gap: 6px;
   width: 100%;
   align-items: end;
-  justify-content: space-around;
+  justify-content: start;
 }
 
 .chart__item {
   width: 100%;
+  max-width: 60px;
 }
 
 .chart__item__bar {

@@ -37,11 +37,12 @@ class AuthController extends Controller
 
         if ($data) {
           foreach ($data as $animal) {
+
             $name = $animalRepo->fetchAnimalNameById($animal['_id']);
             $famousAnimals[] = [
               'id' => $animal['_id'],
               'click' => $animal['click'],
-              'name' => $name[0]
+              'name' => $name[0] ?? ""
             ];
           }
         }

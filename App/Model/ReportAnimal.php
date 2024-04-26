@@ -146,8 +146,9 @@ class ReportAnimal extends Model
     return $this;
   }
 
-
-
+  /**
+   * fetch report animal count depending search params
+   */
   public function fetchReportAnimalCount(string $search, string $date): int | null
   {
     try {
@@ -185,6 +186,10 @@ class ReportAnimal extends Model
       throw new DatabaseException("Error count : " . $e->getMessage());
     }
   }
+
+  /**
+   * function to fetch report animal depending search params
+   */
   public function fetchReportAnimal(string $search, string $date, string $order, string $orderBy): array|null
   {
     try {
@@ -247,6 +252,9 @@ class ReportAnimal extends Model
   }
 
 
+  /**
+   * function to fetch reports animals by id
+   */
   public function fetchReportAnimalByID(int $id): array | null
   {
     try {

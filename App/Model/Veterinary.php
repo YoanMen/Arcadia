@@ -15,14 +15,17 @@ class Veterinary extends User
     $this->reportAnimal = new ReportAnimal();
   }
 
-  public function commentHabitat(int $userId, int $habitat, string $comment)
+  /**
+   * function to comme
+   */
+  public function commentHabitat(int $habitat, string $comment)
   {
     $commentHabitat = $this->habitatsCommentRepo->find(['habitatId' => $habitat]);
 
     if ($commentHabitat) {
-      $this->habitatsCommentRepo->updateComment($habitat, $userId, $comment);
+      $this->habitatsCommentRepo->updateComment($habitat, $this->getId(), $comment);
     } else {
-      $this->habitatsCommentRepo->insert(['comment' => $comment, 'userId' => $userId, 'habitatId' => $habitat]);
+      $this->habitatsCommentRepo->insert(['comment' => $comment, 'userId' => $this->getId(), 'habitatId' => $habitat]);
     }
   }
 

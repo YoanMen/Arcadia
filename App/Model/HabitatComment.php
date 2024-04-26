@@ -94,6 +94,9 @@ class HabitatComment extends Model
     }
   }
 
+  /**
+   * function to get count of habitat comment depending search
+   */
   public function countHabitatComment(string $search): int | null
   {
 
@@ -120,6 +123,10 @@ class HabitatComment extends Model
       throw new DatabaseException("Error count : " . $e->getMessage());
     }
   }
+
+  /**
+   * function to fetch habitats comment with search params
+   */
   public function fetchHabitatsComment(string $search, string $order, string $orderBy): array|null
   {
     try {
@@ -169,6 +176,9 @@ class HabitatComment extends Model
     }
   }
 
+  /**
+   * function to find habitat comment with id
+   */
   public function findHabitatCommentById($id): array | null
   {
     try {

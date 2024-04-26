@@ -7,6 +7,12 @@ use App\Core\Exception\ValidatorException;
 class Employee extends User
 {
 
+  /**
+   * change statut of advice
+   * @param bool $approved to set advice statut
+   * @param int $id id of advice
+   *
+   */
   public function setAdvice(bool $approved, int $id)
   {
     $adviceRepo = new Advice();

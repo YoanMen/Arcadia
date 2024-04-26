@@ -67,51 +67,6 @@ class ServiceController extends Controller
     }
   }
 
-  public function getServices()
-  {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (
-      Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isEmployee()
-      || Security::verifyCsrf($csrf) && $_SERVER['REQUEST_METHOD'] === 'POST' && Security::isAdmin()
-    ) {
-      try {
-
-        $content = trim(file_get_contents('php://input'));
-        $data = json_decode($content, true);
-
-        // get all params
-        $search = htmlspecialchars($data['params']['search']);
-        $order = htmlspecialchars($data['params']['order']);
-        $orderBy = htmlspecialchars($data['params']['orderBy']);
-        $count = htmlspecialchars($data['params']['count']);
-
-        $serviceCount = $this->service->servicesCount($search);
-        $remainCount = $serviceCount - $count;
-
-        // check if remaining data
-        if ($remainCount > 0) {
-          $this->service->setOffset($count);
-          $habitatsComment = $this->service->fetchServices($search, $order, $orderBy);
-
-          echo json_encode(['data' => $habitatsComment, 'totalCount' => $serviceCount]);
-        } else {
-          throw new DatabaseException('aucun résultat');
-        }
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
-
-      if (!Security::verifyCsrf($csrf)) {
-        echo json_encode(['error' => 'CSRF token is not valid']);
-      } else {
-        echo json_encode(['error' => 'accès interdit']);
-      }
-    }
-  }
-
   public function table()
   {
     if (Security::isLogged()) {

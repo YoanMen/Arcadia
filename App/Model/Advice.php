@@ -88,6 +88,9 @@ class Advice extends Model
     return $this;
   }
 
+  /**
+   * function to get advice count depending search
+   */
   public function adviceCount($search)
   {
     try {
@@ -111,6 +114,9 @@ class Advice extends Model
     }
   }
 
+  /**
+   * function to get advice approved count
+   */
   public function approvedAdviceCount()
   {
     try {
@@ -132,7 +138,9 @@ class Advice extends Model
     }
   }
 
-
+  /**
+   * function to get approved advice with id
+   */
   public function getApprovedAdvice(int $id): array | bool
   {
     try {
@@ -157,6 +165,10 @@ class Advice extends Model
       throw new DatabaseException("Error get advices : " . $e->getMessage());
     }
   }
+
+  /**
+   *  function to fetch advices depending search params
+   */
   public function fetchAdvices(string $search, string $order, string $orderBy): array | null
   {
     try {

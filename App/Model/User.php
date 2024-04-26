@@ -121,6 +121,9 @@ class User extends Model
 		return $this;
 	}
 
+	/**
+	 * function to get user count depending search param
+	 */
 	public function userCount($search)
 	{
 
@@ -145,6 +148,9 @@ class User extends Model
 		}
 	}
 
+	/**
+	 * function to fetch users depending search params
+	 */
 	public function fetchUsers(string $search, string $orderBy, string $order): array|null
 	{
 		try {
@@ -183,6 +189,10 @@ class User extends Model
 		}
 	}
 
+	/**
+	 * function to login user
+	 * @return bool if user email and password is valid
+	 */
 	public function login(string $email, string $password): bool
 	{
 		$user = $this->findOneBy(['email' => $email]);
@@ -201,6 +211,9 @@ class User extends Model
 		return false;
 	}
 
+	/**
+	 * function to logout user
+	 */
 	public function logout()
 	{
 		$_SESSION = array();
@@ -221,6 +234,9 @@ class User extends Model
 		}
 	}
 
+	/**
+	 * function to create a new service
+	 */
 	public function createService(string $name, string $description)
 	{
 		$serviceRepo = new Service();
@@ -233,6 +249,9 @@ class User extends Model
 		$serviceRepo->insert(['name' => $name, 'description' => $description]);
 	}
 
+	/**
+	 * function to update a service
+	 */
 	public function updateService(string $name, string $description, int $id)
 	{
 		$serviceRepo = new Service();
@@ -246,6 +265,9 @@ class User extends Model
 		$serviceRepo->update(['name' => $name, 'description' => $description], $id);
 	}
 
+	/**
+	 * function to delete service
+	 */
 	public function deleteService(int $id)
 	{
 		$serviceRepo = new Service();

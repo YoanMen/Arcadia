@@ -87,8 +87,11 @@ class Schedule extends Model
     $this->close = $close;
   }
 
-
-  public function getSchedules()
+  /**
+   * function to get schedules
+   * @return null | string format 'H\hi' depending if open and close time is null or not
+   */
+  public function getSchedules(): null | string
   {
     if (is_null($this->close) && is_null($this->open)) {
       return null;

@@ -336,7 +336,7 @@ class Animal extends Model
    * @param  $id animal id
    * @return array of name or null
    */
-  public function fetchAnimalNameById(int $id): array | null
+  public function fetchAnimalNameById(int $id): array | bool
   {
     $pdo = $this->connect();
 
@@ -350,6 +350,6 @@ class Animal extends Model
       $result = $stm->fetch();
     }
 
-    return $result ?? null;
+    return $result;
   }
 }

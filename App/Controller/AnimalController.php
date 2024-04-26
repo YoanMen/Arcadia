@@ -319,32 +319,33 @@ class AnimalController extends Controller
     }
   }
 
-  public function addClick($request)
+  public function addClick()
   {
 
-    if ($_SERVER['REQUEST_METHOD'] === "GET") {
-      $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
+      $content = trim(file_get_contents("php://input"));
+      $data = json_decode($content, true);
+      $csrf = $data['csrf_token'];
+      $id =  htmlspecialchars($data['id']);
 
       if (Security::verifyCsrf($csrf)) {
         try {
-          $id =  htmlspecialchars($request['id']);
           Validator::strIsInt($id);
 
           // add click for animal
           $couchDb  = new CouchDB();
 
           $couchDb->addClick($id);
+          http_response_code(201);
         } catch (Exception $e) {
           http_response_code(500);
-          echo json_encode(['error' => 'impossible de comptabiliser le click ' . $e->getMessage()]);
         }
       } else {
         http_response_code(401);
-        echo json_encode(['error' => 'la clef csrf n\'est pas valide']);
       }
     } else {
       http_response_code(405);
-      echo json_encode(['error' => 'la méthode n\est pas valide']);
     }
   }
 }

@@ -32,7 +32,7 @@
 
   <div class="hero">
     <?php
-    $images = ['ff151e254.webp', '5fdccad0f507.webp', '1cfad2be205d.jpg'];
+    $images = ['hero/panthere.webp', 'hero/pandaroux.webp', 'hero/elephant.jpg'];
     $autoplay = true;
     require_once '../App/View/partials/_carousel.php' ?>
   </div>
