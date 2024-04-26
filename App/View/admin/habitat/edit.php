@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - habitats</title>
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/dashboard.css">
   <link rel="stylesheet" href="/assets/styles/dialog.css">
@@ -72,6 +73,7 @@
     </div>
   </main>
   <script src="<?= ROOT ?>/assets/scripts/admin/habitatImages.js"></script>
+  <script src="/assets/scripts/admin/sizeFiles.js"></script>
 </body>
 
 </html>

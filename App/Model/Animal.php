@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
-use App\Core\UploadFile;
 use PDO, PDOException;
 
 class Animal extends Model
@@ -14,7 +13,7 @@ class Animal extends Model
 
   private string $name;
   private string $race;
-  private int $habitatID;
+  private ?int $habitatID;
 
   private ?string $habitat;
 
@@ -81,10 +80,10 @@ class Animal extends Model
 
   public function getHabitat(): ?string
   {
-    return $this->habitat;
+    return $this->habitat ?? 'aucun habitat';
   }
 
-  public function getHabitatID(): int
+  public function getHabitatID(): ?int
   {
     return $this->habitatID;
   }
@@ -111,48 +110,52 @@ class Animal extends Model
     $this->images[] = $image;
   }
 
-  public function getAllImagePath(): array|null
-  {
-    $imagesPath = [];
-
-    foreach ($this->images as $image) {
-      $imagesPath[] = $image->getPath();
-    }
-    return $imagesPath ?? null;
-  }
-  public function findImages(): array|null
+  /**
+   * Find all image for this animal
+   * @return array of Image or null
+   */
+  public function findImagesForThisAnimal(): array|null
   {
     try {
-
       $results = null;
 
       $pdo = $this->connect();
-      $query = "SELECT image.id , image.path FROM animal_image
-      INNER JOIN image ON animal_image.imageID = image.id
-      WHERE animal_image.animalID = :animalID;";
+      $query = "SELECT image.id , image.path
+                FROM animal_image
+                INNER JOIN image ON animal_image.imageID = image.id
+                WHERE animal_image.animalID = :animalID;";
 
       $stm = $pdo->prepare($query);
+
       $stm = $this->bindParams($stm, [':animalID' => $this->getId()]);
+
       if ($stm->execute()) {
         while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
 
           $image = new Image();
+
           $image->setId($result['id']);
           $image->setPath($result['path']);
           $this->setImage($image);
+
           $results[] = $result;
         }
       }
 
-      return $results;
+      return $results ?? null;
     } catch (PDOException $e) {
       throw new DatabaseException("Error findImages habitat : " . $e->getMessage(), $e->getCode(), $e);
     }
   }
 
+  /**
+   * Insert to habitat_image table a new image for animal
+   * @param int $animalId id of animal
+   * @param int $imageId id of image
+   * @return true if image is added
+   */
   public function insertImage(int $animalId, int $imageId): bool|null
   {
-
     try {
 
       $pdo = $this->connect();
@@ -170,6 +173,11 @@ class Animal extends Model
     }
   }
 
+  /**
+   * Find animals with name for count
+   * @param $search string
+   * @return int count or null
+   */
   public function animalsCount($search): int|null
   {
     try {
@@ -194,7 +202,25 @@ class Animal extends Model
     }
   }
 
+  /**
+   * get path for all image of this animal
+   * @return array of path or null
+   */
+  public function getAllImagePath(): array|null
+  {
+    $imagesPath = [];
 
+    foreach ($this->images as $image) {
+      $imagesPath[] = $image->getPath();
+    }
+
+    return $imagesPath ?? null;
+  }
+  /**
+   * fetch data for animal_image
+   * @param $id id of animal
+   * @return array or null
+   */
   public function fetchImages($id)
   {
     try {
@@ -220,6 +246,14 @@ class Animal extends Model
       throw new DatabaseException("Error findImages animal : " . $e->getMessage(), $e->getCode(), $e);
     }
   }
+
+  /**
+   * fetch animals depending params
+   * @param $search string value to search name of habitat
+   * @param $order string asc / desc
+   * @param $orderBy order by is string column name
+   * @return array of Habitat or null
+   */
   public function fetchAnimals(string $search, string $order, string $orderBy): array|null
   {
     try {
@@ -234,7 +268,6 @@ class Animal extends Model
         $orderBy = 'name';
       }
 
-
       $allowedOrderBy = ['id', 'name', 'race',  'habitat'];
       $allowedOrder = ['asc', 'desc'];
 
@@ -242,11 +275,14 @@ class Animal extends Model
       $order = in_array($order, $allowedOrder) ? $order : 'asc';
 
       $pdo = $this->connect();
+
       $query = "SELECT animal.id, animal.name, animal.race , habitat.name as habitat
-                FROM animal INNER JOIN habitat ON habitat.id = animal.habitatID
-                WHERE animal.race LIKE :search OR animal.name LIKE :search 
+                FROM animal LEFT JOIN habitat ON habitat.id = animal.habitatID
+                WHERE animal.race LIKE :search OR animal.name LIKE :search
                 OR habitat.name LIKE :search
-                ORDER BY $orderBy  $order LIMIT $this->limit OFFSET $this->offset";
+                ORDER BY $orderBy $order
+                LIMIT $this->limit
+                OFFSET $this->offset";
 
 
       $stm = $pdo->prepare($query);
@@ -264,6 +300,10 @@ class Animal extends Model
     }
   }
 
+  /**
+   * Fetch animals by habitat id
+   * @return array ASSOC with animal value or null
+   */
   public function fetchAnimalsByHabitat(string $id): array|null
   {
     try {
@@ -291,20 +331,12 @@ class Animal extends Model
     }
   }
 
-  public function addImage($id)
-  {
-    $path =  UploadFile::upload();
-    $imageRepo = new Image();
-
-    $imageRepo->insert(['path' => $path]);
-    $image = $imageRepo->findOneBy(['path' => $path]);
-
-    $this->insertImage($id, $image->getId());
-
-    echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
-  }
-
-  public function fetchAnimalNameById(int $id): array | null
+  /**
+   * Fetch animal name by id
+   * @param  $id animal id
+   * @return array of name or null
+   */
+  public function fetchAnimalNameById(int $id): array | bool
   {
     $pdo = $this->connect();
 
@@ -318,6 +350,6 @@ class Animal extends Model
       $result = $stm->fetch();
     }
 
-    return $result ?? null;
+    return $result;
   }
 }

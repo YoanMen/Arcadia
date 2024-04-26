@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
-use Exception;
 use PDO;
 use PDOException;
 
@@ -71,13 +70,17 @@ class HabitatComment extends Model
     return $this;
   }
 
+  /**
+   * function to update comment of habitat
+   */
   public function updateComment(int $habitatId, int $userId, string $comment)
   {
     try {
-
       $pdo = $this->connect();
 
-      $query = "UPDATE $this->table SET userId = :userId, comment = :comment WHERE habitatId = :habitatId; ";
+      $query = "UPDATE $this->table
+                SET userId = :userId, comment = :comment
+                WHERE habitatId = :habitatId; ";
 
       $stm = $pdo->prepare($query);
 
@@ -91,7 +94,9 @@ class HabitatComment extends Model
     }
   }
 
-
+  /**
+   * function to get count of habitat comment depending search
+   */
   public function countHabitatComment(string $search): int | null
   {
 
@@ -101,9 +106,9 @@ class HabitatComment extends Model
       $pdo = $this->connect();
       $query = "SELECT COUNT(*)
                 FROM ( SELECT habitat.name  as habitat, user.email , habitatComment.habitatID,
-                habitatComment.userID, habitatComment.comment FROM habitatComment
+                habitatComment.userID, habitatComment.comment FROM $this->table
                 INNER JOIN habitat ON habitatComment.habitatID = habitat.id
-                INNER JOIN user ON habitatComment.userID = user.id
+                LEFT JOIN user ON habitatComment.userID = user.id
                 WHERE habitat.name LIKE :search OR user.email LIKE :search ) as subquery";
 
       $stm = $pdo->prepare($query);
@@ -118,6 +123,10 @@ class HabitatComment extends Model
       throw new DatabaseException("Error count : " . $e->getMessage());
     }
   }
+
+  /**
+   * function to fetch habitats comment with search params
+   */
   public function fetchHabitatsComment(string $search, string $order, string $orderBy): array|null
   {
     try {
@@ -146,7 +155,7 @@ class HabitatComment extends Model
                 habitatComment.comment,
                 habitat.name AS habitat, user.email
                 FROM habitatComment
-                LEFT JOIN habitat ON habitatComment.habitatID = habitat.id
+                INNER JOIN habitat ON habitatComment.habitatID = habitat.id
                 LEFT JOIN user ON habitatComment.userID = user.id
                 WHERE habitat.name LIKE :search OR user.email LIKE :search
                 ORDER BY $orderBy  $order
@@ -167,6 +176,9 @@ class HabitatComment extends Model
     }
   }
 
+  /**
+   * function to find habitat comment with id
+   */
   public function findHabitatCommentById($id): array | null
   {
     try {
@@ -178,7 +190,7 @@ class HabitatComment extends Model
       $query = "SELECT habitat.name as habitat, user.email, habitatComment.comment
               FROM $this->table
               INNER JOIN habitat ON habitat.id = habitatComment.habitatID
-              INNER JOIN user ON user.id = habitatComment.userID
+              LEFT JOIN user ON user.id = habitatComment.userID
               WHERE habitatComment.habitatID = :id;";
 
       $stm = $pdo->prepare($query);

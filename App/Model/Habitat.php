@@ -4,7 +4,6 @@ namespace App\Model;
 
 use PDO, PDOException;
 use App\Core\Exception\DatabaseException;
-use App\Core\UploadFile;
 
 class Habitat extends Model
 {
@@ -79,70 +78,68 @@ class Habitat extends Model
     return $this->images[$number] ?? null;
   }
 
-  public function getAllImagePath(): array|null
-  {
-    $imagesPath = [];
-
-    foreach ($this->images as $image) {
-      $imagesPath[] = $image->getPath();
-    }
-
-    return $imagesPath ?? null;
-  }
-
   /**
    * Set Image to class
+   * @param $image Image
    */
   public function setImage(Image $image)
   {
     $this->images[] = $image;
   }
 
-
   /**
-   * Find images for one Habitat
+   * Find all image for this habitat
+   * @return array of Image or null
    */
-  public function findImages(): array|null
+  public function findImagesForThisHabitat(): array|null
   {
     try {
 
-      $results = null;
-
       $pdo = $this->connect();
-      $query = "SELECT habitat_image.habitatID ,image.id, image.path FROM habitat_image
-      LEFT JOIN image ON habitat_image.imageID = image.id
-      WHERE habitat_image.habitatID = :habitatID;";
+
+      $query = "SELECT habitat_image.habitatID ,image.id, image.path
+                FROM habitat_image
+                LEFT JOIN image ON habitat_image.imageID = image.id
+                WHERE habitat_image.habitatID = :habitatID;";
 
       $stm = $pdo->prepare($query);
+
       $stm = $this->bindParams($stm, [':habitatID' => $this->getId()]);
+
       if ($stm->execute()) {
         while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
+
           $image = new Image();
+
           $image->setId($result['id']);
           $image->setPath($result['path']);
           $this->setImage($image);
+
           $results[] = $result;
         }
       }
 
-      return $results;
+      return $results ?? null;
     } catch (PDOException $e) {
       throw new DatabaseException("Error findImages habitat : " . $e->getMessage(), $e->getCode(), $e);
     }
   }
-  /**
-   * Find all animals on habitat
-   */
 
+  /**
+   * Find habitats with name for count
+   * @param $search string
+   * @return int count or null
+   */
   public function habitatsCount($search): int | null
   {
     try {
       $search .= '%';
 
       $pdo = $this->connect();
+
       $query = "SELECT COUNT(habitat.id) AS total_count
-      FROM habitat
-      WHERE habitat.name LIKE :search";
+                FROM habitat
+                WHERE habitat.name LIKE :search";
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
@@ -157,7 +154,27 @@ class Habitat extends Model
     }
   }
 
-  public function fetchImages($id)
+  /**
+   * get path for all image of this animal
+   * @return array of path or null
+   */
+  public function getAllImagePath(): array|null
+  {
+    $imagesPath = [];
+
+    foreach ($this->images as $image) {
+      $imagesPath[] = $image->getPath();
+    }
+
+    return $imagesPath ?? null;
+  }
+
+  /**
+   * fetch data for habitat_image
+   * @param $id id of habitat
+   * @return array or null
+   */
+  public function fetchImages($id): array | null
   {
     try {
 
@@ -183,27 +200,13 @@ class Habitat extends Model
     }
   }
 
-  public function fetchMenuHabitat(): array
-  {
-    try {
-      $pdo = $this->connect();
-      $query = "SELECT habitat.name, habitat.id FROM $this->table
-                LIMIT 5";
-
-      $stm = $pdo->prepare($query);
-
-      if ($stm->execute()) {
-        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
-          $results[] = $result;
-        }
-      }
-
-      return $results;
-    } catch (DatabaseException $e) {
-      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
-    }
-  }
-
+  /**
+   * fetch habitats depending params
+   * @param $search string value to search name of habitat
+   * @param $order string asc / desc
+   * @param $orderBy order by is string column name
+   * @return array of Habitat or null
+   */
   public function fetchHabitats(string $search, string $order, string $orderBy): array | null
   {
     try {
@@ -243,9 +246,14 @@ class Habitat extends Model
     }
   }
 
-  public function insertImage(int $habitatId, int $imageId): bool|null
+  /**
+   * Insert to habitat_image table a new image for habitat
+   * @param int $habitatId id of habitat
+   * @param int $imageId id of image
+   * @return true if image is added
+   */
+  public function insertImage(int $habitatId, int $imageId): bool
   {
-
     try {
 
       $pdo = $this->connect();
@@ -263,13 +271,18 @@ class Habitat extends Model
     }
   }
 
+  /**
+   * Fetch all habitats without comment
+   * @return array ASSOC with habitat value or null
+   */
   public function fetchAllHabitatsWithoutComment(): array | null
   {
     try {
       $results = null;
 
       $pdo = $this->connect();
-      $query = "SELECT habitat.id, habitat.name from habitat";
+      $query = "SELECT habitat.id, habitat.name
+                FROM $this->table";
 
       $stm = $pdo->prepare($query);
       $stm->execute();
@@ -286,16 +299,30 @@ class Habitat extends Model
     }
   }
 
-  public function addImage($id)
+  /**
+   * Fetch 5 habitats for adding to menu
+   * @return array ASSOC with habitat value or null
+   */
+  public function fetchMenuHabitat(): array | null
   {
-    $path =  UploadFile::upload();
-    $imageRepo = new Image();
+    try {
+      $pdo = $this->connect();
 
-    $imageRepo->insert(['path' => $path]);
-    $image = $imageRepo->findOneBy(['path' => $path]);
+      $query = "SELECT habitat.name, habitat.id
+                FROM $this->table
+                LIMIT 5";
 
-    $this->insertImage($id, $image->getId());
+      $stm = $pdo->prepare($query);
 
-    echo json_encode(['path' => $image->getPath(), 'id' =>  $image->getId()]);
+      if ($stm->execute()) {
+        while ($result =  $stm->fetch(PDO::FETCH_ASSOC)) {
+          $results[] = $result;
+        }
+      }
+
+      return $results ?? null;
+    } catch (DatabaseException $e) {
+      throw new DatabaseException("Error fetchAll data: " . $e->getMessage());
+    }
   }
 }

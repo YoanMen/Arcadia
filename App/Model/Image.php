@@ -50,6 +50,9 @@ class Image extends Model
     return $this;
   }
 
+  /**
+   * function to delete image on the server and database
+   */
   public function deleteImage(int $id)
   {
     $imageRepo = new Image();

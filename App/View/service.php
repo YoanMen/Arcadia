@@ -11,7 +11,7 @@
   <meta name="description" content="<?= APP_DESC ?>">
   <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/section/section.css">
   <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
@@ -34,18 +34,24 @@
       ];
       require_once '../App/View/partials/_breadcrumbs.php' ?>
 
-      <p class="section__text">Explorez les divers services offerts au sein du Zoo Arcadia. </p>
+
+      <?php if ($data['currentPage'] == 1) { ?>
+        <p class="section__text">Explorez les divers services offerts au sein du Zoo Arcadia. </p>
+      <?php } ?>
+
 
       <div class="section__background">
-        <h1 class="section__title--secondary">Tout nos services</h1>
+        <h1 class="section__title--secondary">Tous nos services</h1>
 
         <ul>
           <?php
           if ($data["services"]) {
             foreach ($data["services"] as $service) { ?>
-              <li><a href="/services/<?= setURLWithName($service->getName()); ?>">
+              <li>
+                <a aria-label="link for service <?= $service->getName() ?>" href="/services/<?= setURLWithName($service->getName()); ?>">
                   <?= $service->getName() ?>
-                </a></li>
+                </a>
+              </li>
           <?php }
           }
           ?>

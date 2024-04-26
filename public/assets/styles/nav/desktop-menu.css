@@ -68,8 +68,13 @@
   max-height: 400px;
 }
 
+.desktop-menu__submenu li:last-child a {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .desktop-menu__submenu::-webkit-scrollbar-track {
-  background: var(--bg-color-dark);
+  background: transparent;
 }
 
 .desktop-menu__list .desktop-menu__submenu {

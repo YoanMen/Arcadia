@@ -11,7 +11,7 @@
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
 
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/hero/hero.css">
   <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
@@ -32,7 +32,7 @@
 
   <div class="hero">
     <?php
-    $images = ['ff151e254.webp', '5fdccad0f507.webp', '1cfad2be205d.jpg'];
+    $images = ['hero/panthere.webp', 'hero/pandaroux.webp', 'hero/elephant.jpg'];
     $autoplay = true;
     require_once '../App/View/partials/_carousel.php' ?>
   </div>
@@ -43,13 +43,11 @@
         Le Zoo Arcadia
       </h1>
       <p class="section__text">
-        Explorez la magie d'Arcadia, un zoo enchanteur niché près de la mystique forêt de Brocéliande en Bretagne depuis 1960. Notre parc propose une expérience immersive où la diversité animale est harmonieusement répartie dans des habitats uniques tels que la savane, la jungle et le marais.
+        Fondé en 1960, notre zoo offre une immersion authentique dans le monde naturel avec une collection d'animaux exceptionnels répartis sur différents habitats, y compris la savane africaine vibrante, l'introspection dense de la jungle et les eaux tranquilles des marais.
 
-        La santé et le bien-être de nos précieux habitants sont au cœur de nos préoccupations.
+        Notre engagement pour le bien-être animal est une priorité absolue, avec des équipes expertes qui se déplacent quotidiennement au zoo pour effectuer des contrôles médicaux préventifs et garantir un environnement sain. Nous avons également développé une approche de gestion financière solide, ce qui a permis à notre directeur éminent, José, d'acquérir l'ambition de nous rendre plus que seulement une attraction locale - c'est maintenant la porte vers un voyage sans limite dans le monde animal.
 
-        Notre engagement envers le bien-être animal se reflète non seulement dans les soins médicaux réguliers, mais aussi dans la gestion précise de leur alimentation. Chaque repas est minutieusement calculé, avec le grammage optimal spécifié dans les rapports détaillés des vétérinaires.
-
-        Arcadia est bien plus qu'un zoo ; c'est un refuge écologique. Nous sommes fiers de notre indépendance énergétique, témoignant de notre engagement envers l'écologie.
+        Nous avons hâte de vous accueillir au zoo Arcadia pour une aventure épique, des rencontres inoubliables et des leçons d'écologie qui vont changer votre vie. Découvrez nos parcours animaliers avec nous aujourd'hui !
       </p>
       <img class="image" src="/assets/images/1548643.webp" alt="" loading="lazy">
       <?php

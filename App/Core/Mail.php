@@ -10,7 +10,7 @@ class Mail
     $subject = 'Nouveau compte sur Arcadia';
     $headers = "MIME-Version: 1.0,\r\n";
     $headers .= "Content-type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: yoanmen@alwaysdata.net \r\n";
+    $headers .= "From: Zoo Arcadia <yoanmen@alwaysdata.net> \r\n";
     $headers .= "X-Mailer: PHP mail() \r\n";
 
     $message = <<<HTML

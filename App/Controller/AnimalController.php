@@ -6,6 +6,7 @@ use App\Core\CouchDB;
 use App\Core\Exception\DatabaseException;
 use App\Core\Router;
 use App\Core\Security;
+use App\Core\UploadFile;
 use App\Core\Validator;
 use App\Model\Admin;
 use App\Model\Animal;
@@ -42,16 +43,13 @@ class AnimalController extends Controller
 
         if ($animal) {
           // get images of this animal
-          $animal->findImages();
+          $animal->findImagesForThisAnimal();
 
           // get report detail by veterinary
           $reportRepository = new ReportAnimal();
           $report =  $reportRepository->findOneBy(['animalId' => $animal->getId()]);
 
-          // add click for animal
-          $couchDb  = new CouchDB();
 
-          $couchDb->addClick($animal->getId());
 
           $this->show('animal', [
             'animal' => $animal,
@@ -112,7 +110,13 @@ class AnimalController extends Controller
 
           Validator::strIsInt($id);
 
-          $this->animal->addImage($id);
+          $path = UploadFile::upload();
+          $imageRepo = new Image();
+
+          $imageRepo->insert(['path' => $path]);
+          $image = $imageRepo->findOneBy(['path' => $path]);
+
+          $this->animal->insertImage($id, $image->getId());
 
           $_SESSION['success'] = 'Image ajouté';
         } catch (Exception $e) {
@@ -312,6 +316,42 @@ class AnimalController extends Controller
     } else {
       $_SESSION['error'] = 'Vous n\'avez pas la permission';
       Router::redirect('dashboard');
+    }
+  }
+
+  public function addClick()
+  {
+
+    if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
+      $content = trim(file_get_contents("php://input"));
+      $data = json_decode($content, true);
+      $csrf = $data['csrf_token'];
+      $id =  htmlspecialchars($data['id']);
+
+      if (Security::verifyCsrf($csrf)) {
+        try {
+          Validator::strIsInt($id);
+          $animal = $this->animal->findOneBy(['id' => $id]);
+
+          if ($animal) {
+            // add click for animal
+            $couchDb  = new CouchDB();
+
+            $couchDb->addClick($id);
+            http_response_code(201);
+            return;
+          }
+
+          http_response_code(404);
+        } catch (Exception $e) {
+          http_response_code(500);
+        }
+      } else {
+        http_response_code(401);
+      }
+    } else {
+      http_response_code(405);
     }
   }
 }

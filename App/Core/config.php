@@ -26,7 +26,7 @@ define('APP_NAME', "Zoo Arcadia");
 define('APP_DESC', "Arcadia Zoo official website");
 
 /** true means show errors **/
-define('DEBUG', false);
+define('DEBUG', true);
 
 /** Upload files config**/
 define('DESTINATION_IMAGE_FOLDER', 'uploads/');

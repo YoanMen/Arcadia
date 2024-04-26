@@ -88,6 +88,9 @@ class Advice extends Model
     return $this;
   }
 
+  /**
+   * function to get advice count depending search
+   */
   public function adviceCount($search)
   {
     try {
@@ -95,7 +98,7 @@ class Advice extends Model
 
       $pdo = $this->connect();
       $query = "SELECT COUNT(advice.id) as total_count
-                FROM advice
+                FROM $this->table
                 WHERE advice.pseudo LIKE :search";
 
       $stm = $pdo->prepare($query);
@@ -111,13 +114,16 @@ class Advice extends Model
     }
   }
 
+  /**
+   * function to get advice approved count
+   */
   public function approvedAdviceCount()
   {
     try {
 
       $pdo = $this->connect();
       $query = "SELECT COUNT(advice.id) as total_count
-                FROM advice
+                FROM $this->table
                 WHERE advice.approved = 1";
 
       $stm = $pdo->prepare($query);
@@ -132,7 +138,9 @@ class Advice extends Model
     }
   }
 
-
+  /**
+   * function to get approved advice with id
+   */
   public function getApprovedAdvice(int $id): array | bool
   {
     try {
@@ -141,7 +149,8 @@ class Advice extends Model
       $pdo = $this->connect();
       $query = "SELECT * FROM ( SELECT advice.pseudo, advice.advice,
                 ROW_NUMBER() OVER (ORDER BY advice.id DESC) AS id
-                FROM advice WHERE approved = 1) AS numbered_rows
+                FROM $this->table
+                WHERE approved = 1) AS numbered_rows
                 WHERE id = :id;";
 
       $stm = $pdo->prepare($query);
@@ -156,6 +165,10 @@ class Advice extends Model
       throw new DatabaseException("Error get advices : " . $e->getMessage());
     }
   }
+
+  /**
+   *  function to fetch advices depending search params
+   */
   public function fetchAdvices(string $search, string $order, string $orderBy): array | null
   {
     try {

@@ -3,8 +3,6 @@
 namespace App\Model;
 
 use App\Core\Exception\DatabaseException;
-use DateTimeImmutable;
-use Exception;
 use PDO;
 use PDOException;
 
@@ -148,8 +146,9 @@ class ReportAnimal extends Model
     return $this;
   }
 
-
-
+  /**
+   * fetch report animal count depending search params
+   */
   public function fetchReportAnimalCount(string $search, string $date): int | null
   {
     try {
@@ -187,6 +186,10 @@ class ReportAnimal extends Model
       throw new DatabaseException("Error count : " . $e->getMessage());
     }
   }
+
+  /**
+   * function to fetch report animal depending search params
+   */
   public function fetchReportAnimal(string $search, string $date, string $order, string $orderBy): array|null
   {
     try {
@@ -223,8 +226,8 @@ class ReportAnimal extends Model
                 reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
                 FROM $this->table
                 INNER JOIN animal on reportAnimal.animalID = animal.id
-                INNER JOIN user ON reportAnimal.userID = user.id
-                INNER JOIN habitat ON habitat.id = animal.habitatID
+                LEFT JOIN user ON reportAnimal.userID = user.id
+                LEFT JOIN habitat ON habitat.id = animal.habitatID
                 WHERE (:date IS NULL OR reportAnimal.date = :date)
                 AND ( animal.name LIKE :search OR user.email LIKE :search
                 OR animal.race LIKE :search OR  habitat.name LIKE :search)
@@ -249,6 +252,9 @@ class ReportAnimal extends Model
   }
 
 
+  /**
+   * function to fetch reports animals by id
+   */
   public function fetchReportAnimalByID(int $id): array | null
   {
     try {
@@ -261,8 +267,8 @@ class ReportAnimal extends Model
                 reportAnimal.weight, reportAnimal.date, reportAnimal.details,reportAnimal.statut
                 FROM $this->table
                 INNER JOIN animal on reportAnimal.animalID = animal.id
-                INNER JOIN user ON reportAnimal.userID = user.id
-                INNER JOIN habitat ON habitat.id = animal.habitatID
+                LEFT JOIN user ON reportAnimal.userID = user.id
+                LEFT JOIN habitat ON habitat.id = animal.habitatID
                 WHERE reportAnimal.id = :id ";
 
       $stm = $pdo->prepare($query);

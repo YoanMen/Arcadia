@@ -27,22 +27,21 @@ $router->addRoute('GET', ROOT . '/habitats/{name}/{animalName}', 'AnimalControll
 $router->addRoute('GET', ROOT . '/login', 'AuthController', 'login');
 $router->addRoute('POST', ROOT . '/login', 'AuthController', 'login');
 $router->addRoute('GET', ROOT . '/logout', 'AuthController', 'logout');
-$router->addRoute('GET', ROOT . '/contact', 'ContactController', 'index');
-$router->addRoute('POST', ROOT . '/contact', 'ContactController', 'index');
+$router->addRoute('GET', ROOT . '/nous-contacter', 'ContactController', 'index');
+$router->addRoute('POST', ROOT . '/nous-contacter', 'ContactController', 'index');
 
 //API
 $router->addRoute('GET', ROOT . '/api/initmenu', 'HomeController', 'initMenu');
 $router->addRoute('POST', ROOT . '/api/advices/send', 'AdviceController', 'sendAdvice');
 $router->addRoute('GET', ROOT . '/api/advices/approved/{id}', 'AdviceController', 'getApprovedAdvice');
-
 $router->addRoute('PUT', ROOT . '/api/advices', 'AdviceController', 'updateAdvice');
-
 $router->addRoute('PUT', ROOT . '/api/schedules', 'ScheduleController', 'updateSchedule');
 $router->addRoute('DELETE', ROOT . '/api/habitats/images', 'HabitatController', 'deleteImage');
 $router->addRoute('GET', ROOT . '/api/habitats/{id}/animals', 'HabitatController', 'getAnimalsOfHabitat');
 $router->addRoute('POST', ROOT . '/api/habitats/images', 'HabitatController', 'uploadImage');
 $router->addRoute('POST', ROOT . '/api/animals/images', 'AnimalController', 'uploadImage');
 $router->addRoute('DELETE', ROOT . '/api/animals/images', 'AnimalController', 'deleteImage');
+$router->addRoute('POST', ROOT . '/api/animals/clicks', 'AnimalController', 'addClick');
 
 $router->addRoute('GET', ROOT . '/dashboard', 'AuthController', 'index');
 

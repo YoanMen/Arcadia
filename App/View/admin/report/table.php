@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - rapport sur les animaux</title>
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/dashboard.css">
   <link rel="stylesheet" href="/assets/styles/pagination/pagination.css">
@@ -71,7 +72,7 @@
               foreach ($data['reportAnimals'] as $reportAnimal) : ?>
                 <tr>
                   <td class="hidden--mobile">
-                    <?= $reportAnimal['email'] ?>
+                    <?= $reportAnimal['email'] ?? 'utilisateur supprimé' ?>
                   </td>
                   <td>
                     <?= $reportAnimal['name'] ?>
@@ -80,7 +81,7 @@
                     <?= $reportAnimal['statut'] ?>
                   </td>
                   <td class="hidden--mobile">
-                    <?= $reportAnimal['habitat'] ?>
+                    <?= $reportAnimal['habitat'] ?? 'aucun habitat' ?>
                   </td>
                   <td class="hidden--mobile">
                     <?= $reportAnimal['food'] ?>

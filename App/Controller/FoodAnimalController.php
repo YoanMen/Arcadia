@@ -111,7 +111,7 @@ class FoodAnimalController extends Controller
               $food = ltrim($food, ' ');
               $food = strtolower($food);
 
-              Validator::isNull($animalId, 'Animal ne peut pas être nulle');
+              Validator::isNull($animalId, 'Animal ne peut pas être null');
               Validator::strIsInt($animalId);
               Validator::strIsInt($userId);
               Validator::strLengthCorrect($food, 3, 20);

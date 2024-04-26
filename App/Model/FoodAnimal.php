@@ -140,6 +140,9 @@ class FoodAnimal extends Model
     return $this;
   }
 
+  /**
+   * function to food animal count with search params
+   */
   public function foodAnimalsCount($search, $date): int | null
   {
     try {
@@ -176,7 +179,9 @@ class FoodAnimal extends Model
   }
 
 
-
+  /**
+   * fetch food animals with search params
+   */
   public function fetchFoodAnimals(string $search, string $date, string $order, string $orderBy): array | null
   {
     try {
@@ -214,8 +219,8 @@ class FoodAnimal extends Model
                 foodAnimal.time, foodAnimal.date
                 FROM foodAnimal
                 INNER JOIN animal ON animal.id = foodAnimal.animalID
-                INNER JOIN habitat ON habitat.id = animal.habitatID
-                INNER JOIN user ON user.id = foodAnimal.userID
+                LEFT JOIN habitat ON habitat.id = animal.habitatID
+                LEFT JOIN user ON user.id = foodAnimal.userID
                 WHERE (:date IS NULL OR foodAnimal.date = :date)
                 AND ( habitat.name LIKE :search OR animal.race LIKE :search OR animal.name LIKE :search OR user.email LIKE :search  )
                 ORDER BY $orderBy  $order , foodAnimal.time asc
@@ -223,7 +228,6 @@ class FoodAnimal extends Model
 
       $stm = $pdo->prepare($query);
       $stm->bindParam(':search', $search, PDO::PARAM_STR);
-      $stm->bindParam(':userId', $userId, PDO::PARAM_INT);
       $stm->bindParam(':date', $date, PDO::PARAM_STR);
 
       if ($stm->execute()) {
@@ -243,6 +247,9 @@ class FoodAnimal extends Model
     }
   }
 
+  /**
+   * fetch food animals depending id
+   */
   public function fetchFoodAnimalsByID(int $id): array | null
   {
     try {
@@ -255,8 +262,8 @@ class FoodAnimal extends Model
                 foodAnimal.time, foodAnimal.date
                 FROM foodAnimal
                 INNER JOIN animal ON animal.id = foodAnimal.animalID
-                INNER JOIN habitat ON habitat.id = animal.habitatID
-                INNER JOIN user ON user.id = foodAnimal.userID
+                LEFT JOIN habitat ON habitat.id = animal.habitatID
+                LEFT JOIN user ON user.id = foodAnimal.userID
                 WHERE foodAnimal.id = :id";
 
       $stm = $pdo->prepare($query);

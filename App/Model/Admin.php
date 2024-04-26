@@ -7,7 +7,6 @@ use App\Core\Exception\ValidatorException;
 use App\Core\Mail;
 use App\Core\Security;
 use App\Core\UploadFile;
-use Exception;
 
 class Admin extends User
 {
@@ -24,6 +23,11 @@ class Admin extends User
 		$this->habitat = new Habitat();
 		$this->animal = new Animal();
 	}
+
+
+	/**
+	 * function to create new user
+	 */
 	public function createUser(string $email, string $password, string $role)
 	{
 
@@ -41,6 +45,9 @@ class Admin extends User
 		$mail->sendMailToNewUser($email);
 	}
 
+	/**
+	 * function to update user
+	 */
 	public function updateUser(
 		int $id,
 		string $email,
@@ -63,17 +70,26 @@ class Admin extends User
 		}
 	}
 
+	/**
+	 * function to delete user
+	 */
 	public function deleteUser(int $id)
 	{
 
 		$this->delete(['id' => $id]);
 	}
 
+	/**
+	 * function to update schedules
+	 */
 	public function updateSchedule(int $id, ?string $open, ?string $close)
 	{
 		$this->schedule->update(['open' => $open, 'close' => $close], $id);
 	}
 
+	/**
+	 * function to create habitat
+	 */
 	public function createHabitat(string $name, string $description)
 	{
 
@@ -99,11 +115,17 @@ class Admin extends User
 		// send habitat_id and image_id to habitat_image
 		$this->habitat->insertImage($habitat->getId(), $image->getId());
 	}
+	/**
+	 *  function to update habitat
+	 */
 	public function updateHabitat(int $id, string $name, string $description)
 	{
 		$this->habitat->update(['name' => $name, 'description' => $description], $id);
 	}
 
+	/**
+	 * function to delete habitat
+	 */
 	public function deleteHabitat(int $id)
 	{
 
@@ -118,6 +140,9 @@ class Admin extends User
 		$this->habitat->delete(['id' => $id]);
 	}
 
+	/**
+	 * function to create animal
+	 */
 	public function createAnimal(string $name, string $race, int $habitat)
 	{
 
@@ -144,6 +169,9 @@ class Admin extends User
 		$this->animal->insertImage($animal->getId(), $image->getId());
 	}
 
+	/**
+	 * function to update animal
+	 */
 	public function updateAnimal(string $name, string $race, int $habitat, int $id)
 	{
 		$animal = $this->animal->findOneBy(['name' => $name]);
@@ -155,6 +183,9 @@ class Admin extends User
 		$this->animal->update(['name' => $name, 'race' => $race, 'habitatId' => $habitat], $id);
 	}
 
+	/**
+	 * function to delete animal
+	 */
 	public function deleteAnimal(int $id)
 	{
 		$animalImages = $this->animal->fetchImages($id);

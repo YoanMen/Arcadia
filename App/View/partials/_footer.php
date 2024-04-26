@@ -24,7 +24,7 @@
           Nos habitats</a>
       </li>
       <li class="footer__item">
-        <a href="/contact">Contact</a>
+        <a href="/nous-contacter">Nous contacter</a>
       </li>
       <li class="footer__item">
         <a href="/login">Connexion</a>

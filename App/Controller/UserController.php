@@ -84,7 +84,7 @@ class UserController extends Controller
 
               $admin->createUser($email, $password, $role);
 
-              $_SESSION['success'] = $email . ' à été crée';
+              $_SESSION['success'] = 'L\'utilisateur ' . $email . ' a été crée';
               Router::redirect('dashboard/utilisateurs');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();

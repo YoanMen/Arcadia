@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= APP_NAME ?>
     | Dashboard - animaux</title>
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/dashboard.css">
   <link rel="stylesheet" href="/assets/styles/dialog.css">
@@ -22,7 +23,6 @@
     <div class="dashboard__container">
       <?php include_once  '../App/View/partials/_success.php' ?>
       <?php include_once   '../App/View/partials/_error.php' ?>
-
       <div class="dashboard__container__top">
         <h1 class="dashboard__title ">Ajouter un animal</h1>
         <button id="add-button" form="add" class="button max-width--mobile">
@@ -31,7 +31,7 @@
       </div>
       <div class="dashboard__content">
         <form enctype="multipart/form-data" id='add' method="post">
-          <input max-file-size="<?= MAX_FILE_SIZE ?>" type="hidden" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
+          <input type="hidden" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
           <ul>
             <li class="details__item">
               <label for='name'>nom</label>
@@ -53,8 +53,9 @@
             </li>
             <li class="details__item">
               <label for="habitatImage">image</label>
-              <input required id="image-input" class="details__input" type="file" id="file" name="file" accept="image/png, image/jpeg, image/webp">
+              <input max-file-size="<?= MAX_FILE_SIZE ?>" required id="image-input" class="details__input" type="file" id="file" name="file" accept="image/png, image/jpeg, image/webp">
             </li>
+
           </ul>
         </form>
       </div>
@@ -62,6 +63,7 @@
   </main>
 
   <script src="/assets/scripts/admin/add-element.js"></script>
+  <script src="/assets/scripts/admin/sizeFiles.js"></script>
 </body>
 
 </html>

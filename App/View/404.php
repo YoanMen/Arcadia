@@ -11,7 +11,7 @@
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
 
-  <link rel="shortcut icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
+  <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/section/section.css">
   <link rel="stylesheet" href="/assets/styles/card/btn-card.css">
