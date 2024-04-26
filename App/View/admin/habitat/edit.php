@@ -73,6 +73,7 @@
     </div>
   </main>
   <script src="<?= ROOT ?>/assets/scripts/admin/habitatImages.js"></script>
+  <script src="/assets/scripts/admin/sizeFiles.js"></script>
 </body>
 
 </html>

@@ -50,6 +50,7 @@
     </div>
   </main>
 
+  <script src="/assets/scripts/admin/sizeFiles.js"></script>
   <script src="/assets/scripts/admin/add-element.js"></script>
 </body>
 

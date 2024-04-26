@@ -82,6 +82,7 @@
     </div>
   </main>
   <script src="/assets/scripts/admin/animalImages.js"></script>
+  <script src="/assets/scripts/admin/sizeFiles.js"></script>
 </body>
 
 </html>
