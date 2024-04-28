@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Core\CouchDB;
+use App\Model\CouchDB;
 use App\Core\Exception\DatabaseException;
 use App\Core\Router;
 use App\Core\Security;
@@ -10,6 +10,7 @@ use App\Core\UploadFile;
 use App\Core\Validator;
 use App\Model\Admin;
 use App\Model\Animal;
+use App\Model\CouchDB as ModelCouchDB;
 use App\Model\Habitat;
 use App\Model\Image;
 use App\Model\ReportAnimal;
