@@ -36,7 +36,7 @@ Voir la page d'
 [installation](https://docs.couchdb.org/en/stable/install/index.html) et suivez les étapes pour votre système.
 
 Il va falloir crée une une base de données, pour cela nous pouvons utiliser
-[Postman](https://www.postman.com/downloads/)
+[Postman](https://www.postman.com/downloads/) ou le terminal avec curl
 
 remplacer user et password par vos identifiant.
 
@@ -50,17 +50,16 @@ body:
 
 ```
     {
-    "index": {
-       "fields": [
+   "index": {
+      "fields": [
          "click"
-        ]
-    },
-    "name": "click-index"
+      ]
+   },
+   "name": "click-index"
+}
 ```
 
-}
-
-ou le terminal
+le terminal
 
 ```
 curl -X PUT http://USER:PASSWORD@localhost:5984/arcadia
