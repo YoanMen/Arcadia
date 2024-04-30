@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const csrf_token = document.head.querySelector(
-    'meta[name="csrf-token"]'
-  ).content;
+  const csrf_token = document
+    .querySelector("meta[name='csrf-token']")
+    .getAttribute("content");
+
   const buttons = document.querySelectorAll(".interactive-card__button");
 
   buttons.forEach((button) => {

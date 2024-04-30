@@ -6,9 +6,9 @@ function initializeTestimonialSlider() {
   const adviceCard = document.getElementById("testimonial-card");
   const text = document.getElementById("testimonial-text");
   const pseudo = document.getElementById("testimonial-pseudo");
-  const csrf_token = document.head.querySelector(
-    'meta[name="csrf-token"]'
-  ).content;
+  const csrf_token = document
+    .querySelector("meta[name='csrf-token']")
+    .getAttribute("content");
 
   let currentAdvice = 1;
   let totalAdvices = 0;
