@@ -6,7 +6,8 @@
   min-height: 320px;
   padding-bottom: 30px;
   background-color: white;
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 .chart__text {
   display: flex;

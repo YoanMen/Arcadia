@@ -42,7 +42,7 @@
                 foreach ($data['famousAnimals'] as $animal) { ?>
                   <article data-click="<?= $animal['click'] ?>" class="chart__item">
                     <div class="chart__item__bar"></div>
-                    <p class="chart__item__text one-line"><?= $animal['name'] ?> </p>
+                    <p class="chart__item__text"><?= $animal['name'] ?> </p>
                   </article>
                 <?php }  ?>
               </div>
