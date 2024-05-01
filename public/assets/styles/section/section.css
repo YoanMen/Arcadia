@@ -33,9 +33,12 @@
   justify-content: center;
 }
 @media screen and (max-width: 1180px) {
-  .section__text,
   .section__title {
     padding: 0 var(--padding);
+  }
+
+  .section__text {
+    padding: var(--padding);
   }
 
   .section__img,
