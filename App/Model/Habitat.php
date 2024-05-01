@@ -97,7 +97,7 @@ class Habitat extends Model
 
       $pdo = $this->connect();
 
-      $query = "SELECT habitat_image.habitatID ,image.id, image.path
+      $query = "SELECT image.id, image.path
                 FROM habitat_image
                 LEFT JOIN image ON habitat_image.imageID = image.id
                 WHERE habitat_image.habitatID = :habitatID;";
@@ -107,13 +107,8 @@ class Habitat extends Model
       $stm = $this->bindParams($stm, [':habitatID' => $this->getId()]);
 
       if ($stm->execute()) {
-        while ($result = $stm->fetch(PDO::FETCH_ASSOC)) {
-
-          $image = new Image();
-
-          $image->setId($result['id']);
-          $image->setPath($result['path']);
-          $this->setImage($image);
+        while ($result = $stm->fetchObject((Image::class))) {
+          $this->setImage($result);
 
           $results[] = $result;
         }

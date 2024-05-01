@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use App\Core\CouchDB;
+use App\Model\CouchDB;
 use App\Core\Exception\ValidatorException;
 use App\Core\Mail;
 use App\Core\Security;

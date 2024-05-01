@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const pseudoInput = document.getElementById("pseudo");
   const messageInput = document.getElementById("message");
 
-  const csrf_token = document.head.querySelector(
-    'meta[name="csrf-token"]'
-  ).content;
+  const csrf_token = document
+    .querySelector("meta[name='csrf-token']")
+    .getAttribute("content");
 
   pseudoInput.addEventListener("input", CanSend);
   messageInput.addEventListener("input", CanSend);

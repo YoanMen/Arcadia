@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const csrf_token = document.head.querySelector(
-    'meta[name="csrf-token"]'
-  ).content;
+  const csrf_token = document
+    .querySelector("meta[name='csrf-token']")
+    .getAttribute("content");
 
   const desktopMenu = document.querySelector(".desktop-menu--fixed");
   const menuBtn = document.querySelector(".mobile-menu__btn");

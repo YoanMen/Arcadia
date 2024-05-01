@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core;
+namespace App\Model;
 
 class CouchDB
 {
@@ -28,7 +28,7 @@ class CouchDB
     return false;
   }
 
-  public function createAnimalDocument(string $animalId): bool
+  private function createAnimalDocument(string $animalId): bool
   {
     $curl = curl_init(COUCHDB_URL);
 
@@ -69,7 +69,7 @@ class CouchDB
 
     return empty($data['docs']) ? null : $data['docs'];
   }
-  public function getDocumentByID(string $animalId): null | array
+  private function getDocumentByID(string $animalId): null | array
   {
     $curl = curl_init(COUCHDB_URL . '/' . $animalId);
     curl_setopt_array($curl, [
@@ -109,7 +109,7 @@ class CouchDB
         ])
       ]);
 
-      $response = curl_exec($curl);
+      curl_exec($curl);
 
 
       curl_close($curl);

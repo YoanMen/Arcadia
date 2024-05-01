@@ -12,10 +12,10 @@
   <meta name="description" content="<?= APP_DESC ?>">
 
   <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
-  <link rel="stylesheet" href="/assets/styles/hero/hero.css">
+  <link rel="stylesheet" href="/assets/styles/global.css">
   <link rel="stylesheet" href="/assets/styles/nav/mobile-menu.css">
   <link rel="stylesheet" href="/assets/styles/nav/desktop-menu.css">
-  <link rel="stylesheet" href="/assets/styles/global.css">
+  <link rel="stylesheet" href="/assets/styles/hero/hero.css">
   <link rel="stylesheet" href="/assets/styles/div/carousel.css">
   <link rel="stylesheet" href="/assets/styles/section/section.css">
   <link rel="stylesheet" href="/assets/styles/section/schedule.css">

@@ -19,7 +19,7 @@
   gap: 6px;
   width: 100%;
   align-items: end;
-  justify-content: start;
+  justify-content: space-evenly;
 }
 
 .chart__item {

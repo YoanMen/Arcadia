@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Core\CouchDB;
+use App\Model\CouchDB;
 use App\Core\Exception\DatabaseException;
 use App\Core\Router;
 use App\Core\Security;

@@ -55,7 +55,6 @@
               <label for="habitatImage">image</label>
               <input max-file-size="<?= MAX_FILE_SIZE ?>" required id="image-input" class="details__input" type="file" id="file" name="file" accept="image/png, image/jpeg, image/webp">
             </li>
-
           </ul>
         </form>
       </div>
