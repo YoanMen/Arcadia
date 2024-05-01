@@ -17,7 +17,7 @@ jobs:
         exclude: |
           **/.git*
           **/.git*/**
-          **/node_modules/bootstrap/scss/**
-          **/node_modules/bootstrap/js/**
-          **/node_modules/bootstrap-icons/icons/**  
+          **/docs/*
+          **/docs/*/**
+          
         server-dir: /www/
