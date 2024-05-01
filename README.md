@@ -38,6 +38,8 @@ Voir la page d'
 Il va falloir crée une une base de données, pour cela nous pouvons utiliser
 [Postman](https://www.postman.com/downloads/) ou le terminal avec curl
 
+postman:
+
 remplacer user et password par vos identifiant.
 
     PUT http://USER:PASSWORD@localhost:5984/arcadia
@@ -59,7 +61,7 @@ body:
 }
 ```
 
-le terminal
+terminal :
 
 ```
 curl -X PUT http://USER:PASSWORD@localhost:5984/arcadia

@@ -56,17 +56,18 @@ function setSwitch(Schedule $schedule): bool
           </thead>
           <tbody>
             <?php
-            if (isset($data['schedules'])) {
+            if (isset($data['schedules'])) { ?>
+              <input type="hidden" id="csrf_token" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
+              <?php
               foreach ($data['schedules'] as $schedule) { ?>
                 <tr class="schedule-js">
                   <td class="hidden--mobile"><?= $schedule->getDay() ?></td>
                   <td>
-                    <input type="hidden" id="csrf_token" name="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
-                    <input type="time" name="" id="time-open" value="<?= $schedule->getOpen() ?>">
+                    <input type="time" id="time-open" value="<?= $schedule->getOpen() ?>">
                   </td>
-                  <td><input type="time" name="" id="time-close" value="<?= $schedule->getClose() ?>"></td>
+                  <td><input type="time" id="time-close" value="<?= $schedule->getClose() ?>"></td>
                   <td>
-                    <label class="switch">
+                    <label aria-label="switch button" class="switch">
                       <input data-schedule-id="<?= $schedule->getId()  ?>" type="checkbox" id="close" <?= (setSwitch($schedule)) ? 'checked' : '' ?>>
                       <span class="slider round"></span>
                     </label>
