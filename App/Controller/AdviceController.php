@@ -22,16 +22,18 @@ class AdviceController extends Controller
   // advice send by visitor
   public function sendAdvice()
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    $content = trim(file_get_contents("php://input"));
+    $data = json_decode($content, true);
+    $pseudo = htmlspecialchars($data['pseudo']);
+    $message =  htmlspecialchars($data['message']);
+    $csrf = htmlspecialchars($data['csrf_token']);
+
     if (
       Security::verifyCsrf($csrf)
       && $_SERVER['REQUEST_METHOD'] ===  'POST'
     ) {
       try {
-        $content = trim(file_get_contents("php://input"));
-        $data = json_decode($content, true);
-        $pseudo = htmlspecialchars($data['pseudo']);
-        $message =  htmlspecialchars($data['message']);
+
 
         Validator::strLengthCorrect($pseudo, 3, 20, 'Le pseudo doit être entre 3 et 20 caractères');
         Validator::strLengthCorrect($message, 3, 300, 'Le commentaire doit être entre 3 et 300 caractères');
@@ -51,27 +53,21 @@ class AdviceController extends Controller
 
   public function getApprovedAdvice($request)
   {
-    $csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if (Security::verifyCsrf($csrf)) {
+    try {
       $id = $request['id'];
-      try {
-        $adviceRepository = new Advice();
+      $adviceRepository = new Advice();
 
-        $count = $adviceRepository->approvedAdviceCount();
-        $advice = $adviceRepository->getApprovedAdvice($id);
+      $count = $adviceRepository->approvedAdviceCount();
+      $advice = $adviceRepository->getApprovedAdvice($id);
 
-        header('Content-Type: application/json');
-        echo json_encode([
-          'totalCount' => $count,
-          'advice' => boolval($advice) ? $advice : null
-        ]);
-      } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-      }
-    } else {
-      http_response_code(401);
-      echo json_encode(['error' => 'CSRF token is not valid']);
+      header('Content-Type: application/json');
+      echo json_encode([
+        'totalCount' => $count,
+        'advice' => boolval($advice) ? $advice : null
+      ]);
+    } catch (Exception $e) {
+      http_response_code(500);
+      echo json_encode(['error' => $e->getMessage()]);
     }
   }
 

@@ -25,11 +25,12 @@
 
 .chart__item {
   width: 100%;
-  max-width: 60px;
+  max-width: 120px;
 }
 
 .chart__item__bar {
-  min-width: 60px;
+  width: 60px;
+  margin: 0 auto;
   height: 100%;
   background-color: var(--bg-color-dark);
 }

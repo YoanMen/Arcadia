@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const csrf_token = document
-    .querySelector("meta[name='csrf-token']")
-    .getAttribute("content");
-
   const desktopMenu = document.querySelector(".desktop-menu--fixed");
   const menuBtn = document.querySelector(".mobile-menu__btn");
   const closeBtn = document.querySelector(".mobile-menu__btn-close");
@@ -17,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "X-CSRF-TOKEN": csrf_token,
       },
     });
     if (r.ok) {

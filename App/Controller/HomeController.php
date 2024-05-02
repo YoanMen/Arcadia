@@ -44,24 +44,18 @@ class HomeController extends Controller
 	{
 
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-			$csrf = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
 
-			if (Security::verifyCsrf($csrf)) {
-				try {
-					$servicesRepository = new Service;
-					$services = $servicesRepository->fetchMenuService();
-					$habitatRepository = new Habitat;
-					$habitats = $habitatRepository->fetchMenuHabitat();
+			try {
+				$servicesRepository = new Service;
+				$services = $servicesRepository->fetchMenuService();
+				$habitatRepository = new Habitat;
+				$habitats = $habitatRepository->fetchMenuHabitat();
 
-					header('Content-Type: application/json');
-					echo json_encode(['services' => $services, 'habitats' => $habitats]);
-				} catch (DatabaseException $e) {
-					http_response_code(500);
-					echo json_encode(['error' => $e]);
-				}
-			} else {
-				http_response_code(401);
-				echo json_encode(['error' => 'la clef csrf n\'est pas valide']);
+				header('Content-Type: application/json');
+				echo json_encode(['services' => $services, 'habitats' => $habitats]);
+			} catch (DatabaseException $e) {
+				http_response_code(500);
+				echo json_encode(['error' => $e]);
 			}
 		} else {
 			http_response_code(405);

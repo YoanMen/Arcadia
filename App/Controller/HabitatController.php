@@ -365,7 +365,11 @@ class HabitatController extends Controller
         $animalRepo = new Animal();
         $animals = $animalRepo->fetchAnimalsByHabitat($id);
 
-        echo  json_encode($animals);
+        if ($animals) {
+          echo  json_encode($animals);
+        } else {
+          echo  json_encode("aucun animal dans cette habitat");
+        }
       } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
         http_response_code(500);

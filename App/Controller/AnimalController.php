@@ -326,11 +326,11 @@ class AnimalController extends Controller
 
       $content = trim(file_get_contents("php://input"));
       $data = json_decode($content, true);
-      $csrf = $data['csrf_token'];
-      $id =  htmlspecialchars($data['id']);
+      $csrf = $data['csrf_token'] ?? '';
 
       if (Security::verifyCsrf($csrf)) {
         try {
+          $id =  htmlspecialchars($data['id'] ?? '');
           Validator::strIsInt($id);
           $animal = $this->animal->findOneBy(['id' => $id]);
 

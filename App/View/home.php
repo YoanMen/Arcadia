@@ -148,6 +148,8 @@
     </div>
     <div id="dialog-content" class="dialog__content">
       <form method="dialog" class="dialog__form">
+        <input type="hidden" id="csrf_token" value='<?= $_SESSION['csrf_token'] ?>'>
+
         <label for="pseudo">Pseudo </label>
         <input required type="text" name="pseudo" id="pseudo" minlength="3" maxlength="20">
         <label for="message">Message</label>
