@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,6 @@
     | Habitats
   </title>
   <meta name="description" content="<?= APP_DESC ?>">
-  <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
 
   <link rel="icon" href="/assets/images/icons/arcadia-logo.svg" type="image/x-icon">
   <link rel="stylesheet" href="/assets/styles/global.css">
