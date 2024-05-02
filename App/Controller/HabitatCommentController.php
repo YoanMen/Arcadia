@@ -117,8 +117,11 @@ class HabitatCommentController extends Controller
               }
               $veterinary = new Veterinary();
 
+              $userId = Security::getCurrentUserId();
+
+
               // update or insert new table if $habitatComment exist or not
-              $veterinary->commentHabitat($habitat, $comment);
+              $veterinary->commentHabitat($userId, $habitat, $comment);
 
               $_SESSION['success'] = 'Le rapport sur l\'habitat à été crée';
               Router::redirect('dashboard/commentaire-habitats');
