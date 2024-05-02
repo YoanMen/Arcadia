@@ -6,9 +6,6 @@ function initializeTestimonialSlider() {
   const adviceCard = document.getElementById("testimonial-card");
   const text = document.getElementById("testimonial-text");
   const pseudo = document.getElementById("testimonial-pseudo");
-  const csrf_token = document
-    .querySelector("meta[name='csrf-token']")
-    .getAttribute("content");
 
   let currentAdvice = 1;
   let totalAdvices = 0;
@@ -98,7 +95,6 @@ function initializeTestimonialSlider() {
     const r = await fetch(`/api/advices/approved/${currentAdvice}`, {
       method: "GET",
       headers: {
-        "X-CSRF-TOKEN": csrf_token,
         Accept: "application/json",
       },
     });

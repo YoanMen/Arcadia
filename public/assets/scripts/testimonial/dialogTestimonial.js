@@ -7,9 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pseudoInput = document.getElementById("pseudo");
   const messageInput = document.getElementById("message");
 
-  const csrf_token = document
-    .querySelector("meta[name='csrf-token']")
-    .getAttribute("content");
+  const csrf_token = document.getElementById("csrf_token").value;
 
   pseudoInput.addEventListener("input", CanSend);
   messageInput.addEventListener("input", CanSend);
@@ -45,11 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const r = await fetch("/api/advices/send", {
       method: "POST",
       headers: {
-        "X-CSRF-TOKEN": csrf_token,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        csrf_token: csrf_token,
         pseudo: pseudoInput.value,
         message: messageInput.value,
       }),
