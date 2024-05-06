@@ -238,17 +238,17 @@ class Model extends Database
    * @param array $data to be updated
    * @param int $id of element to be updated
    */
-  public function update(array $data, int $id)
+  public function update(array $data, int $id, string $nameId = "id")
   {
     try {
       $keysValue = $this->setUpdate($data);
-      $keysValueWhere = $this->setWhere(['id' => $id]);
+      $keysValueWhere = $this->setWhere([$nameId => $id]);
       $pdo = $this->connect();
       $query = "UPDATE  $this->table SET $keysValue WHERE $keysValueWhere ";
 
       $stm = $pdo->prepare($query);
       $stm = $this->bindParams($stm, $data);
-      $stm = $this->bindParams($stm, ['id' => $id]);
+      $stm = $this->bindParams($stm, [$nameId => $id]);
       $stm->execute();
     } catch (PDOException $e) {
       throw new DatabaseException("Error Updating data: " . $e->getMessage());

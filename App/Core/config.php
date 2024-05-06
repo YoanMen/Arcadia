@@ -24,6 +24,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 
 define('APP_NAME', "Zoo Arcadia");
 define('APP_DESC', "Arcadia Zoo official website");
+define('COUNT_CONNECTION', 4);
 
 /** true means show errors **/
 define('DEBUG', true);

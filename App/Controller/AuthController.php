@@ -8,6 +8,7 @@ use App\Core\Security;
 use App\Model\Animal;
 use App\Model\HabitatComment;
 use App\Model\ReportAnimal;
+use App\Model\TryConnection;
 use App\Model\User;
 
 class AuthController extends Controller
@@ -68,7 +69,7 @@ class AuthController extends Controller
 
   public function login()
   {
-    $error = null;
+    $error = "adresse email ou mot de passe incorrecte";
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
@@ -77,13 +78,48 @@ class AuthController extends Controller
       $password = htmlspecialchars($_POST['password']);
 
       if (Security::verifyCsrf($_POST['csrf_token'])) {
-        $user = new User();
 
-        if ($user->login($email, $password)) {
-          Router::redirect('dashboard');
-        } else {
-          $_SESSION['error'] = "adresse email ou mot de passe incorrecte";
+        $userModel = new User();
+        $tryConnectionModel = new TryConnection();
+
+        // check if user with this email exist
+        $user = $userModel->findOneBy(["email" => $email]);
+
+        if ($user) {
+
+          // check if tryConnection exist for this user
+          $tryConnection =  $tryConnectionModel->findByUserId($user->getId());
+
+          // check if try connection count is not >= COUNT_CONNECTION
+          if ($tryConnection && $tryConnection->getCount() >= COUNT_CONNECTION) {
+
+            $error = "compte bloqué à cause d'une trop grande tentative de connection, contactez l'administrateur";
+          } elseif ($userModel->login($email, $password)) {
+
+            // delete try connection if count < COUNT_CONNECTION and password is correct
+            if ($tryConnection) {
+              $tryConnectionModel->delete(['user_id' => $user->getId()]);
+            }
+
+            Router::redirect('dashboard');
+          } else {
+
+            // add try connection count
+            if ($tryConnection) {
+
+              $count  =  $tryConnection->getCount() + 1;
+
+              $tryConnectionModel->update(['count' => $count], $user->getId(), 'user_id');
+              $number = (COUNT_CONNECTION + 1) - $count;
+              $error = $number . ' tentative avant que le compte ne soit bloqué';
+            } else {
+
+              $tryConnectionModel->insert(['user_id' =>  $user->getId()]);
+            }
+          }
         }
+
+        $_SESSION['error'] = $error;
       } else {
         $_SESSION['error'] = "csrf token is invalid";
       }
@@ -91,12 +127,7 @@ class AuthController extends Controller
       sleep(1);
     }
 
-    if (Security::isLogged()) {
-      Router::redirect('dashboard');
-    } else {
-
-      $this->show('admin/login', ['error' => $error]);
-    }
+    $this->show('admin/login', ['error' => $error]);
   }
 
   public function logout()

@@ -2,6 +2,11 @@
   margin-top: 32px;
 }
 
+.interactive-card__img {
+  width: 100%;
+  object-fit: cover;
+}
+
 .interactive-card__item:first-child,
 .interactive-card__content:first-child {
   border-top-left-radius: 5px;
@@ -24,16 +29,22 @@
   background-position: center;
   background-size: 100%;
   width: 100%;
+  height: 120px;
+  transition: height ease-in-out 0.2s;
 }
 
 .interactive-card__content {
+  position: absolute;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: var(--padding);
   color: white;
   width: 100%;
-  transition: background ease-in-out 0.2s;
+  height: 120px;
+  max-width: 1180px;
+  opacity: 0;
+  transition: all ease-in-out 0.2s;
 }
 .interactive-card__title {
   text-transform: uppercase;
@@ -47,23 +58,30 @@
 
 @media screen and (min-width: 762px) {
   .interactive-card__item:hover {
-    height: 100%;
+    height: 240px;
   }
-  .interactive-card__item:hover .interactive-card__button {
-    animation: showButton linear 0.2s;
+
+  .interactive-card__item:hover .interactive-card__button,
+  .interactive-card__item:hover .interactive-card__content {
     opacity: 1;
   }
   .interactive-card__item:hover .interactive-card__content {
     background: rgba(0, 0, 0, 0.2);
+    height: 240px;
   }
 }
 
 @media screen and (max-width: 762px) {
+  .interactive-card__item {
+    height: 240px;
+  }
+
   .interactive-card__content {
     flex-direction: column;
     gap: 6px;
-    height: 100%;
+    height: 240px;
     background: rgba(0, 0, 0, 0.2);
+    opacity: 1;
   }
 
   .interactive-card__button {

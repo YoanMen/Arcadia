@@ -1,9 +1,17 @@
 -- création de la table user
 CREATE TABLE user(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  locked SMALLINT NOT NULL DEFAULT 0,
   email VARCHAR(60) NOT NULL, 
   password VARCHAR(60) NOT NULL,
   role VARCHAR(20) DEFAULT 'employee' NOT NULL);
+
+-- création d'une table pour comptage de nombres de connexion avec mauvais mot de passe
+
+CREATE TABLE tryConnection (
+  user_id INT NOT NULL PRIMARY KEY,
+  count INT DEFAULT 1,
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE)
 
 -- création de la table habitat 
 
