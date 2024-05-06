@@ -3,6 +3,8 @@
 namespace App\Model;
 
 use App\Model\CouchDB;
+use App\Model\TryConnection;
+
 use App\Core\Exception\ValidatorException;
 use App\Core\Mail;
 use App\Core\Security;
@@ -55,6 +57,8 @@ class Admin extends User
 		string $role,
 	) {
 
+		$tryConnectionModel = new TryConnection();
+		$tryConnection =  $tryConnectionModel->findByUserId($id);
 
 		$user = $this->user->findOneBy(['email' => $email]);
 
@@ -62,7 +66,13 @@ class Admin extends User
 			throw new ValidatorException('un utilisateur avec cette adresse existe déjà');
 		}
 
+
+
 		if ($password != null) {
+
+			if ($tryConnection) {
+				$tryConnectionModel->delete(['user_id' => $id]);
+			}
 			$password =  Security::hashPassword($password);
 			$this->update(['email' => $email, 'password' => $password, 'role' => $role], $id);
 		} else {
