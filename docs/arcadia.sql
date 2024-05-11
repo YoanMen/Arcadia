@@ -1,7 +1,6 @@
 -- création de la table user
 CREATE TABLE user(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  locked SMALLINT NOT NULL DEFAULT 0,
   email VARCHAR(60) NOT NULL, 
   password VARCHAR(60) NOT NULL,
   role VARCHAR(20) DEFAULT 'employee' NOT NULL);

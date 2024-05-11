@@ -10,7 +10,7 @@ class TryConnection extends Model
 
   protected string $table = 'tryConnection';
 
-  private int $userId;
+  private int $user_id;
   private int $count;
 
 
@@ -20,7 +20,7 @@ class TryConnection extends Model
    */
   public function getUserId(): int
   {
-    return $this->userId;
+    return $this->user_id;
   }
 
   /**
@@ -28,7 +28,7 @@ class TryConnection extends Model
    */
   public function setUserId(int $userId): self
   {
-    $this->userId = $userId;
+    $this->user_id = $userId;
 
     return $this;
   }
