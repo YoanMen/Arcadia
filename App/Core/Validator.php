@@ -85,7 +85,10 @@ class Validator
 
   public static function strWithoutSpecialCharacters(string $string, string $error = 'Le text ne doit pas contenir de caractère spéciales')
   {
-    if (!preg_match('/^[a-zA-Z0-9\s]+$/', $string)) {
+    if (!preg_match(
+      '/^[\p{L}0-9\s]+$/u',
+      $string
+    )) {
       http_response_code(400);
       throw new ValidatorException($error);
     }
