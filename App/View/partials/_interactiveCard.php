@@ -8,7 +8,8 @@
 
 ?>
 
-<li class='interactive-card__item' style="background-image: url('/uploads/<?= $pathImg ?>');">
+<li class='interactive-card__item'>
+  <img class="interactive-card__img" src=" /uploads/<?= $pathImg ?>" alt="represent content of current card">
   <div class="interactive-card__content">
     <h3 class='interactive-card__title'><?= $title ?></h3>
     <a <?= $dataId ?? '' ?> href="<?= $redirection ?>" class="button interactive-card__button"> <?= $textBtn ?></a>

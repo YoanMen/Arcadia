@@ -37,7 +37,7 @@ class UploadFile
         !in_array($extension, ALLOWED_EXTENSIONS_FILE)
         && !in_array($fileMimeType, ALLOWED_EXTENSIONS_FILE)
       ) {
-        throw new FileException("Invalid format file");
+        throw new FileException("Le format n'est pas valide");
       }
 
       // random file name
@@ -47,12 +47,12 @@ class UploadFile
         move_uploaded_file($file_tmp_name, $destination);
 
         if (!file_exists($destination)) {
-          throw new FileException("File not uploaded");
+          throw new FileException("Le fichier n'a pas pu être upload");
         }
 
         return $fileName;
       } else {
-        throw new FileException("File already exist");
+        throw new FileException("Un fichier avec ce nom existe déjà");
       }
     } else {
       if ($_FILES["file"]["error"] !== UPLOAD_ERR_OK) {
@@ -91,7 +91,7 @@ class UploadFile
         unlink("uploads/" . $fileName);
       }
     } catch (FileException $e) {
-      throw new FileException("Unable to delete image : " . $e->getMessage());
+      throw new FileException("Impossible de supprimer l'image : " . $e->getMessage());
     }
   }
 }

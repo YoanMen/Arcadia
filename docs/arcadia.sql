@@ -5,6 +5,13 @@ CREATE TABLE user(
   password VARCHAR(60) NOT NULL,
   role VARCHAR(20) DEFAULT 'employee' NOT NULL);
 
+-- création d'une table pour comptage de nombres de connexion avec mauvais mot de passe
+
+CREATE TABLE tryConnection (
+  user_id INT NOT NULL PRIMARY KEY,
+  count INT DEFAULT 1,
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE)
+
 -- création de la table habitat 
 
 CREATE TABLE habitat (
