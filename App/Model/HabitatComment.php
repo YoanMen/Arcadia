@@ -127,7 +127,7 @@ class HabitatComment extends Model
   /**
    * function to fetch habitats comment with search params
    */
-  public function fetchHabitatsComment(string $search, string $order, string $orderBy): array|null
+  public function fetchHabitatsComment(string $search = '', string $order = '', string $orderBy = ''): array|null
   {
     try {
       $results = null;

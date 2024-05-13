@@ -207,7 +207,7 @@ class ReportAnimal extends Model
   /**
    * function to fetch report animal depending search params
    */
-  public function fetchReportAnimal(string $search, string $date, string $order, string $orderBy): array|null
+  public function fetchReportAnimal(string $search = '', string $date = '', string $order = '', string $orderBy = ''): array|null
   {
     try {
       $results = null;

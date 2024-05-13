@@ -30,8 +30,8 @@ class AuthController extends Controller
         $reportAnimalRepo->setLimit(5);
         $habitatCommentRepo->setLimit(5);
 
-        $reportAnimals = $reportAnimalRepo->fetchReportAnimal('', '',   '', '');
-        $habitatComments = $habitatCommentRepo->fetchHabitatsComment('', '', '');
+        $reportAnimals = $reportAnimalRepo->fetchReportAnimal();
+        $habitatComments = $habitatCommentRepo->fetchHabitatsComment();
 
         $data = $couchDb->getFamousAnimals();
 
