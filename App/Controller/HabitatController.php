@@ -245,7 +245,7 @@ class HabitatController extends Controller
               $admin = new Admin();
               $admin->createHabitat($name, $description);
 
-              $_SESSION['success'] =  'L\'habitat ' . $name . ' à été crée';
+              $_SESSION['success'] =  'L\'habitat ' . $name . ' a été crée';
               Router::redirect('dashboard/habitats');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
@@ -301,7 +301,7 @@ class HabitatController extends Controller
               $admin = new Admin();
               $admin->updateHabitat($id, $name, $description);
 
-              $_SESSION['success'] =  'L\'habitat ' . $name . ' à été modifié';
+              $_SESSION['success'] =  'L\'habitat ' . $name . ' a été modifié';
 
               Router::redirect('dashboard/habitats');
             } catch (Exception $e) {
@@ -339,7 +339,7 @@ class HabitatController extends Controller
           $admin = new Admin();
           $admin->deleteHabitat($id);
 
-          $_SESSION['success'] = 'l\'habitat à été supprimé';
+          $_SESSION['success'] = 'l\'habitat a été supprimé';
         } catch (Exception $e) {
           $_SESSION['error'] =  $e->getMessage();
         }

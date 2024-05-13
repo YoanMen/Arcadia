@@ -123,7 +123,7 @@ class HabitatCommentController extends Controller
               // update or insert new table if $habitatComment exist or not
               $veterinary->commentHabitat($userId, $habitat, $comment);
 
-              $_SESSION['success'] = 'Le rapport sur l\'habitat à été crée';
+              $_SESSION['success'] = 'Le rapport sur l\'habitat a été crée';
               Router::redirect('dashboard/commentaire-habitats');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();

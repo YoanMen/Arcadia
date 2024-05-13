@@ -2,7 +2,7 @@
 
 Application conçue dans le cadre de ma formation Studi
 
-Ce projet à été réalisé en utilisant PHP, HTML, CSS et Javascript, j'ai voulu faire ce projet sans librairie externe ou de framework ayant commencé la formation en octobre je voulais perfectionner ma maitrise de ces langages avant de passer aux frameworks.
+Ce projet a été réalisé en utilisant PHP, HTML, CSS et Javascript, j'ai voulu faire ce projet sans librairie externe ou de framework ayant commencé la formation en octobre je voulais perfectionner ma maitrise de ces langages avant de passer aux frameworks.
 
 ## Tester en local
 

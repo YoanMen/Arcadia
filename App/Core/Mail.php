@@ -21,7 +21,7 @@ class Mail
                   <title>Nouveau compte sur Arcadia</title>
               </head>
               <body style="font-family: Arial, Helvetica, sans-serif;">
-                  <h1>Le compte <strong> test@test.com </strong> à été crée</h1>
+                  <h1>Le compte <strong> test@test.com </strong> a été crée</h1>
                   <table>
                       <tr>
                          <p>Afin de pouvoir utiliser votre compte, vous devez vous approcher de l'administrateur afin d'avoir votre mot de passe.</p>
@@ -34,7 +34,7 @@ class Mail
     $message = str_replace('test@test.com', $to, $message);
 
     if (!mail($to, $subject, $message, $headers)) {
-      $_SESSION['error'] =  "Impossible d'envoyer l'email au nouvelle utilisateur";
+      $_SESSION['error'] =  "Impossible d'envoyer l'email au nouvel utilisateur";
     }
   }
 

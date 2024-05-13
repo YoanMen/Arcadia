@@ -144,7 +144,7 @@ class ReportAnimalController extends Controller
                 $statut
               );
 
-              $_SESSION['success'] = 'Le rapport sur l\'animal à été crée';
+              $_SESSION['success'] = 'Le rapport sur l\'animal a été crée';
               Router::redirect('dashboard/rapport-animaux');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();

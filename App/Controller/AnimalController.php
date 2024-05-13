@@ -206,7 +206,7 @@ class AnimalController extends Controller
               $admin = new Admin();
               $admin->createAnimal($name, $race, $habitat);
 
-              $_SESSION['success'] = 'L\'animal ' . $name . ' à été crée';
+              $_SESSION['success'] = 'L\'animal ' . $name . ' a été crée';
               Router::redirect('dashboard/animaux');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
@@ -263,7 +263,7 @@ class AnimalController extends Controller
               $admin = new Admin();
               $admin->updateAnimal($name, $race, $habitat, $id);
 
-              $_SESSION['success'] =  'L\'animal ' . $name . ' à été modifié';
+              $_SESSION['success'] =  'L\'animal ' . $name . ' a été modifié';
               Router::redirect('dashboard/animaux');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
@@ -305,7 +305,7 @@ class AnimalController extends Controller
           $admin = new Admin();
           $admin->deleteAnimal($id);
 
-          $_SESSION['success'] = 'l\'animal à été supprimé';
+          $_SESSION['success'] = 'l\'animal a été supprimé';
         } catch (Exception $e) {
           $_SESSION['error'] =  $e->getMessage();
         }

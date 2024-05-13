@@ -129,7 +129,7 @@ class FoodAnimalController extends Controller
                 $date
               );
 
-              $_SESSION['success'] = 'Le rapport de nourrissage à été crée';
+              $_SESSION['success'] = 'Le rapport de nourrissage a été crée';
               Router::redirect('dashboard/alimentation-animaux');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();

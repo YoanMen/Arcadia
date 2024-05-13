@@ -126,13 +126,13 @@ class ServiceController extends Controller
               $name = ucfirst($name);
 
               Validator::strLengthCorrect($name, 3, 60);
-              Validator::strWithoutSpecialCharacters($name, 'Le nom ne doit pas contenir de caractère spéciales');
+              Validator::strWithoutSpecialCharacters($name, 'Le nom ne doit pas contenir de caractère spéciaux');
               Validator::strMinLengthCorrect($description, 10);
 
               $user = new User();
               $user->createService($name, $description);
 
-              $_SESSION['success'] = 'Le service ' . $name . ' à été crée';
+              $_SESSION['success'] = 'Le service ' . $name . ' a été crée';
               Router::redirect('dashboard/services');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
@@ -184,7 +184,7 @@ class ServiceController extends Controller
               $user = new User();
               $user->updateService($name, $description, $id);
 
-              $_SESSION['success'] =  'Le service ' . $name . ' à été modifié';
+              $_SESSION['success'] =  'Le service ' . $name . ' a été modifié';
               Router::redirect('dashboard/services');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
@@ -221,7 +221,7 @@ class ServiceController extends Controller
           $user = new User();
           $user->deleteService($id);
 
-          $_SESSION['success'] = 'Le service à été supprimé';
+          $_SESSION['success'] = 'Le service a été supprimé';
         } catch (Exception $e) {
           $_SESSION['error'] =  $e->getMessage();
         }

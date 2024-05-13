@@ -139,7 +139,7 @@ class UserController extends Controller
 
               $admin->updateUser($id, $email, $password, $role);
 
-              $_SESSION['success'] = 'L\'utilisateur à été modifié';
+              $_SESSION['success'] = 'L\'utilisateur a été modifié';
               Router::redirect('dashboard/utilisateurs');
             } catch (Exception $e) {
               $_SESSION['error'] =  $e->getMessage();
@@ -176,7 +176,7 @@ class UserController extends Controller
 
           $admin->deleteUser($id);
 
-          $_SESSION['success'] = 'l\'utilisateur à été supprimé';
+          $_SESSION['success'] = 'l\'utilisateur a été supprimé';
         } catch (Exception $e) {
           $_SESSION['error'] =  $e->getMessage();
         }

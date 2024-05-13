@@ -93,7 +93,7 @@ class AuthController extends Controller
           // check if try connection count is not >= COUNT_CONNECTION
           if ($tryConnection && $tryConnection->getCount() >= COUNT_CONNECTION) {
 
-            $error = "compte bloqué à cause d'une trop grande tentative de connection, contactez l'administrateur";
+            $error = "compte bloqué à cause d'un trop grand nombre de tentatives de connexion, contactez l'administrateur";
           } elseif ($userModel->login($email, $password)) {
 
             // delete try connection if count < COUNT_CONNECTION and password is correct
@@ -108,10 +108,7 @@ class AuthController extends Controller
             if ($tryConnection) {
 
               $count  =  $tryConnection->getCount() + 1;
-
               $tryConnectionModel->update(['count' => $count], $user->getId(), 'user_id');
-              $number = (COUNT_CONNECTION + 1) - $count;
-              $error = $number . ' tentative avant que le compte ne soit bloqué';
             } else {
 
               $tryConnectionModel->insert(['user_id' =>  $user->getId()]);

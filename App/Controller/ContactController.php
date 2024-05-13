@@ -31,7 +31,7 @@ class ContactController extends Controller
           $mail = new Mail();
 
           if ($mail->sendMailFromVisitor($message, $title, $email)) {
-            $_SESSION['success'] = 'Votre message à bien été envoyé, nous y répondrons le plus rapidement possible';
+            $_SESSION['success'] = 'Votre message a bien été envoyé, nous y répondrons le plus rapidement possible';
           } else {
             $_SESSION['error'] = 'Impossible d\'envoyer votre message une erreur interne est survenue';
           }
