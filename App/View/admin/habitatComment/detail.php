@@ -36,6 +36,10 @@
             <p><?= $data['habitatComment']['email'] ?? 'utilisateur supprimé' ?></p>
           </li>
           <li class="details__item">
+            <span>crée le</span>
+            <p><?= $data['habitatComment']['updated_at'] ?></p>
+          </li>
+          <li class="details__item">
             <span>habitat</span>
             <p><?= $data['habitatComment']['habitat'] ?></p>
           </li>

@@ -16,6 +16,8 @@ class HabitatComment extends Model
 
   private string $comment;
 
+  private string $updated_at;
+
   /**
    * Get the value of habitatID
    */
@@ -79,7 +81,7 @@ class HabitatComment extends Model
       $pdo = $this->connect();
 
       $query = "UPDATE $this->table
-                SET userId = :userId, comment = :comment
+                SET userId = :userId, comment = :comment, updated_at = CURRENT_TIMESTAMP
                 WHERE habitatId = :habitatId; ";
 
       $stm = $pdo->prepare($query);
@@ -87,6 +89,7 @@ class HabitatComment extends Model
       $stm->bindParam(':comment', $comment, PDO::PARAM_STR);
       $stm->bindParam(':habitatId', $habitatId, PDO::PARAM_INT);
       $stm->bindParam(':userId', $userId, PDO::PARAM_INT);
+
 
       $stm->execute();
     } catch (PDOException $e) {
@@ -187,7 +190,7 @@ class HabitatComment extends Model
 
       $pdo = $this->connect();
 
-      $query = "SELECT habitat.name as habitat, user.email, habitatComment.comment
+      $query = "SELECT habitat.name as habitat, user.email, habitatComment.comment, habitatComment.updated_at
               FROM $this->table
               INNER JOIN habitat ON habitat.id = habitatComment.habitatID
               LEFT JOIN user ON user.id = habitatComment.userID
@@ -204,5 +207,23 @@ class HabitatComment extends Model
     } catch (DatabaseException $e) {
       throw new DatabaseException("Error count : " . $e->getMessage());
     }
+  }
+
+  /**
+   * Get the value of updated_at
+   */
+  public function getUpdatedAt(): string
+  {
+    return $this->updated_at;
+  }
+
+  /**
+   * Set the value of updated_at
+   */
+  public function setUpdatedAt(string $updated_at): self
+  {
+    $this->updated_at = $updated_at;
+
+    return $this;
   }
 }
