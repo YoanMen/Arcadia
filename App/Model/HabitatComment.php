@@ -8,7 +8,7 @@ use PDOException;
 
 class HabitatComment extends Model
 {
-  protected string $orderColumn = "habitatId";
+  protected string $orderColumn = "updated_at";
 
   protected string $table = 'habitatComment';
   private int $habitatID;
@@ -138,7 +138,7 @@ class HabitatComment extends Model
       $search .=  '%';
 
       if ($order !== 'asc' && $order !== 'desc') {
-        $order = 'desc';
+        $order = 'asc';
       }
 
       $search = strtolower($search);
@@ -147,10 +147,10 @@ class HabitatComment extends Model
         $search = 'email';
       }
 
-      $allowedOrderBy = ['habitat, email'];
+      $allowedOrderBy = ['habitat',  'email'];
       $allowedOrder = ['asc', 'desc'];
 
-      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'habitat';
+      $orderBy = in_array($orderBy, $allowedOrderBy) ? $orderBy : 'updated_at';
       $order = in_array($order, $allowedOrder) ? $order : 'asc';
 
       $pdo = $this->connect();
@@ -161,7 +161,7 @@ class HabitatComment extends Model
                 INNER JOIN habitat ON habitatComment.habitatID = habitat.id
                 LEFT JOIN user ON habitatComment.userID = user.id
                 WHERE habitat.name LIKE :search OR user.email LIKE :search
-                ORDER BY $orderBy  $order
+                ORDER BY $orderBy  desc
                 LIMIT $this->limit OFFSET $this->offset";
 
       $stm = $pdo->prepare($query);

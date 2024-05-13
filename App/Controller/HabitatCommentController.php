@@ -21,7 +21,7 @@ class HabitatCommentController extends Controller
       if (Security::isVeterinary() || Security::isAdmin()) {
         $search = $_GET['search'] ?? '';
         $order = $_GET['order'] ?? 'desc';
-        $orderBy = $_GET['orderBy'] ?? 'habitat';
+        $orderBy = $_GET['orderBy'] ?? 'updated_at';
 
         try {
           $page = $_GET['page'] ?? 1;
