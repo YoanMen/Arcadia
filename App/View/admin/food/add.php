@@ -52,7 +52,7 @@
               </select>
             </li>
             <li class="details__item">
-              <label for='animals'>animal</label>
+              <label for='animal'>animal</label>
               <select disabled name="animal" id="animal">
                 <option>aucun animal</option>
               </select>
@@ -73,6 +73,8 @@
 
   <script src="/assets/scripts/admin/getAnimalsByHabitat.js"></script>
   <script src="/assets/scripts/admin/add-element.js"></script>
+  <script src="/assets/scripts/admin/dateAndTime.js"></script>
+
 </body>
 
 </html>

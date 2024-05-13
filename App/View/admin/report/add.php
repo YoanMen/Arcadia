@@ -81,6 +81,8 @@
 
   <script src="/assets/scripts/admin/getAnimalsByHabitat.js"></script>
   <script src="/assets/scripts/admin/add-element.js"></script>
+  <script src="/assets/scripts/admin/dateAndTime.js"></script>
+
 </body>
 
 </html>
