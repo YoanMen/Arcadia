@@ -47,7 +47,7 @@ class UploadFile
         move_uploaded_file($file_tmp_name, $destination);
 
         if (!file_exists($destination)) {
-          throw new FileException("Le fichier n'a pas pu être upload");
+          throw new FileException("Le fichier n'a pas pu être upload vérifié les droits d'écriture");
         }
 
         return $fileName;

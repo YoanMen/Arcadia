@@ -14,24 +14,57 @@ Toutes les informations présente sont pour un systeme sous Ubuntu, à adapté s
 
 Pour faire tourner localement ce projet il va vous falloir
 
-- un serveur PHP local, moi j'ai utiliser Xampp
+- un serveur PHP local, moi j'ai utiliser LAMP
 - mySQL
 - CouchDB
 - serveur SMTP, j'ai utilisé sendMail pour les test en local.
 
-### XAMPP
+### LAMP
 
-Placer vous dans le dossier `htdocs`, sous mon système il se trouve dans `opt/lampp/htdocs` et cloner ou télécharger le projet de la branche `local`.
+Creation d'un dossier `localhost`
+
+    sudo mkdir /var/www/localhost
+
+Donner les droit:
+
+    sudo chown -R $USER:users /var/www/localhost
+
+Création du fichier de configuration:
+
+    sudo nano /etc/apache2/sites-available/localhost.conf
+
+Copiez-y :
+
+      <VirtualHost *:80>
+            ServerName localhost
+            ServerAlias www.localhost
+            DocumentRoot "/var/www/localhost"
+            <Directory "/var/www/localhost/">
+                     Options Indexes FollowSymLinks MultiViews
+                     AllowOverride All
+                     Require all granted
+            </Directory>
+            ErrorLog /var/log/apache2/error.localhost.log
+            CustomLog /var/log/apache2/access.localhost.log combined
+      </VirtualHost>
+
+Activer le rewrite pour le .htaccess:
+
+    sudo a2enmod rewrite
+
+Rechargez apache2:
+
+    sudo systemctl reload apache2
+
+Placer vous dans le dossier ` /var/www/localhost` et cloner ou télécharger le projet de la branche `local`.
 
     git clone  https://github.com/YoanMen/Arcadia/tree/local
 
+Déplacer le contenu du dossier `Arcadia` pour le placer à la racine de `localhost`, attention aux fichiers caché.
 
-Lancez XAMMP en démar
-Démarrer votre serveur:
+Donner les droit pour l'upload et la suppréssion des fichiers du dossier `upload` :
 
-    sudo /opt/lampp/manager-linux-x64.run
-
-Dans l'onglet Manage Servers `Start all`.
+    sudo chmod -R 777 /var/www/localhost/public/uploads
 
 ### MySQL
 
@@ -48,14 +81,12 @@ Importez ou exécutez le contenu du fichier `arcadia.sql`.
 Voir la page d'
 [installation](https://docs.couchdb.org/en/stable/install/index.html) et suivez les étapes pour votre système.
 
-Il va falloir créer une base de données, pour cela nous pouvons utiliser 
+Il va falloir créer une base de données, pour cela nous pouvons utiliser
 [Postman](https://www.postman.com/downloads/) ou le terminal avec curl.
 
 Remplacez `USER` et `PASSWORD` par votre compte créé à l'installation.
 
-
 #### avec Postman:
-
 
     PUT http://USER:PASSWORD@localhost:5984/arcadia
 
@@ -79,6 +110,7 @@ Body:
 #### avec le terminal :
 
 Création de la base de données :
+
 ```
 curl -X PUT http://USER:PASSWORD@localhost:5984/arcadia
 ```
@@ -98,12 +130,14 @@ curl -X POST http://USER:PASSWORD@localhost:5984/arcadia/_index \
 }'
 ```
 
-### CONFIGURATION 
+### CONFIGURATION
 
 Changez les informations pour connecter les bases de données au projet. Le fichier se trouve dans `App/Core/config.php`, dans la partie localhost renseignez vos informations.
 
+Si vous avez crée votre serveur sous un autre nom, remplacer `localhost` par votre nom afin qu'il se lance localement.
+
+### LANCEMENT
+
 Vous pouvez maintenant utiliser le site à l'adresse http://localhost/.
 
-
-Consultez le manuel d'utilisation pour avoir un aperçu de l'utilisation de la partie administrateur du site.
-
+Consultez le manuel d'utilisation pour avoir un aperçu de la partie administrateur du site.

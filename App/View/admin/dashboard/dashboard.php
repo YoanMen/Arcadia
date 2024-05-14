@@ -56,11 +56,10 @@
               <thead>
                 <tr>
                   <th class="hidden--mobile">
-                    <input class="dashboard__params" type="hidden" id="order" name="order" value='<?= $data['params']['order'] ?>' form="form">
-                    <input class="dashboard__params orderBy-js" type="submit" name="orderBy" value="De" form="form">
+                    De
                   </th>
                   <th>
-                    <input class="dashboard__params orderBy-js" type="submit" name="orderBy" value="Habitat" form="form">
+                    Habitat
                   </th>
                   <th class="hidden--mobile">Commentaire</th>
                   <th>Détails</th>
