@@ -45,6 +45,6 @@ class Mail
     $headers .= "From: test@test.com \r\n";
     $headers = str_replace('test@test.com', $email, $headers);
 
-    return mail("yoanmen@alwaysdata.net", $title, $message, $headers);
+    return mail(MAIL, $title, $message, $headers);
   }
 }

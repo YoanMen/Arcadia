@@ -22,6 +22,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	define('COUCHDB_URL', "http://yoanmen:115225335@couchdb-yoanmen.alwaysdata.net:5984/yoanmen_arcadia");
 }
 
+define('MAIL', "yoanmen@alwaysdata.net");
 define('APP_NAME', "Zoo Arcadia");
 define('APP_DESC', "Arcadia Zoo official website");
 define('COUNT_CONNECTION', 4);

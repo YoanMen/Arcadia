@@ -2,15 +2,16 @@
 
 Application conçue dans le cadre de ma formation Studi
 
-Ce projet a été réalisé en utilisant PHP, HTML, CSS et Javascript, j'ai voulu faire ce projet sans librairie externe ou de framework ayant commencé la formation en octobre je voulais perfectionner ma maitrise de ces langages avant de passer aux frameworks.
+Ce projet a été réalisé en utilisant PHP, HTML, CSS et Javascript, j'ai voulu faire ce projet sans librairie externe ou de framework ayant commencé la formation en octobre je voulais perfectionner ma maîtrise de ces langages avant de passer à un framework.
 
 ## Tester en local
 
 Pour faire tourner localement ce projet il va vous falloir
 
-- Xampp
+- un serveur local, moi j'ai utiliser Xampp
 - CouchDB
 - mySQL
+- serveur SMTP, j'ai utilisé sendMail pour les test en local.
 
 Cloner le projet de la branche "local"
 
@@ -51,7 +52,7 @@ Il nous faut aussi créer l'index qui servira à rechercher les animaux les plus
 body:
 
 ```
-    {
+{
    "index": {
       "fields": [
          "click"
@@ -61,7 +62,7 @@ body:
 }
 ```
 
-terminal :
+avec le terminal :
 
 ```
 curl -X PUT http://USER:PASSWORD@localhost:5984/arcadia
@@ -82,4 +83,8 @@ curl -X POST http://USER:PASSWORD@localhost:5984/arcadia/_index \
 }'
 ```
 
-Vous pouvez maintenant utiliser le site.
+### Paramétrage
+
+Changer les informations pour connecter les base de données au projet, le fichier se trouve dans App/Core/config.php, dans la parti localhost renseigné vos informations.
+
+Vous pouvez maintenant utiliser le site à l'adresse http://localhost/.
