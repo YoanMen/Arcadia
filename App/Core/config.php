@@ -1,32 +1,41 @@
 <?php
+if ($_SERVER['SERVER_NAME'] == 'arcadia') {
 
+	/** database config LOCALHOST **/
 
-if ($_SERVER['SERVER_NAME'] == 'localhost') {
-	/** database config LOCAL **/
 	define('DB_NAME', 'arcadia');
 	define('DB_HOST', 'localhost');
-	define('DB_USER', 'root');
-	define('DB_PASSWORD', '115225335');
+	define('DB_USER', '');
+	define('DB_PASSWORD', '');
 
-	define('ROOT', 'http://localhost');
+	define('ROOT', 'http://arcadia');
 
-	define('COUCHDB_URL', "http://admin:115225335@localhost:5984/arcadia");
+	define('COUCHDB_URL', "http://USER:PASSWORD@localhost:5984/arcadia");
 } else {
-	/** database config**/
-	define('DB_NAME', 'yoanmen_arcadia');
-	define('DB_HOST', 'mysql-yoanmen.alwaysdata.net');
-	define('DB_USER', 'yoanmen');
-	define('DB_PASSWORD', '115225335');
 
-	define('ROOT', 'https://yoanmen.alwaysdata.net');
+	/** database config DEPLOYMENT**/
 
-	define('COUCHDB_URL', "http://yoanmen:115225335@couchdb-yoanmen.alwaysdata.net:5984/yoanmen_arcadia");
+	define('DB_NAME', '');
+	define('DB_HOST', '');
+	define('DB_USER', '');
+	define('DB_PASSWORD', '');
+
+	define('ROOT', '');
+
+	define('COUCHDB_URL', "");
 }
 
-define('MAIL', "yoanmen@alwaysdata.net");
+
 define('APP_NAME', "Zoo Arcadia");
 define('APP_DESC', "Arcadia Zoo official website");
+
+
+/** Disable account after count **/
 define('COUNT_CONNECTION', 4);
+
+
+define('MAIL', "arcadiacontact@mailinator.com");
+
 
 /** true means show errors **/
 define('DEBUG', true);

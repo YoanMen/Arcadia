@@ -10,7 +10,7 @@ CREATE TABLE user(
 CREATE TABLE tryConnection (
   user_id INT NOT NULL PRIMARY KEY,
   count INT DEFAULT 1,
-  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE)
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE);
 
 -- création de la table habitat 
 

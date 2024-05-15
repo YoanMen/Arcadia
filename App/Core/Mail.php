@@ -41,8 +41,13 @@ class Mail
 
   public function sendMailFromVisitor($message, $title, $email)
   {
-    $headers = "Content-type: text/html; charset=UTF-8\r\n";
+
+    $headers = "MIME-Version: 1.0,\r\n";
+    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
     $headers .= "From: test@test.com \r\n";
+    $headers .= "X-Mailer: PHP mail() \r\n";
+
+
     $headers = str_replace('test@test.com', $email, $headers);
 
     return mail(MAIL, $title, $message, $headers);

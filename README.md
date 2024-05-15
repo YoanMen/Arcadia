@@ -2,7 +2,7 @@
 
 Application conçue dans le cadre de ma formation Studi
 
-Ce projet a été réalisé en utilisant PHP, HTML, CSS et Javascript en suivant le design Pattern MVC, j'ai voulu faire ce projet sans librairie externe ou de framework ayant commencé la formation en octobre je voulais perfectionner ma maîtrise de ces langages avant de passer à un framework.
+Ce projet a été réalisé en utilisant PHP, HTML, CSS et Javascript en suivant le design Pattern MVC. J'ai voulu faire ce projet sans librairie externe ou framework, ayant commencé la formation en octobre, je voulais perfectionner ma maîtrise de ces langages avant de passer à un framework.
 
 ## Tester en ligne
 
@@ -10,71 +10,91 @@ Vous pouvez tester l'application en ligne [ici](https://yoanmen.alwaysdata.net).
 
 ## Tester en local
 
-Toutes les informations présente sont pour un systeme sous Ubuntu, à adapté selon votre système.
+Toutes les informations présentes sont pour un système sous Ubuntu, à adapter selon votre système.
 
-Pour faire tourner localement ce projet il va vous falloir
+Pour faire tourner localement ce projet, il vous faudra :
 
-- un serveur PHP local, moi j'ai utiliser LAMP
+- LAMP
 - mySQL
 - CouchDB
-- serveur SMTP, j'ai utilisé sendMail pour les test en local.
+- SendMail.
 
 ### LAMP
 
-Creation d'un dossier `localhost`
+Création d'un dossier `arcadia` :
 
-    sudo mkdir /var/www/localhost
+    sudo mkdir /var/www/arcadia
 
-Donner les droit:
+Donnez les droits :
 
-    sudo chown -R $USER:users /var/www/localhost
+    sudo chown -R $USER:users /var/www/arcadia
 
-Création du fichier de configuration:
+Création du fichier de configuration :
 
-    sudo nano /etc/apache2/sites-available/localhost.conf
+    sudo nano /etc/apache2/sites-available/arcadia.conf
 
 Copiez-y :
 
-      <VirtualHost *:80>
-            ServerName localhost
-            ServerAlias www.localhost
-            DocumentRoot "/var/www/localhost"
-            <Directory "/var/www/localhost/">
-                     Options Indexes FollowSymLinks MultiViews
-                     AllowOverride All
-                     Require all granted
+    <VirtualHost *:80>
+            ServerName arcadia
+            ServerAlias arcadia
+            DocumentRoot "/var/www/arcadia"
+            <Directory "/var/www/arcadia/">
+                    Options FollowSymLinks
+                    AllowOverride All
+                    Require all granted
             </Directory>
-            ErrorLog /var/log/apache2/error.localhost.log
-            CustomLog /var/log/apache2/access.localhost.log combined
-      </VirtualHost>
+            ErrorLog /var/log/apache2/error.arcadia.log
+            CustomLog /var/log/apache2/access.arcadia.log combined
+    </VirtualHost>
 
-Activer le rewrite pour le .htaccess:
+Modifiez le hosts :
+
+    sudo nano  /etc/hosts
+
+Ajoutez la ligne :
+
+    127.0.0.1       arcadia
+
+Activez le module rewrite pour le .htaccess :
 
     sudo a2enmod rewrite
 
-Rechargez apache2:
+Activez le site arcadia :
+
+    sudo a2ensite arcadia
+
+Rechargez Apache2 :
 
     sudo systemctl reload apache2
 
-Placer vous dans le dossier ` /var/www/localhost` et cloner ou télécharger le projet de la branche `local`.
+Placez-vous dans le dossier `/var/www/arcadia` et clonez ou téléchargez le projet de la branche `local` :
 
     git clone  https://github.com/YoanMen/Arcadia/tree/local
 
-Déplacer le contenu du dossier `Arcadia` pour le placer à la racine de `localhost`, attention aux fichiers caché.
+Déplacez le contenu du dossier `Arcadia` pour le placer à la racine de `arcadia`, attention aux fichiers cachés.
 
-Donner les droit pour l'upload et la suppréssion des fichiers du dossier `upload` :
+Donnez les droits pour l'upload et la suppression des fichiers du dossier uploads :
 
-    sudo chmod -R 777 /var/www/localhost/public/uploads
+    sudo chmod -R 777 /var/www/arcadia/public/uploads
 
 ### MySQL
 
 Connectez-vous à votre MySQL.
 
-Il va falloir créer une base de données:
+    mysql --host=localhost --user=root --password
 
-    CREATE DATABASE arcadia
+Création de la base de données:
 
-Importez ou exécutez le contenu du fichier `arcadia.sql`.
+    CREATE DATABASE arcadia;
+
+Sélectionnez la base de données:
+
+    USE arcadia;
+
+Collez-y le contenu du fichier `arcadia.sql`.
+
+Vous pouvez aussi utiliser `phpmyadmin` pour crée la base de données.
 
 ### CouchDB
 
@@ -82,11 +102,13 @@ Voir la page d'
 [installation](https://docs.couchdb.org/en/stable/install/index.html) et suivez les étapes pour votre système.
 
 Il va falloir créer une base de données, pour cela nous pouvons utiliser
-[Postman](https://www.postman.com/downloads/) ou le terminal avec curl.
+[Postman](https://www.postman.com/downloads/) ou le terminal avec `curl`.
 
 Remplacez `USER` et `PASSWORD` par votre compte créé à l'installation.
 
 #### avec Postman:
+
+Création de la base de données:
 
     PUT http://USER:PASSWORD@localhost:5984/arcadia
 
@@ -130,14 +152,40 @@ curl -X POST http://USER:PASSWORD@localhost:5984/arcadia/_index \
 }'
 ```
 
+### SENDMAIL
+
+Pour installer sendMail je vous invite à suivre ce [tutoriel](https://kenfavors.com/code/how-to-install-and-configure-sendmail-on-ubuntu/).
+
+J'utilise le service de mailinator afin de procédé à mes tests.
+
+Récupérez votre nom d'hôte:
+
+    hostname
+
+Modifiez le hosts:
+
+    sudo nano /etc/hosts
+
+Modifiez la première ligne comme ceci:
+
+    127.0.0.1  localhost.localdomain localhost HOSTNAME
+
+Éditez le fichier de configuration de sendMail:
+
+    sudo nano /etc/mail/sendmail.cf
+
+Décommentez la ligne `#O HostsFile=/etc/hosts`
+
+Redémarrez votre ordinateur.
+
+Rendez-vous sur [mailinator](https://www.mailinator.com/v4/public/inboxes.jsp?to=arcadiacontact) pour voir la boite de réception.
+
 ### CONFIGURATION
 
 Changez les informations pour connecter les bases de données au projet. Le fichier se trouve dans `App/Core/config.php`, dans la partie localhost renseignez vos informations.
 
-Si vous avez crée votre serveur sous un autre nom, remplacer `localhost` par votre nom afin qu'il se lance localement.
-
 ### LANCEMENT
 
-Vous pouvez maintenant utiliser le site à l'adresse http://localhost/.
+Vous pouvez maintenant utiliser le site à l'adresse http://arcadia/.
 
-Consultez le manuel d'utilisation pour avoir un aperçu de la partie administrateur du site.
+Consultez le manuel d'utilisation pour avoir un aperçu de la partie administration du site.
