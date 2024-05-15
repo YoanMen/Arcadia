@@ -92,7 +92,7 @@ Sélectionnez la base de données:
 
     USE arcadia;
 
-Collez-y le contenu du fichier `arcadia.sql`.
+Collez-y le contenu du fichier `arcadia.sql` qui se trouve dans le dossier `docs.
 
 Vous pouvez aussi utiliser `phpmyadmin` pour crée la base de données.
 
