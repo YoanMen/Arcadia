@@ -1,6 +1,6 @@
 # ECF Zoo Arcadia
 
-Application conçue dans le cadre de ma formation Studi
+Application conçue dans le cadre de ma formation Studi.
 
 Ce projet a été réalisé en utilisant PHP, HTML, CSS et Javascript en suivant le design Pattern MVC. J'ai voulu faire ce projet sans librairie externe ou framework, ayant commencé la formation en octobre, je voulais perfectionner ma maîtrise de ces langages avant de passer à un framework.
 
@@ -68,9 +68,9 @@ Rechargez Apache2 :
 
     sudo systemctl reload apache2
 
-Placez-vous dans le dossier `/var/www/arcadia` et clonez ou téléchargez le projet de la branche `local` :
+Placez-vous dans le dossier `/var/www/arcadia` et clonez ou téléchargez le projet de la branche `main` :
 
-    git clone  https://github.com/YoanMen/Arcadia/tree/local
+    git clone  https://github.com/YoanMen/Arcadia
 
 Déplacez le contenu du dossier `Arcadia` pour le placer à la racine de `arcadia`, attention aux fichiers cachés.
 
