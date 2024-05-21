@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setMenuType();
 
+  // return json with services and habitats
   async function getDataMenu() {
     const r = await fetch("/api/initmenu", {
       method: "GET",
@@ -68,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setMenuType();
   });
 
+  // show fixed or not fixed menu depending scroll position
   function setMenuType() {
     const scrollPosition = window.scrollY;
     if (
